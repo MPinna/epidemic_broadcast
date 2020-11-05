@@ -1,0 +1,218 @@
+%-------------------------------------------------------------------------------
+% File: main.tex
+%       Omnet++ Epidemic Broadcast project documentation.
+%
+%       Compile using:
+%           $ pdflatex main.tex
+%
+% Author: Rambod Rahmani <rambodrahmani@autistici.org>
+%         Created on 05/11/2020
+%-------------------------------------------------------------------------------
+\documentclass[11pt, a4paper, twoside, openright]{book}
+
+% equal left and right margins
+\usepackage[hmarginratio=1:1]{geometry}
+
+% configuration to typeset documents in italian
+\usepackage[italian]{babel}
+
+% include graphics in the file
+\usepackage{graphicx}
+
+% used in the dedication environment definition
+\usepackage{afterpage}
+
+% used to set page background image
+\usepackage{tikz}
+
+% blank page command
+\newcommand{\blankpage}
+{
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage
+}
+
+% dedication environment
+\newenvironment{dedication}
+{
+    % blank page before dedication
+    \afterpage{\blankpage}
+    % we want a new page
+    \clearpage
+    % no header and footer
+    \thispagestyle{empty}
+    % some space at the top
+    \vspace*{\stretch{1}}
+    % the text is in italics
+    \itshape
+    % flush to the right margin
+    \raggedleft
+    % blank page after dedication
+    \afterpage{\blankpage}
+}
+{
+    % end the paragraph
+    \par
+    % space at bottom is one times that at the top
+    \vspace{\stretch{1}}
+    % finish off the page
+    \clearpage
+}
+
+%-------------------------------------------------------------------------------
+% Title page
+%-------------------------------------------------------------------------------
+\title{
+    \vspace{-3cm}
+    \includegraphics[scale=0.3]{img/cherubino_black.eps}\\
+    {\scshape Universit\`a Di Pisa}\\
+    Scuola di Ingegneria\\
+    \rule{7cm}{0.01cm}\\
+    {\normalsize Corso di Laurea Triennale in {\scshape INGEGNERIA INFORMATICA}}\\
+    [2cm]
+    {\scshape Kernel Linux Per Qemu Per La Visualizzazione Dei Dati}\\
+    [3cm]
+    \LARGE{\textbf{Relatori}\hfill\textbf{Candidato}}\\
+    \Large{\emph{Prof. Mario G.C.A. Cimino}\hfill\emph{Rambod Rahmani\\}}
+    \vfill
+    \date{\today}
+}
+
+% leave the author field ampty in the title page
+\author{}
+
+%-------------------------------------------------------------------------------
+% Document beginning
+%-------------------------------------------------------------------------------
+\begin{document}
+
+% make title page
+\maketitle
+
+% blank page before dedication
+\afterpage{\blankpage}
+
+% we want a new page
+\clearpage
+
+%-------------------------------------------------------------------------------
+% Unviersity of Pisa Logo as Background Page
+%-------------------------------------------------------------------------------
+\begin{tikzpicture}[remember picture, overlay]
+    \node[opacity=0.1,inner sep=0pt] at (current page.center)
+    {\includegraphics[width=0.85\paperwidth]{img/cherubino_black.eps}};
+\end{tikzpicture}
+\begin{center}
+    \vspace{2cm}
+    {\large Rambod Rahmani}
+    \vfill
+    {\Huge{\scshape Kernel Linux Per Qemu Per La Visualizzazione Dei Dati}}\\
+    [1cm]
+    {\Large Tesi di Laurea Triennale}
+    \vfill
+    {\large Universit\'a di Pisa\\
+    \date{\today}}
+\end{center}
+\clearpage
+
+% stop page numbering for the following pages
+\pagenumbering{gobble}
+
+% dedication page
+\begin{dedication}
+    A mia madre Zara, mio padre Magid e mio fratello\\
+    gemello Ramtin per esserci stati quando ho avuto\\
+    bisogno e per avermi reso la persona che sono oggi.\\
+\end{dedication}
+
+% leave an empty page after the dedication page
+\newpage
+
+% enable page numbering back: roman numbers style
+\pagenumbering{roman}
+
+% print table of contents
+\tableofcontents
+\clearpage
+
+%-------------------------------------------------------------------------------
+% Part: Prima parte del documento
+%-------------------------------------------------------------------------------
+\part{Prima parte del documento}
+
+% set arabic page numbering style
+\pagenumbering{arabic}
+
+%-------------------------------------------------------------------------------
+% Chapter: Introduzione
+%-------------------------------------------------------------------------------
+\chapter{Introduzione}
+Lorem ipsum dolor sit amet, sit nihil nonumes corpora no, mundi aliquip debitis
+no mel. Laudem referrentur cu vix. Aperiam contentiones an vis, at utamur
+blandit patrioque sit. Nam ad alii velit ignota, ei causae fabellas lucilius
+per.\\
+\\
+Hinc probo feugiat in vim, ex iusto fuisset eam. Dicat dicam noluisse pri ei, ut
+his veritus qualisque, rebum invidunt quaerendum vis ea. Simul iudico
+theophrastus ius et, animal constituto eu mei. Cu eripuit expetenda cum. Ea sit
+wisi tollit deleniti, debet suscipit ocurreret ad his, pro cibo scribentur ne.
+
+Errem dicant latine est an, lorem accommodare ius in, munere fierent te nam. At
+dicit utroque interesset ius. Ne graece imperdiet his. Omnium deleniti persecuti
+eu mea, illud graece volumus vim an, vel ut discere indoctum explicari. Est et
+nibh augue postea, ut eam lorem saperet.
+
+At nusquam quaestio suavitate pri, et audire vivendum vulputate vim. Ex eam
+natum prodesset. Mei homero tractatos liberavisse eu, eum ut labore mediocrem.
+Mutat putant est ex, nam diceret luptatum recusabo no. Vis graeci verterem ea.
+
+%-------------------------------------------------------------------------------
+% Section: Sezione
+%-------------------------------------------------------------------------------
+\section{Sezione}
+Vix natum menandri singulis ad, illud dolor detracto ius te. An oporteat
+intellegebat mel, no partem aperiam pri, noluisse periculis patrioque ad sea.
+Sea no nibh eloquentiam. Usu aliquando gloriatur te, cum ea eripuit perfecto
+constituam, nonumy diceret bonorum sed an. Cu mea elit simul choro, exerci
+nemore no per. Has ne enim dolorem principes, id errem invenire conclusionemque
+sea. Qui an natum detraxit gloriatur, his omnium vocibus et, scripta dignissim
+usu no.
+
+Pri eu petentium explicari definitionem, id equidem evertitur eos. Fuisset
+detraxit mea eu, labores mentitum et pro. Eu simul recusabo sea, ludus cetero
+oblique ut eam. No duo fierent salutandi, an debet moderatius mea. Eum porro
+latine apeirian ei, vidit utamur concludaturque in mei.
+
+%-------------------------------------------------------------------------------
+% Subsection: Sotto sezione
+%-------------------------------------------------------------------------------
+\subsection{Sotto sezione}
+Ut nostrum gloriatur nec. Harum iracundia sit id. Dicant consectetuer eos ut.
+Novum animal percipit id vix, per ad scriptorem intellegebat. Ut saperet civibus
+probatus sed.
+
+Cu sea idque affert vivendo, ex has insolens appellantur, sit ei erant
+efficiantur intellegebat. Has in alienum detracto ullamcorper. Mel dolore
+definitiones eu. Ut eos debitis reprehendunt, nihil malorum sea at, quodsi
+scripta at sed. Pri errem postea dissentiet te, pri ad ludus populo philosophia.
+Has putent doctus lucilius te, cum mazim tritani an, ex pro tritani albucius
+adversarium.
+
+%-------------------------------------------------------------------------------
+% Subsubsection: Sotto sotto sezione
+%-------------------------------------------------------------------------------
+\subsubsection{Sotto sotto sezione}
+Est amet aliquip sententiae ut, est tota oportere ei. Id qui dolores
+definitionem conclusionemque, posse labitur qui an. Ius nibh nobis commodo eu,
+te duo congue quaeque. Mel in sumo errem debitis. Mel quis mundi debitis eu, cu
+doming accumsan sit. Duo an stet urbanitas expetendis. Sit oratio eruditi cu,
+mea detraxit democritum theophrastus an, an vel luptatum incorrupte.
+
+Unum rebum qui ne, ea sit noster eirmod apeirian. Reque altera democritum ius
+ei. Case solum similique eos an, error noluisse te duo. Sumo prompta mea ea, ad
+fugit volutpat mei, at mucius invidunt ocurreret nec.
+
+\end{document}
+

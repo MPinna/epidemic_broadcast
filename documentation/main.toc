@@ -1,0 +1,7 @@
+\babel@toc {italian}{}
+\babel@toc {italian}{}
+\contentsline {part}{I\hspace {1em}Prima parte del documento}{iii}
+\contentsline {chapter}{\numberline {1}Introduzione}{1}
+\contentsline {section}{\numberline {1.1}Sezione}{1}
+\contentsline {subsection}{\numberline {1.1.1}Sotto sezione}{2}
+\contentsline {subsubsection}{Sotto sotto sezione}{2}

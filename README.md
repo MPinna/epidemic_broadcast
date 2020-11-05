@@ -1,2 +1,3 @@
-# epidemic_broadcast
-Omnet++ Epidemic Broadcast project
+# Omnet++ Epidemic Broadcast Project 
+
+Omnet++ Epidemic Broadcast project repository.
