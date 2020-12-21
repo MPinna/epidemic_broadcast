@@ -1,0 +1,118 @@
+%-------------------------------------------------------------------------------
+% File: main.tex
+%       StockSim project documentation.
+%
+%       Compile using:
+%           $ pdflatex main.tex
+%
+% Author: Rambod Rahmani <rambodrahmani@autistici.org>
+%         Created on 05/11/2020
+%-------------------------------------------------------------------------------
+\documentclass[11pt, a4paper, twoside, openright]{book}
+
+% equal left and right margins
+\usepackage[hmarginratio=1:1]{geometry}
+
+% configuration to typeset documents in italian
+\usepackage[english]{babel}
+
+% include graphics in the file
+\usepackage{graphicx}
+
+% used in the dedication environment definition
+\usepackage{afterpage}
+
+% used to set page background image
+\usepackage{tikz}
+
+% used to handle math equations and formulas
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+
+% blank page command
+\newcommand{\blankpage}
+{
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage
+}
+
+% dedication environment
+\newenvironment{dedication}
+{
+    % blank page before dedication
+    \afterpage{\blankpage}
+    % we want a new page
+    \clearpage
+    % no header and footer
+    \thispagestyle{empty}
+    % some space at the top
+    \vspace*{\stretch{1}}
+    % the text is in italics
+    \itshape
+    % flush to the right margin
+    \raggedleft
+    % blank page after dedication
+    \afterpage{\blankpage}
+}
+{
+    % end the paragraph
+    \par
+    % space at bottom is one times that at the top
+    \vspace{\stretch{1}}
+    % finish off the page
+    \clearpage
+}
+
+%-------------------------------------------------------------------------------
+% Title page
+%-------------------------------------------------------------------------------
+\title{
+    \vspace{-3cm}
+    \includegraphics[scale=0.3]{img/cherubino_black.eps}\\
+    {\scshape University of Pisa}\\
+    School of Engineering\\
+    \rule{7cm}{0.01cm}\\
+    {\normalsize{\scshape Performance Evaluation of Computer Systems and Networks}}\\
+    [2cm]
+    {\scshape Epidemic Broadcast}\\
+    [3cm]
+    \LARGE{\textbf{Supervisors}\hfill\textbf{Students}}\\
+    \Large{\emph{Prof. Giovanni Stea}\hfill\emph{Marco Pinna\\}}
+    \Large{\emph{Ing. Antonio Virdis}\hfill\emph{Rambod Rahmani\\}}
+    \Large{\hfill\emph{Yuri Mazzuoli\\}}
+    \vfill
+    \date{\today}
+}
+
+% leave the author field ampty in the title page
+\author{}
+
+%-------------------------------------------------------------------------------
+% Document beginning
+%-------------------------------------------------------------------------------
+\begin{document}
+
+% make title page
+\maketitle
+
+% blank page before dedication
+\afterpage{\blankpage}	
+
+% enable page numbering back: roman numbers style
+\pagenumbering{roman}
+
+% print table of contents
+\tableofcontents
+
+% set arabic page numbering style
+\pagenumbering{arabic}
+
+
+\include{introduction}
+\include{simulation}
+\include{appendices}
+\end{document}
+

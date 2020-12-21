@@ -1,0 +1,105 @@
+\chapter{Appendices}
+
+\section*{Appendix A}
+Given a scenario with $N$ transmitter devices and a target device $T$ in reach of all the transmitters, let us define the probabilities $P_{1}(j, N)$ as the probability of $j$ devices out of $N$ transmitting at the same time during slot 1 and $P_{i}(j)$ as the probability of $j$ devices transmitting at the same time during slot $i$.\\
+By specification, the successful reception of the message by device T happens if and only if \textbf{one} of the transmitters sends the message during the slot.
+Furthermore, the successful transmission of a device is "\textit{a Bernoullian RV with success probability \emph{p} on every slot, until it achieves success}"; therefore we can model $P_{1}(j, N)$ as 
+follows:
+
+\[
+\begin{drcases}
+    &P_{1}(0, N) = (1-p)^{N} \\
+    &P_{1}(1, N) = N p(1-p)^{N-1}\\
+    &P_{1}(2, N) = {N\choose2}p^{2}(1-p)^{N-2}\\
+	&P_{1}(3, N) = {N\choose3}p^{3}(1-p)^{N-3}\\
+	&...\\
+	&P_{1}(N-1, N) = {N\choose N-1}p^{N-1}(1-p)\\
+	&P_{1}(N, N) = {N\choose N}p^{N}\\
+\end{drcases}
+P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
+\]
+\\
+\\
+As for $P_{i}(j)$ we can model the system as if it was in the first slot, with $N$ now being equal to $N-t$ transmitters, where $t$ is the number of devices that have transmitted in the $(i-1)$-th slot.
+
+Therefore, for $i=2$ we have:
+
+\begin{align*}
+    &P_{2}(0)
+    	\begin{aligned}[t]
+    		&= P_{1}(0, N)P_{1}(0, N) + P_{1}(2, N)P_{1}(0, N - 2) + ... + P_{1}(N-1, N)P_{1}(0, 1) = \\
+			&= P_{1}(0, N)P_{1}(0, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(0, N-k) = \\
+			&= \sum_{k=0}^{N-1}P_{1}(k, N-k)P_{1}(0, N) - P_{1}(1, N)P_{1}(0, N-1)
+		\end{aligned}\\
+	&P_{2}(1)
+    	\begin{aligned}[t]
+    		&= P_{1}(0, N)P_{1}(1, N) + P_{1}(2, N)P_{1}(1, N - 2) + ... + P_{1}(N-1, N)P_{1}(1, 1) = \\
+			&= P_{1}(0, N)P_{1}(1, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(1, N-k) = \\
+			&= \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(1, N - k) - P_{1}(1, N)P_{1}(1, N-1)
+		\end{aligned}\\	
+    &P_{2}(2)
+    	\begin{aligned}[t]
+    		&= P_{1}(0, N)P_{1}(2, N) + P_{1}(2, N)P_{1}(2, N - 2) + ... + P_{1}(N-2, N)P_{1}(2, 2) = \\
+			&= P_{1}(0, N)P_{1}(2, N) + \sum_{k=2}^{N-2}P_{1}(k, N)P_{1}(2, N-k) = \\
+			&= \sum_{k=0}^{N-2}P_{1}(k, N)P_{1}(2, N - k) - P_{1}(1, N)P_{1}(2, N-1)
+		\end{aligned}\\	
+	&P_{2}(3) = ... = \sum_{k=0}^{N-3}P_{1}(k, N)P_{1}(3, N - k) - P_{1}(1, N)P_{1}(3, N-1)\\
+	&...\\
+	&P_{2}(N-2) = \sum_{k=0}^{2}P_{1}(k, N)P_{1}(N-2, N - k) - P_{1}(1, N)P_{1}(N-2, N-1)\\
+	&P_{2}(N-1) = \sum_{k=0}^{1}P_{1}(k, N)P_{1}(N-1, N - k) - P_{1}(1, N)P_{1}(N-1, N-1)\\
+	&P_{2}(N) = P_{1}(0, N)P_{1}(N, N)
+\end{align*}
+
+
+which has the general form:
+  \begin{equation}\label{eq:1}
+    P_{2}(j) =
+    \begin{cases*}
+      \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
+      \sum_{k=0}^{N-j}P_{1}(k, N)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+      P_{1}(0, N)P_{1}(N, N) & j = N \\
+    \end{cases*}
+  \end{equation}
+\\
+\\
+where the term with the minus sign is due to the fact that, if only one device transmitted during slot $i$, the target device T will have correctly received the message and therefore, starting from slot $i+1$ onwards, it will not be listening for incoming messages any more but it will be itself transmitting instead.\\
+\\
+For $i=3$ we have:
+
+\begin{align*}
+	&P_{3}(0) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{2}(1)P_{1}(0, N-1)\\
+	&P_{3}(1) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(1, N - k) - P_{2}(1)P_{1}(1, N-1)\\
+	&P_{3}(2) = \sum_{k=0}^{N-2}P_{2}(k)P_{1}(2, N - k) - P_{2}(1)P_{1}(2, N-1)\\
+	&...\\
+	&P_{3}(N-1) = \sum_{k=0}^{1}P_{2}(k)P_{1}(N-1, N - k) - P_{2}(1)P_{1}(0, N-1)\\
+	&P_{3}(N) = P_{2}(0)P_{1}(N, N)
+\end{align*}
+
+which has a general form similar to \eqref{eq:1}
+%TODO: fix reference to equation
+  \begin{equation}
+  \label{eq:2}
+    P_{3}(j) =
+    \begin{cases*}
+      \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
+      \sum_{k=0}^{N-j}P_{2}(k)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+      P_{2}(0)P_{1}(N, N) & j = N \\
+    \end{cases*}
+  \end{equation}
+\\
+\\
+
+We can further generalize formula \ref{eq:2} to obtain the probability $P_{i}(j)$ we introduced at the beginning:
+%TODO: fix reference to equation
+
+  \begin{equation}
+  \label{eq:3}
+    P_{i}(j) =
+    \begin{cases*}
+      \sum_{k=0}^{N-1}P_{i-1}(k)P_{1}(0, N - k) - P_{i-1}(1, N)P_{1}(0, N-1) & j = 0 \\
+      \sum_{k=0}^{N-j}P_{i-1}(k)P_{1}(j, N - k) - P_{i-1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+      P_{i-1}(0)P_{1}(N, N) & j = N \\
+    \end{cases*}
+  \end{equation}
+\\
+\\
