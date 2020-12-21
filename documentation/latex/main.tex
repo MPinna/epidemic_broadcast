@@ -29,6 +29,11 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 
+% used to handle quotes
+\usepackage{csquotes}
+
+%used to handle bibliography
+\usepackage{biblatex}
 
 % blank page command
 \newcommand{\blankpage}
@@ -66,14 +71,19 @@
     \clearpage
 }
 
+\newenvironment{specifications}
+{
+	\fontfamily{qtm}\selectfont
+}{\par}
+
 %-------------------------------------------------------------------------------
 % Title page
 %-------------------------------------------------------------------------------
 \title{
     \vspace{-3cm}
     \includegraphics[scale=0.3]{img/cherubino_black.eps}\\
-    {\scshape University of Pisa}\\
-    School of Engineering\\
+    {\scshape Università di Pisa}\\
+    Scuola di Ingegneria\\
     \rule{7cm}{0.01cm}\\
     {\normalsize{\scshape Performance Evaluation of Computer Systems and Networks}}\\
     [2cm]
@@ -89,6 +99,8 @@
 
 % leave the author field ampty in the title page
 \author{}
+
+\addbibresource{references.bib}
 
 %-------------------------------------------------------------------------------
 % Document beginning
@@ -112,7 +124,13 @@
 
 
 \include{introduction}
+\include{overview}
+\include{modelling}
+\include{real_model_analysis}
+\include{simulator_and_validation}
 \include{simulation}
 \include{appendices}
+\printbibliography
+
 \end{document}
 

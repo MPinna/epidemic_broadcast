@@ -1,3 +1,23 @@
 \chapter{Introduction}
 
-In this work a study on the broadcast of an epidemic message is carried out.
+In this work a study on the broadcast of an epidemic message is carried out.\\
+The specifications are the following:\\
+\begin{displayquote}
+\begin{specifications}
+{\Large Epidemic broadcast}
+
+Consider a 2D floorplan with \textit{N} users randomly dropped in it. A random user within the floorplan produces a \textit{message}, which should ideally reach all the users as soon as possible. Communications are \textit{slotted},  meaning  that  on  each  slot  a  user  may  or  may  not  relay  the  message,  and  a  message occupies  an  entire  slot.  A \textit{broadcast radius R} is  defined,  so  that  every  receiver  who  is  within  a radius \textit{R} from  the  transmitter  will  receive  the  message,  and no other user will  hear  it.  A  user  that receives more than one message in the same slot will not be able to decode any of them (\textit{collision}).
+Users  relay  the  message  they  receive \textit{once},according  to  the  following  policy  (\textit{p-persistent relaying}):  after  the  user  successfully  receives  a  message,  it keeps extracting a  value  from  a Bernoullian RV with success probability \textit{p} on every slot, until it achieves success. Then it relays the message  and  stops. A  sender  does  not  know  (or  cares  about)  whether  or  not  its  message  has  been received by its neighbors.\\
+\\
+Measure at least the broadcast time for a message in the entire floorplan, the percentage of covered users, the number of collisions.\\
+\\
+In all cases, it is up to the team to calibrate the scenarios so that meaningful results are obtained.\\
+\end{specifications}
+\end{displayquote}
+The work is organized as follows:\\
+firstly, an initial overview and a presentation of the problem are given. Here, meaningful parameters to be tweaked and useful scenarios are identified and some considerations about them are made.\\
+Secondly, a graph-based modelling technique, commonly used in literature, is proposed and some simplified scenarios are analysed.\\
+Then, in chapter [TODO] the real model is considered and some assumptions about it are made, such as its performance when one or more parameters are near the ends or such as its asymptotic behaviour with different configurations of the parameters.\\
+In chapter [TODO] the construction of the simulator is described and the results of its validation are presented.\\
+Chapter [TODO] concerns the full simulation and performance evaluation of the system.
+%TODO scrivere meglio la descrizione dell'ultimo capitolo
