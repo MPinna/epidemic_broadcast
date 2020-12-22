@@ -64,41 +64,39 @@ which has the general form:
 \\
 where the term with the minus sign is due to the fact that, if only one device transmitted during slot $i$, the target device T will have correctly received the message and therefore, starting from slot $i+1$ onwards, it will not be listening for incoming messages any more but it will be itself transmitting instead.\\
 \\
-For $i=3$ we have:
-
-\begin{align*}
-	&P_{3}(0) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{2}(1)P_{1}(0, N-1)\\
-	&P_{3}(1) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(1, N - k) - P_{2}(1)P_{1}(1, N-1)\\
-	&P_{3}(2) = \sum_{k=0}^{N-2}P_{2}(k)P_{1}(2, N - k) - P_{2}(1)P_{1}(2, N-1)\\
-	&...\\
-	&P_{3}(N-1) = \sum_{k=0}^{1}P_{2}(k)P_{1}(N-1, N - k) - P_{2}(1)P_{1}(0, N-1)\\
-	&P_{3}(N) = P_{2}(0)P_{1}(N, N)
-\end{align*}
-which has a general form similar to \eqref{eq:1}
-%TODO: fix reference to equation
-  \begin{equation}
-  \label{eq:2}
-    P_{3}(j) =
-    \begin{cases*}
-      \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
-      \sum_{k=0}^{N-j}P_{2}(k)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-      P_{2}(0)P_{1}(N, N) & j = N \\
-    \end{cases*}
-  \end{equation}
-\\
-\\
-
-We can further generalize formula \ref{eq:2} to obtain the probability $P_{i}(j)$ we introduced at the beginning:
-%TODO: fix reference to equation
-
-  \begin{equation}
-  \label{eq:3}
-    P_{i}(j) =
-    \begin{cases*}
-      \sum_{k=0}^{N-1}P_{i-1}(k)P_{1}(0, N - k) - P_{i-1}(1, N)P_{1}(0, N-1) & j = 0 \\
-      \sum_{k=0}^{N-j}P_{i-1}(k)P_{1}(j, N - k) - P_{i-1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-      P_{i-1}(0)P_{1}(N, N) & j = N \\
-    \end{cases*}
-  \end{equation}
-\\
+%For $i=3$ we have:
+%
+%\begin{align*}
+%	&P_{3}(0) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{2}(1)P_{1}(0, N-1)\\
+%	&P_{3}(1) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(1, N - k) - P_{2}(1)P_{1}(1, N-1)\\
+%	&P_{3}(2) = \sum_{k=0}^{N-2}P_{2}(k)P_{1}(2, N - k) - P_{2}(1)P_{1}(2, N-1)\\
+%	&...\\
+%	&P_{3}(N-1) = \sum_{k=0}^{1}P_{2}(k)P_{1}(N-1, N - k) - P_{2}(1)P_{1}(0, N-1)\\
+%	&P_{3}(N) = P_{1}(N, N)P_{1}(N, N) = [P_{1}(N, N)]^{2}
+%\end{align*}
+%which has a general form similar to \eqref{eq:1}:
+%  \begin{equation}
+%  \label{eq:2}
+%    P_{3}(j) =
+%    \begin{cases*}
+%      \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
+%      \sum_{k=0}^{N-j}P_{2}(k)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+%      P_{2}(0)P_{1}(N, N) & j = N \\
+%    \end{cases*}
+%  \end{equation}
+%\\
+%\\
+%
+%We can further generalize formula \ref{eq:2} to obtain the probability $P_{i}(j)$ we introduced at the beginning:
+%
+%  \begin{equation}
+%  \label{eq:3}
+%    P_{i}(j) =
+%    \begin{cases*}
+%      \sum_{k=0}^{N-1}P_{i-1}(k)P_{1}(0, N - k) - P_{i-1}(1, N)P_{1}(0, N-1) & j = 0 \\
+%      \sum_{k=0}^{N-j}P_{i-1}(k)P_{1}(j, N - k) - P_{i-1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+%      [P_{1}(0, N)]^{i-1}P_{1}(N, N) & j = N \\
+%    \end{cases*}
+%  \end{equation}
+%\\
 \\
