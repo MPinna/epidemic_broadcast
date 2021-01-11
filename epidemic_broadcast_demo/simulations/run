@@ -1,0 +1,4 @@
+#!/bin/sh
+cd `dirname $0`
+../src/epidemic_broadcast -n .:../src $*
+# for shared lib, use: opp_run -l ../src/epidemic_broadcast -n .:../src $*
