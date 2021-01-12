@@ -1,14 +1,14 @@
 version 2
-run FloorPlan1-0-20210111-21:31:39-35444
+run FloorPlan1-0-20210111-21:57:32-1800
 attr configname FloorPlan1
-attr datetime 20210111-21:31:39
+attr datetime 20210111-21:57:32
 attr experiment FloorPlan1
 attr inifile floorplan.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network Floorplan
-attr processid 35444
+attr processid 1800
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -105,36 +105,6 @@ vector 16 Floorplan.host[0].wlan.mac sentDownPk:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetSentToLower
 attr title "packets sent to lower layer, vector(packetBytes)"
-0	0	0	0
-0	0	0	0
-0	0	0	2
-0	1	0	3
-1	0	0	0
-1	0	0	0
-1	0	0	2
-2	0	0	0
-2	0	0	0
-2	0	0	2
-3	0	0	0
-3	0	0	0
-3	0	0	2
-4	0	0	0
-4	0	0	0
-4	0	0	2
-5	0	0	1
-5	1	0	0
-6	0	0	1
-7	0	0	1
-8	0	0	1
-9	0	0	1
-10	1	0	1020
-11	1	0	1020
-12	1	0	1
-12	1	0	0
-13	1	0	1020
-14	1	0	0
-15	1	0	1
-16	1	0	1036
 vector 17 Floorplan.host[3].wlan.mac rcvdPkFromLl:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetReceivedFromLower
@@ -170,27 +140,48 @@ vector 25 Floorplan.host[3].wlan.mac sentDownPk:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetSentToLower
 attr title "packets sent to lower layer, vector(packetBytes)"
-vector 26 Floorplan.host[0].wlan.mac rcvdPkFromLl:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceivedFromLower
-attr title "packets received from lower layer, vector(packetBytes)"
-vector 27 Floorplan.host[0].wlan.mac passedUpPk:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed to higher layer, vector(packetBytes)"
+0	0	0	0
+0	0	0	0
+0	0	0	2
+0	1	0	3
 0	7	0.008384	2
+1	0	0	0
+1	0	0	0
+1	0	0	2
+2	0	0	0
+2	0	0	0
+2	0	0	2
+3	0	0	0
+3	0	0	0
+3	0	0	2
 3	11	0.00838418345	3
 3	20	0.01699218345	2
+4	0	0	0
+4	0	0	0
+4	0	0	2
+5	0	0	1
+5	1	0	0
 5	7	0.008384	1
 5	13	0.0083843669	3
-5	21	0.0169923669	1
+6	0	0	1
+7	0	0	1
+8	0	0	1
 8	3	0.00000018345	3
 8	8	0.00838418345	1
 8	11	0.00838418345	0
 8	20	0.01699218345	1
+9	0	0	1
+10	1	0	1020
+11	1	0	1020
+12	1	0	1
+12	1	0	0
+13	1	0	1020
+14	1	0	0
+15	1	0	1
 15	2	0	2
 15	7	0.008384	1
 15	7	0.008384	0
+16	1	0	1036
 17	9	0.00838418345	1036
 18	9	0.00838418345	1020
 19	11	0.00838418345	1020
@@ -204,6 +195,4 @@ attr title "packets passed to higher layer, vector(packetBytes)"
 24	20	0.01699218345	1
 24	20	0.01699218345	0
 25	11	0.00838418345	1036
-26	22	0.0169923669	1036
-27	22	0.0169923669	1020
 
