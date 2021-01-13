@@ -48,7 +48,7 @@ Then, the lower bound for the broadcast time is given by the greatest distance b
 
 \section{Simplified models}
 
-\subsection{Single queue configuration}
+\subsection{Single queue configuration}\label{ssec:singlequeue}
 
 Let us consider a configuration where devices arranged in a line, as shown in Fig. \ref{fig:single_queue}. Each device only has two neighbours, except for the outer ones that only have one. Let assume A to be the broadcast starter. A is in \texttt{transmitting} state while all the other nodes are initially in \texttt{listening} state. 
 \hfill \break
@@ -78,8 +78,13 @@ The successful transmission of the message from an active node to its neighbour 
 As for the total broadcast time \texttt{T}, on average it is equal to the mean value of the Bernoulli RV, \textit{p}, times the number of hops needed to reach the last node.
 %times the eccentricity of the starter, maybe? Not really sure about that, I have to look into it a bit more in detail
 
-\subsection{Star configuration}
-Another useful simple configuration worth analysing is a star-shaped configuration. In this setup, there is a central node A connected to N-1 nodes, all of which are non-adjacent. Let us suppose A to be the broadcast starter.
+\begin{equation}
+	E[T] = p \cdot (N-1)
+	\label{singleQueueMeanT}
+\end{equation}
+
+\subsection{Star configuration with one active node}
+Another useful simple configuration worth analysing is a star-shaped configuration. In this setup, there is a central node A connected to N-1 nodes, all of which are non-adjacent to each other. Let us suppose A to be the broadcast starter.
 
 \begin{figure}[H]%
     \centering
@@ -89,8 +94,145 @@ Another useful simple configuration worth analysing is a star-shaped configurati
 \end{figure}
 
 The absence of collisions is ensured in this scenario as well, for the same reason as the previous example.\\
-At each slot, A keeps extracting a Bernonulli RV. When the extraction is successful, A broadcasts the message to all its neighbour and total coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case too, as the probability of A not transmitting for k consecutive slots is Eq. \ref{geometric_distribution} and goes to 0 as k goes to infinity.\\
-In this case, the average total broadcast time $E[\texttt{T}]$ is simply equal to the mean value of the Bernoulli RV \textit{p}.
+At each slot, A keeps extracting a Bernoulli RV. When the extraction is successful, A broadcasts the message to all its neighbour and total coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case too, as the probability of A not transmitting for k consecutive slots is Eq. \ref{geometric_distribution} and goes to 0 as k goes to infinity.\\
+In this case, the average total broadcast time E[\texttt{T}] is simply equal to the mean value of the Bernoulli RV \textit{p}.
 
 If the broadcast starter was one of the ``rays" of the star, instead of the center, there would not be much difference: absence of collisions and total coverage would be ensured as well.\\
-As for \texttt{T}, its expected value would just be $2p$, since the starter would have to transmit the message to the center of the star and then the resulting setup is reduced to the previous one.
+As for \texttt{T}, its expected value would just be $2p$, since the are now \textbf{two} hops involved in the broadcast: one from the starter to the center of the star and the other from the center node to all the N-2 remaining ones.
+
+\subsection{Star configuration with all but one active nodes}
+\label{ssec:star2}
+
+This configuration can be seen as the complement of the previous one: every ``ray" of the star is active and trying to transmit the message to the center node.
+
+\begin{figure}[H]%
+    \centering
+	{{\includegraphics[scale=0.5]{img/star_graph2.png} }}%
+    \caption{}%
+    \label{fig:star_graph}%
+\end{figure}
+
+Now there is the possibility of collisions and a non-zero probability that there will never be total coverage.
+
+To simplify the analysis of this system and obtain some more insight, it is useful to model it by means of a discrete-time Markov chain.
+
+%TODO choose better title for subsection, maybe?
+\subsubsection{Discrete-time Markov chain model for N nodes transmitting to a target}
+Since the state of the system evolves only once per slot, it can be modelled with a discrete-time Markov chain (DTMC).
+\hfill \break
+\hfill \break
+
+\begin{figure}[H]%
+    \centering
+	{{\includegraphics[scale=0.4]{img/DTMC.png} }}%
+    \caption{Discrete-time Markov chain for a scenario with N active devices}%
+    \label{fig:dtmc}%
+\end{figure}
+
+\noindent Figure \ref{fig:dtmc} shows the DTMC for a generic configuration with N transmitters (transition probabilities are not shown for the sake of clarity).\\
+State 0 and states 2 to N represent the number of \texttt{sleeping} devices, namely devices that have already sent the message and have stopped. 
+State S represents the successful transmission state, which the system transitions to when only one device has transmitted the message during the previous slot.
+
+The initial state $X_{0}$ is 0. Any transition from a state $i$ to a state $j$, $j \neq S$, means that more than one device has transmitted the message and consequently the target device has detected a collision.
+Both state S and state N are \textit{absorbing states}, i.e. states that, once entered, cannot be left (as can be seen in Fig. \ref{fig:dtmc}, where the only outgoing arrow from each of the two goes back to the state itself).
+
+If the system transitions to state N, it stays in it indefinitely since all the devices would be \texttt{sleeping} and they cannot become active again. This implies that there will never be total coverage since the target device will forever stay in a \texttt{listening} state.\\
+%TODO improve? Is it clear?
+On the other hand, state S, although being an absorbing state as well, should actually be considered an ``exit" instead of a ``sink": if the system transitions to it, the target device has successfully received the message and the DTMC does not model the system any more.\\
+Another interesting observation concerns state N-1: once the system reaches this state, it would be guaranteed that the target device will sooner or later receive the message, for the same reason set forth in \ref{ssec:singlequeue}.
+
+\subsubsection{Transition probabilities}
+
+Let us now address the challenging part: computing the transition probability.
+\hfill \break
+During the first slot, the probability that $j$ devices out of $N$ transmit the message is the following:
+
+\begin{equation}
+	P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
+	\label{eq:firstSlotTransProb}
+\end{equation}
+
+\noindent Derivation of \ref{eq:firstSlotTransProb} can be found in Appendix A.\\
+
+As for the probability of $j$ devices transmitting at the same time during slot $k$, be it $P_{k}(j)$, we can model the system as if it was in the first slot, with the total number of active devices now being equal to $N$ - $t$, where $t$ is the total number of devices that have transmitted up to the $(k\text{-}1)$-th slot.\\
+%TODO fix
+The problem with this formulation is... Is what? \\
+
+A better way to compute the probability of having $j$ devices transmitting at slot $k$, is to use the \textit{stochastic matrix} of the Markov chain.
+
+If the probability of moving from state $i$ to $j$ in one time slot is $Pr(j|i) = P_{i,j}$, the stochastic matrix P is given by using $P_{i,j}$ as the i-th row and j-th column element, e.g.
+
+\begin{equation*}
+P = 
+\begin{bmatrix}
+P_{0,0}	& P_{0,S}	& P_{0,2}	& \dots  	& P_{0,j}	& \dots		& P_{0,N} \\
+P_{S,0}	& P_{S,S}	& P_{S,2}	& \dots  	& P_{S,j}	& \dots		& P_{S,N} \\
+P_{2,0}	& P_{2,S}	& P_{2,2}	& \dots  	& P_{2,j}	& \dots		& P_{2,N} \\
+\vdots	& \vdots	& \vdots	& \ddots 	& \vdots	& \ddots	& \vdots \\
+P_{i,0}	& P_{i,S}	& P_{i,2}	& \dots		& P_{i,j}	& \dots		& P_{i,N} \\
+\vdots	& \vdots	& \vdots	& \ddots	& \vdots	& \ddots	& \vdots \\
+P_{N,0}	& P_{N,S}	& P_{N,2}	& \dots		& P_{N,j}	& \dots		& P_{N,N} \\
+\end{bmatrix}
+\label{stochasticMatrix1}
+\end{equation*}
+\hfill \break
+Since S and N are absorbing states, $P_{S,j}=0$ for j $\neq$ S and $P_{N,j}=0$ for j $\neq$ N.\\
+Moreover, all the possible transitions can only generate a non-decreasing sequence of states, hence $P_{i, j} = 0 $ $ \forall i > j $.\\
+All the other elements of the matrix can be computed using formula \ref{eq:firstSlotTransProb}:
+
+ \begin{equation}
+	P_{i,j} = {N-i\choose j} p^{j} (1-p)^{N-i-j}
+	\label{eq:matrixElementProb}
+\end{equation}
+\hfill \break
+Therefore the stochastic matrix becomes:
+
+\begin{equation*}
+P = 
+\begin{bmatrix}
+P_{0,0}	& P_{0,S}	& P_{0,2}	& \dots  	& P_{0,j}	& \dots		& P_{0,N} \\
+0		& 1			& 0			& \dots  	& 0			& \dots		& 0		 \\
+0		& P_{2,S}	& P_{2,2}	& \dots  	& P_{2,j}	& \dots		& P_{2,N} \\
+\vdots	& \vdots	& \vdots	& \ddots 	& \vdots	& \ddots	& \vdots \\
+0		& P_{i,S}	& 0			& \dots		& P_{i,j}	& \dots		& P_{i,N} \\
+\vdots	& \vdots	& \vdots	& \ddots	& \vdots	& \ddots	& \vdots \\
+0		& 0			& 0			& \dots  	& 0			& \dots		& 1		 \\
+\end{bmatrix}
+\label{stochasticMatrix2}
+\end{equation*}
+\hfill \break
+Let $x_{0}$ be the \textit{initial state vector}, i.e. an $N \times 1$ vector that describes the probability distribution of starting at each of the N possible states.\\
+To compute the probability of transitioning to state $j$ in \textbf{k} steps, it is now sufficient to multiply the initial state vector $x_{0}$ by the stochastic matrix raised to the k-th power, e.g.
+
+\begin{equation}\label{probAtStateK1}
+P_{k}(j) = x_{0}\cdot P^{k}
+\end{equation}
+\hfill \break
+In our case, the system always starts in state 0, so we have
+
+\begin{equation*}
+x_{0} = 
+\begin{bmatrix}
+1 \\
+0 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix}
+\label{initialStateVector}
+\end{equation*}
+\hfill \break
+which yields
+
+\begin{equation}
+P_{k}(j) = 
+\begin{bmatrix}
+1 \\
+0 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix}
+\cdot P^{k} = (P^{k})_{0,j}
+\label{transProb}
+\end{equation}

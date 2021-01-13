@@ -3,7 +3,7 @@
 \section*{Appendix A}
 Given a scenario with $N$ transmitter devices and a target device $T$ in reach of all the transmitters, let us define the probabilities $P_{1}(j, N)$ as the probability of $j$ devices out of $N$ transmitting at the same time during slot 1 and $P_{i}(j)$ as the probability of $j$ devices transmitting at the same time during slot $i$.\\
 By specification, the successful reception of the message by device T happens if and only if \textbf{one} of the transmitters sends the message during the slot.
-Furthermore, the successful transmission of a device is "\textit{a Bernoullian RV with success probability \emph{p} on every slot, until it achieves success}"; therefore we can model $P_{1}(j, N)$ as 
+Furthermore, the successful transmission of a device is ``\textit{a Bernoullian RV with success probability \emph{p} on every slot, until it achieves success}"; therefore we can model $P_{1}(j, N)$ as 
 follows:
 
 \[
@@ -20,7 +20,7 @@ P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
 \]
 \\
 \\
-As for $P_{i}(j)$ we can model the system as if it was in the first slot, with $N$ now being equal to $N-t$ transmitters, where $t$ is the number of devices that have transmitted in the $(i-1)$-th slot.
+As for $P_{i}(j)$ we can model the system as if it was in the first slot, with the total number of active devices now being equal to $N-t$, where $t$ is the number of devices that have transmitted in the $(i\text{-}1)$-th slot.
 
 Therefore, for $i=2$ we have:
 
