@@ -1,4 +1,4 @@
-\chapter{System modelling}
+\chapter{System modelling}\label{modelling}
 Wireless communication networks have been extensively study in scientific literature and one of the most used mathematical tools to model them and their behaviour is \textit{graph theory}.
 In this work the same approach was followed.\\
 As the broadcast goes on and the message is transmitted among the nodes, the system goes through different states where each node could be transmitting, listening for an incoming message or could have already sent the message and has stopped.
@@ -234,5 +234,28 @@ P_{k}(j) =
 0
 \end{bmatrix}
 \cdot P^{k} = (P^{k})_{0,j}
-\label{transProb}
+\label{eq:Pk_of_j}
 \end{equation}
+\hfill \break
+
+Calculating the k-th power of a matrix can be an intensive task from a computational point of view. To improve the complexity of the computation rows and column of P can be rearranged, moving the S row and the S column as penultimate, thus obtaining
+
+\begin{equation*}
+P = 
+\begin{bmatrix}
+P_{0,0}	& P_{0,2}	& P_{0,3}  	& \dots	& P_{0, N-1}	& P_{0,S}	& P_{0,N} \\
+		& P_{2,2}	& P_{2,3}  	& \dots	& P_{2, N-1}	& P_{2,S}	& P_{2,N} \\
+		& 			& P_{3,3}	& \dots	& P_{3, N-1}	& P_{3,S}	& P_{3,N} \\
+ 		& 			& 			& \ddots& \vdots		& \vdots	& \vdots \\
+		& 			& 			& 		& P_{N-1,N-1}	& P_{N-1,S}	& P_{N-1, N}\\
+		& 			& 			& 		& 				& 1			& 0		 \\
+0		& 			& 		  	& 		& 				& 			& 1		 \\
+\end{bmatrix}
+\label{triangularPMatrix}
+\end{equation*}
+\hfill \break
+
+P is now an upper triangular matrix and this allows for faster computation of its powers in \ref{eq:Pk_of_j} .
+
+
+%TODO add something about the number of collisions maybe?
