@@ -100,3 +100,44 @@ where the term with the minus sign is due to the fact that, if only one device t
 %  \end{equation}
 %\\
 \\
+\section*{Appendix B}
+Given a generic convess shape as a floorplan, we can compute it'area ($A$); 
+if we imagine to put a (puntiform) transmitter (trx) in a random point of the floorplan, 
+it's easy to compute the probability for the trx to be located in a given 
+point \textit{x} as:
+\begin{equation*}
+  P(x)=1/A
+\end{equation*}
+Given that the trasmssion raduis in $r$, we can define a circle centered in x, 
+as the transmission range of the first trx ($R$). If the trx in far enough from 
+the border of the floorplan, all it's transmission range fall into the floorplan; 
+in this case, the probability for another (random positioned) trx to be placed 
+inside this transmission range is equal to:
+\begin{equation*}
+  P(x') = \int_{R}^{} P(x)= \frac{2\pi r^2}{A} \ 
+\end{equation*}
+If the firts trx is placed at a distance less than $r$ from one or more borders of the floorplan,
+the probaility to randomly place another trx in it's range is less than the previous case; this is 
+because part of the area of the transmission range will fall out of the floorplan, and,
+by construction, trxs can't be placed there. 
+Depending on the floorplan' shape, we can identify the partition of the shape where the transmission range
+will fall out of the shape itself, and we will do specific computatin for this area;
+In general, by the middle value theorem for integrals, and the total probability theorem, the probailiy
+for 2 transmitters (let $x$ and $y$ be their coordinates) randomly placed to be close enough to communicate it's:
+\begin{equation*}
+  \rho =P(|x-y|<r) = \frac{1}{A} \int_{A}^{} P(x') \ 
+\end{equation*}
+Since we know that $P(x')$ is not constant for all the area of the shape, this integral might be difficult to compute,
+even for a square floorplan; in any case it's value, it's constant for a given floorplan and a given $r$.
+Taking in to consideration only one trx, we can compute the probability density function for the number of trx in its
+transmission range, in function of the number of trx in the entire floorplan $C(N)$. Every time we put
+a trx in the floorplan, the probability that it falls in the transmission range of the highlighted one is $\rho$. This is true
+for every $N > 1$, because of indipendance. 
+\begin{equation*}
+	C(N)= \left(\frac{1}{p}\right)^{\left( N-1 \right)}
+  \end{equation*}
+This is a Bernullian distribution, and we can use this result only taking one trx at time; in other words we can't use this 
+distrubution for all the trx in a random configured floorplan, because they are not indipendent. 
+The distrubution for one trx will be influenced by the position of others. 
+Anyway, we can apply this distribution to many transmitters, each one taken from a different floorplan; in this way we can 
+validate the indipendanceof different random configurations.\\
