@@ -1,9 +1,15 @@
-[0] Config.pm:312> INFO - This is Biber 2.15
-[0] Config.pm:315> INFO - Logfile is 'main.blg'
-[107] biber-MSWIN32:330> INFO - === 
-[126] Biber.pm:415> INFO - Reading 'main.bcf'
-[246] Biber.pm:952> INFO - Found 0 citekeys in bib section 0
-[252] Utils.pm:395> WARN - The file 'main.bcf' does not contain any citations!
-[263] bbl.pm:651> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[263] bbl.pm:754> INFO - Output to main.bbl
-[263] Biber.pm:128> INFO - WARNINGS: 1
+[0] Config.pm:304> INFO - This is Biber 2.12
+[0] Config.pm:307> INFO - Logfile is 'main.blg'
+[14] biber:315> INFO - === Wed Feb  3, 2021, 18:18:01
+[28] Biber.pm:371> INFO - Reading 'main.bcf'
+[66] Biber.pm:889> INFO - Found 1 citekeys in bib section 0
+[73] Biber.pm:4093> INFO - Processing section 0
+[79] Biber.pm:4254> INFO - Looking for bibtex format file 'references.bib' for section 0
+[80] bibtex.pm:1512> INFO - LaTeX decoding ...
+[83] bibtex.pm:1329> INFO - Found BibTeX data source 'references.bib'
+[90] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[91] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[91] Biber.pm:3921> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[91] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
+[91] bbl.pm:636> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[92] bbl.pm:739> INFO - Output to main.bbl
