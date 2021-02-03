@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for $(LIB_PREFIX)epidemic_broadcast
 #
 # This file was generated with the command:
-#  opp_makemake --make-so -f --deep -KINET_PROJ=/home/yuri/Scrivania/inet4 -DINET_IMPORT -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
+#  opp_makemake --make-so -f --deep -KINET_PROJ=/home/rrahmani/Downloads/omnetpp-5.6.2/samples/inet -DINET_IMPORT -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -33,7 +33,7 @@ MSGFILES =
 SMFILES =
 
 # Other makefile variables (-K)
-INET_PROJ=/home/yuri/Scrivania/inet4
+INET_PROJ=/home/rrahmani/Downloads/omnetpp-5.6.2/samples/inet
 
 #------------------------------------------------------------------------------
 
