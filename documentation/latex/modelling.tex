@@ -1,3 +1,10 @@
+%-------------------------------------------------------------------------------
+% File: modelling.tex
+%       Epidemic Broadcast project documentation.
+%
+% Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
+%         Created on 05/12/2020
+%-------------------------------------------------------------------------------
 \chapter{System modelling}\label{modelling}
 Wireless communication networks have been extensively study in scientific literature and one of the most used mathematical tools to model them and their behaviour is \textit{graph theory}.
 In this work the same approach was followed.\\
@@ -16,14 +23,21 @@ These different behaviours were modelled by means of three different states:
 \section{Graph model for wireless systems}
 
 The N users dropped in a floorplan make up the set of vertices V of a graph G, whose set of edges E is composed by all the connections between two nodes in reach of each other. Let us take a simplified scenario to exemplify this approach.
-
-\begin{figure}[H]%
-    \centering
-    \subfloat[\centering Ranges representation]{{\includegraphics[scale=0.19]{img/wireless_graph_1.png} }}%
-    \qquad
-    \subfloat[\centering Equivalent graph representation]{{\includegraphics[scale=0.19]{img/wireless_graph_2.png} }}%
-    \caption{}%
-    \label{fig:graph1}%
+\begin{figure}[h]
+	\begin{minipage}{.5\textwidth}
+        \includegraphics[scale=.23]{img/wireless_graph_1.png}
+        \begin{center}
+            a) Ranges representation
+        \end{center}
+	\end{minipage}
+	\begin{minipage}{.5\textwidth} 
+		\includegraphics[scale=.23]{img/wireless_graph_2.png}
+		\begin{center}
+            b) Equivalent graph representation
+        \end{center}
+	\end{minipage}
+	\caption{}
+    \label{fig:graph1}
 \end{figure}
 
 In Figure \ref{fig:graph1} (a) devices A, C and D are within device B transmission radius. In the equivalent graph, there will be edges that connect B to A, B to C and B to D. The same goes for all the other vertices.\\

@@ -1,54 +1,86 @@
+%-------------------------------------------------------------------------------
+% File: overview.tex
+%       Epidemic Broadcast project documentation.
+%
+% Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
+%         Created on 05/12/2020
+%-------------------------------------------------------------------------------
 \chapter{Overview}\label{overview}
-%TODO : conclusions and final considerations should talk about
-% other potential studies where one or more of these hypotheses change
-To perform the analysis of message of a message broadcast among users in a floorplan, the following hypotheses have been made:
+To perform the analysis of the broadcast of a message that should reach as many
+users as possible in a 2D floorplan, the following hypotheses were made:
 \begin{itemize}
-	\item
-	the floorplan always has a rectangular shape and it is empty, i.e. there are no obstacles such as walls or pillars in it.
-	\item
-	each user takes zero area and does not move inside the floorplan.
-	\item
-	%TODO remove this last sentence about Discrete Time Systems?
-	the transmission of a message is instantaneous and it happens at the beginning of every time slot; the whole apparatus can therefore be considered a \textit{Discrete Time System}.
-
+	\item the floorplan always has a rectangular shape and it is empty, (i.e.
+	there are no obstacles such as walls or pillars in it);
+	\item each user is thought as a point mass and does not move inside the
+	floorplan;
+	\item the transmission of a message is instantaneous and it happens at the
+	beginning of every time slot; the whole apparatus can therefore be
+	considered a \textit{Discrete Time System}.
 \end{itemize}
-Depending on the performance metrics to be analysed, different choices can be made about the parameters to be adjusted.
-According to the specifications, the main three metrics for this study are:
+Depending on the performance metrics to be analysed, different choices can be
+made about the parameters to be adjusted. According to the specifications, the
+main three metrics for this study are:
 \begin{itemize}
-	\item
-	the broadcast time \colorbox{gray!30}{\large \texttt{T}} for a message in the entire floorplan
-	\item
-	the percentage of covered users \colorbox{gray!30}{\large \texttt{U}}
-	\item
-	the number of collisions \colorbox{gray!30}{\large \texttt{C}}
+	\item the broadcast time \colorbox{gray!30}{\large \texttt{T}} for a message
+	to cover as many user as possible in the entire floorplan;
+	\item the percentage of covered users \colorbox{gray!30}{\large \texttt{U}};
+	\item the number of collisions \colorbox{gray!30}{\large \texttt{C}}.
 \end{itemize}
-%TODO add other metrics? Like the average number of users in range of another user. Average number of transmitting device over time
-The following parameters have been identified: the transmission range of the devices,
-the \textit{per-slot} transmission probability,
-the floorplan size and shape and finally the density of users per square metre.\\
-
-More in detail:
+The following parameters have been identified: the transmission range of the
+users, the \textit{per-slot} transmission probability, the floorplan size and
+its shape, and the density of users in the floorplan per square metre.\\
+\\
+To be more in detailed:
 \begin{itemize}
-	\item
-	the radius of transmission \colorbox{gray!30}{\large \texttt{R}}: it represents the maximum distance between two devices such that the message sent from one is detected by the other. It is the same for every device on the floorplan. Realistic values for R have been taken from Bluetooth Low Energy standard and range from a minimum of 5 metres to a maximum of 50 metres.
-	\item
-	%TODO improve this point, it can probably be written better
-	the \textit{per-slot} transmission probability \colorbox{gray!30}{\large \texttt{p}}: it is the success probability for the Bernoulli random variable associated to the transmission
-	 \item
-	 the side \colorbox{gray!30}{\large \texttt{L}} of the rectangle that models the floorplan. The set of values for L was chosen to range from 10 metres to 100 metres.
-	 \item
-	 the \textit{aspect ratio} of the rectangle \colorbox{gray!30}{\large \texttt{a}}, defined as the ratio between the longer side L and the shorter side W. Its values were chosen to range from 1 (square floorplan) to 8. Because of the radial symmetry of the transmission phenomenon, there is no actual need to consider values for \texttt{a} lower than 1; it is enough to only consider ``wide" rectangles and discard ``tall" rectangles, or vice versa, since, for the purpose of the study, a $50m \times 100m$ rectangle would behave exactly the same as a $100m \times 50m$ one.
-	 \item
-	 the population density \colorbox{gray!30}{\large \texttt{d}}, defined as the average number of users in a square metre of the floorplan.
+	\item the radius of transmission \colorbox{gray!30}{\large \texttt{R}}: it
+	represents the maximum distance between two users such that the message
+	sent from one is detected by the other; it is the same for every user on
+	the floorplan; realistic values for $R$ have been taken from Bluetooth Low
+	Energy standard and range from a minimum of $5$ metres to a maximum of $50$
+	metres.
+	\item the \textit{per-slot} transmission probability
+	\colorbox{gray!30}{\large \texttt{p}}: it is the success probability for the
+	Bernoulli random variable associated to the transmission;
+    \item the width of the side of the floorplan rectangle
+    \colorbox{gray!30}{\large \texttt{L}}; the set of values for $L$ was chosen
+    to range from $10$ metres to $100$ metres.
+	\item the \textit{aspect ratio} of the floorplan rectangle
+	\colorbox{gray!30}{\large \texttt{a}}, defined as the ratio between the
+	longer side $L$ and the shorter side $W$; its values were chosen to range
+	from $1$ (square floorplan) to $8$; because of the radial symmetry of the
+	transmission phenomenon, there is no actual need to consider values for
+	\texttt{a} lower than 1; it is enough to only consider "wide" rectangles and
+	discard "tall" rectangles, or vice versa, since, for the purpose of the
+	study, a $50m \times 100m$ rectangle would behave exactly the same as a
+	$100m \times 50m$ one.
+	\item the users density \colorbox{gray!30}{\large \texttt{d}}, defined
+	as the average number of users per square metre in the floorplan.
 \end{itemize}
-
-The rationales behind the choices of the parameters were the following:\\
- - the transmission radius clearly has a great impact on all the performance metrics; the greater the radius, the faster the message moves across the floorplan and the greater the number of users that can be reached. On the other hand, a greater radius is likely to cause more collisions than a smaller one.\\
-- the higher the transmission probability, the faster a message ``moves away" from a device. At the same time, a high transmission probability implies a high collision probability in a local area where two or more nodes are transmitting.\\
-- a bigger floorplan area, all else being equal, will need a longer time to be covered entirely from the broadcast.\\
-- a very long and very narrow floorplan will probably cause less collisions than a square one with the same area, as the average number of users in range of another user decreases.\\
-- population density \texttt{d} was chosen over total population \texttt{N} as it was deemed to be more suitable for a $2^{k}$r factorial analysis.
-%not really sure about this last sentence but sound reasonable to me.
-Given \texttt{d}, \texttt{L} and \texttt{a}, the total population \texttt{N} can be computed as $N=d \cdot A_{tot} = d \cdot L \cdot W = d \cdot \frac{L^{2}}{a}$.
-
-The effective duration of the timeslot obviously has an effect on the total broadcast time, but it is only a scaling factor on the total number of slots. \texttt{T} can therefore be measured in terms of slots and converted to units of time accordingly.
+The rationales behind the choices of the parameters were the following:
+\begin{itemize}
+    \item the transmission radius clearly has a great impact on all the
+    performance metrics; the greater the radius, the faster the message moves
+    across the floorplan and the higher the number of users that can be reached;
+    on the other hand, a greater radius is likely to cause more collisions than
+    a smaller one;
+    \item the higher the transmission probability, the faster a message "moves
+    away" from a user; at the same time, a high transmission probability implies
+    a high collision probability in a local area where two or more nodes are
+    transmitting;
+    \item a bigger floorplan area, all else being equal, will require a longer
+    time to be covered entirely by the broadcast message;
+    \item a very long and very narrow floorplan will probably cause less
+    collisions than a square one with the same area, as the average number of
+    users in the collision range of other users decreases;
+    \item the users population density \texttt{d} (per square meter) was chosen
+    to be used instead of the total users number \texttt{N} as it is deemed to
+    be more suitable for a $2^{k}r$ factorial analysis.
+\end{itemize}
+Given \texttt{d}, \texttt{L} and \texttt{a}, the total users population
+\texttt{N} can be computed as
+$$ N = d \cdot A_{tot} = d \cdot L \cdot W = d \cdot \frac{L^{2}}{a}.$$
+The effective duration of the transmissions time slots obviously has an effect
+on the total broadcast time\footnote{The total amount of time required for a
+broadcast message to cover the entire floorplan.}, but it is only a scaling
+factor on the total number of slots. \texttt{T} can therefore be measured in
+terms of slots and converted to units of time accordingly.
