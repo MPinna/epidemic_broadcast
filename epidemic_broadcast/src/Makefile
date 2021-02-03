@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for $(LIB_PREFIX)epidemic_broadcast
 #
 # This file was generated with the command:
-#  opp_makemake --make-so -f --deep -KINET_PROJ=/home/yuri/Scrivania/inet4 -DINET_IMPORT -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
+#  opp_makemake --make-so -f --deep -KINET_PROJ=D:/Documenti/Uni/PECSN/EB_sim_ws/inet -DINET_IMPORT -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -24,7 +24,7 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-OBJS = $O/host.o
+OBJS = $O/Configurator.o $O/host.o $O/procUnit.o
 
 # Message files
 MSGFILES =
@@ -33,7 +33,7 @@ MSGFILES =
 SMFILES =
 
 # Other makefile variables (-K)
-INET_PROJ=/home/yuri/Scrivania/inet4
+INET_PROJ=D:/Documenti/Uni/PECSN/EB_sim_ws/inet
 
 #------------------------------------------------------------------------------
 

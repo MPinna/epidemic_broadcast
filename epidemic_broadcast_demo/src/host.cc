@@ -19,10 +19,37 @@ Define_Module(Host);
 
 void Host::initialize()
 {
+    //setStatus(listening);
     // TODO - Generated method body
 }
 
 void Host::handleMessage(cMessage *msg)
 {
+    EV<<"I am inside Host handleMessage"  <<endl;
     // TODO - Generated method body
+}
+
+void Host::setStatus(Status s)
+{
+    status_ = s;
+    /*switch(s)
+   / {
+        case(listening):
+                par("stat")="yellow";
+                getDisplayString().setTagArg("i2", 0, "status/yellow");
+                return;
+        case(transmitting):
+                getDisplayString().setTagArg("i2", 0, "status/green");
+                par("stat")="green";
+                return;
+        case(sleeping):
+                getDisplayString().setTagArg("i2", 0, "status/red");
+                par("stat")="red";
+                return;
+    }*/
+}
+
+Status Host::getStatus()
+{
+    return status_;
 }
