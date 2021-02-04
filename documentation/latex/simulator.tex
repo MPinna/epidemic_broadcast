@@ -6,3 +6,39 @@
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
 \chapter{Simulator}
+In order to obtain exerimental results for the given scenario, we build a computerized simulator;
+this will allow us to reproduce various comfigurations with different parameters' values.\\
+\section{Omnet++ and INET frameworks}
+OMNeT++ is an extensible, modular, component-based C++ simulation library and framework, 
+primarily for building network simulators \footnote{https://omnetpp.org/}.\\
+INET Framework is an open-source model library for the OMNeT++ simulation environment. 
+It provides protocols, agents and other models for researchers and students working with 
+communication networks. INET is especially useful when designing and validating new protocols, 
+or exploring new or exotic scenarios \footnote{https://omnetpp.org/download-items/INET.html}.\\
+Omnet++ is a library and a framework, and can be used in a dedicated IDE. It permit to export simulation results
+and to inspect simulaton behaviour with a graphic user interface. Eowrxploiting C++ compiler optimizations, can achieve low simulation duration.
+Netowks are composed by modules; there are two types for a module: simple module and compound module (the last one can contain other modules).
+INET is an extension of OMNET++, oriented to recreate a network simulation environment, with the capability to reproduce the activity
+of a wireless communication system across multiple nodes. It contains definition and implemetaton of network related modules.
+\section{Network architecture}
+The network base architecture is composed by an Array of Host modules, a visualizer (Integrated visualizer) and a radioMedium (UnitDiskRadioMedium);
+% TODO: immagine rete
+\begin{itemize}
+    \item \textbf{UnitDiskRadioMedium} is a compound module provided by INET. It can reproduce a the behaviour of the wireless communication 
+    channel with various levels of abstraction
+    \item \textbf{Integrated visualizer} is a compound module provided by INET. It's resposible for the visual representation of modules properties 
+    and events in the graphic user interface.
+    \item \textbf{Host} is a compound module representing a node in our network environment. 
+\end{itemize}
+Every Host contains 4 submodules:
+% TODO: immagine interno modulo host
+\begin{itemize}
+    \item \textbf{Mobility} module privided by INET manage the position of the parent module (Host); it allow various types of movements,
+        but we are going to use it only for the initial random placement of the nodes, then they will remain static.
+    \item \textbf{interface Table} module is provided by INET and is required for corrent operation of radioMedium module.
+    \item \textbf{wlan} module is the wireless interface that allow nodes to communicate with each others. It's a compund module of type 
+        \textbf{AckingWirelessInterface}, which is the simplest wireless interface provided by INET.
+    \item \textbf{ProcUnit} is the processing unit, that implement the node behaviour when a message arrive. It's connected to
+    the wlan module in order to receive and send messages through that.
+\end{itemize}
+
