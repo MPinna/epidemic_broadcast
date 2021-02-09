@@ -5,7 +5,8 @@
 % Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
-\chapter{System modelling}\label{modelling}
+\chapter{System modelling}
+\label{modelling}
 Wireless communication networks have been extensively studied in scientific
 literature and one of the most used mathematical tools to model them and their
 behaviour is \textit{graph theory}. In this work the same approach was used.\\
@@ -32,6 +33,10 @@ The $N$ users dropped on the floorplan make up the set of vertices $V$ of a
 graph $G$, whose set of edges $E$ is composed by all the connections between
 each two nodes in reach of one another. Consider the following as a simplified
 scenario to exemplify this model.
+In figure \ref{fig:graph1} (a) devices A, C and D are within device B
+transmission radius. In the equivalent graph, there will be edges that connect
+B to A, to C and to D. The same goes for all the other vertices. The resulting
+graph is shown in figure \ref{fig:graph1} (b).
 \begin{figure}[H]
 	\begin{minipage}{.5\textwidth}
         \includegraphics[scale=.23]{img/wireless_graph_1.png}
@@ -48,10 +53,7 @@ scenario to exemplify this model.
 	\caption{}
     \label{fig:graph1}
 \end{figure}
-\noindent In figure \ref{fig:graph1} (a) devices A, C and D are within device B
-transmission radius. In the equivalent graph, there will be edges that connect
-B to A, to C and to D. The same goes for all the other vertices. The resulting
-graph is shown in figure \ref{fig:graph1} (b).\\
+\noindent
 In general, the existence of an edge from vertex $i$ to vertex $j$ means that
 nodes $i$ and $j$ are within reach of each other. Two vertices connected by an
 edge are said to be \textit{adjacent}. The set composed by the vertex $v$
@@ -84,19 +86,21 @@ $v^{*}$ is defined as follows:
 \end{equation}
 \section{Simplified models}
 In what follows, incrementally more complex scenarios are presented showing the
-reasoning that led us to obtain the complete model.
+reasoning that led us to obtain the final complete model.
 \subsection{Single queue configuration}\label{ssec:singlequeue}
 Let us consider a configuration where users are arranged in a line, as shown in
 figure \ref{fig:single_queue}. Each user only has two neighbours, except for
-the outer ones that only have one. Let assume A to be the starting user for the
-broadcast message. A is the only node in \texttt{transmitting} state while all
-the other nodes are initially in \texttt{listening} state. 
-\begin{figure}[H]%
+the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ the
+starting user for the broadcast message, this is the only node in
+\texttt{transmitting} state while all the other nodes are initially in
+\texttt{listening} state. 
+\begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.6]{img/single_queue.png}
-        \caption{}%
-        \label{fig:single_queue}%
+        \caption{Graph of the Single queue configuration}
+        \label{fig:single_queue}
     \end{center}
+    \vspace*{-0.8cm}
 \end{figure}
 \noindent It is clear that, with this configuration, each listening node has a
 maximum of one active node in its neighbourhood and thus cannot possibly receive
@@ -106,41 +110,62 @@ ensured: during each slot, the active node extracts a Bernoulli RV with success
 probability $p$. The probability of the active node not transmitting for $k$
 consecutive slots is a geometric distribution:
 \begin{equation}
-	P(X = k) = (1\text{-}p)^{k}
+	P(X = k) = (1 - p)^{k}.
 	\label{geometric_distribution}
 \end{equation}
-The successful transmission of the message from an active node to its neighbour is thus guaranteed since $\lim_{k \to \infty} (1\text{-}p)^{k} = 0$
-%TODO not really sure about this result when the starter node is not the first or the last. What if the starter node is in the middle of the queue?
-As for the total broadcast time \texttt{T}, on average it is equal to the mean value of the Bernoulli RV, \textit{p}, times the number of hops needed to reach the last node.
-%times the eccentricity of the starter, maybe? Not really sure about that, I have to look into it a bit more in detail
+The successful transmission of the message from an active node to its neighbour
+is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k} = 0$.
+As for the total broadcast time \texttt{T}, on average it is equal to the mean
+value of the geometric distribution, $\frac{1 - p}{p}$, times the number of hops needed
+to reach the last node:
 \begin{equation}
-	E[T] = p \cdot (N-1)
+	E[T] = \frac{1 - p}{p} \cdot (N - 1).
 	\label{singleQueueMeanT}
 \end{equation}
 \subsection{Star configuration with one active node}
-Another useful simple configuration worth analysing is a star-shaped configuration. In this setup, there is a central node A connected to N-1 nodes, all of which are non-adjacent to each other. Let us suppose A to be the broadcast starter.
-\begin{figure}[H]%
-    \centering
-	{{\includegraphics[scale=0.5]{img/star_graph.png} }}%
-    \caption{}%
-    \label{fig:star_graph}%
+Another useful simple configuration worth analysing is the star-shaped one. In
+this setup, there is a central node $A$ connected to $N - 1$ nodes, all of which
+are non-adjacent to each other. Let us suppose $A$ to be the broadcast starter.
+The absence of collisions is ensured in this scenario as well, for the
+same reason as the previous configuration.
+At each time slot, $A$ extracts a Bernoulli RV. When the extraction is
+successful, $A$ broadcasts the message to all of its neighbourhood and total
+coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case
+too, as the probability of $A$ not transmitting for $k$ consecutive slots is
+given by Eq. \ref{geometric_distribution} and goes to $0$ as $k$ goes to
+infinity.
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{img/star_graph.png}
+        \caption{Graph of the Star configuration with one active node}
+        \label{fig:single_queue}
+    \end{center}
 \end{figure}
-The absence of collisions is ensured in this scenario as well, for the same reason as the previous example.\\
-At each slot, A keeps extracting a Bernoulli RV. When the extraction is successful, A broadcasts the message to all its neighbour and total coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case too, as the probability of A not transmitting for k consecutive slots is Eq. \ref{geometric_distribution} and goes to 0 as k goes to infinity.\\
-In this case, the average total broadcast time E[\texttt{T}] is simply equal to the mean value of the Bernoulli RV \textit{p}.
-If the broadcast starter was one of the ``rays" of the star, instead of the center, there would not be much difference: absence of collisions and total coverage would be ensured as well.\\
-As for \texttt{T}, its expected value would just be $2p$, since the are now \textbf{two} hops involved in the broadcast: one from the starter to the center of the star and the other from the center node to all the N-2 remaining ones.
+\noindent
+In this case, the average total broadcast time $E[T]$ is simply equal to the
+mean value of the geometric distribution, $\frac{1 - p}{p}$.\\
+\\
+If the broadcast starter node was not the one placed in the center of the star,
+there would not be much difference: absence of collisions and total coverage
+would be ensured as well. As far as it concerns the total broadcast time
+\texttt{T}, its expected value would just be $2 \cdot \frac{1 - p}{p}$, since
+the are now \textbf{two} hops involved in the broadcast: one from the starter
+node to the center node and the another from the center node to all the $N - 2$
+remaining ones.
 \subsection{Star configuration with all but one active nodes}
 \label{ssec:star2}
-This configuration can be seen as the complement of the previous one: every ``ray" of the star is active and trying to transmit the message to the center node.
-\begin{figure}[H]%
+\begin{figure}[H]
     \centering
 	{{\includegraphics[scale=0.5]{img/star_graph2.png} }}%
     \caption{}%
     \label{fig:star_graph_2}%
 \end{figure}
-Now there is the possibility of collisions and a non-zero probability that there will never be total coverage.
-To simplify the analysis of this system and obtain some more insight, it is useful to model it by means of a discrete-time Markov chain.
+This configuration can be seen as the complement of the previous one: each node
+on the ray of the star is active and trying to transmit the message to the
+center node. Now there is the possibility of collisions and a non-zero
+probability that there will never be total coverage. To simplify the analysis of
+this system and obtain some more insight, it is useful to model it by means of a
+discrete-time Markov chain.
 %TODO choose better title for subsection, maybe?
 \subsubsection{Discrete-time Markov chain model for N nodes transmitting to a target}
 Since the state of the system evolves only once per slot, it can be modelled with a discrete-time Markov chain (DTMC).
