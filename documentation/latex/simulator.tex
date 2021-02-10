@@ -16,7 +16,7 @@ It provides protocols, agents and other models for researchers and students work
 communication networks. INET is especially useful when designing and validating new protocols, 
 or exploring new or exotic scenarios \footnote{https://omnetpp.org/download-items/INET.html}.\\
 Omnet++ is a library and a framework, and can be used in a dedicated IDE. It permit to export simulation results
-and to inspect simulaton behaviour with a graphic user interface. Eowrxploiting C++ compiler optimizations, can achieve low simulation duration.
+and to inspect simulaton behaviour with a graphic user interface. Exploiting C++ compiler optimizations, can achieve low simulation duration.
 Netowks are composed by modules; there are two types for a module: simple module and compound module (the last one can contain other modules).
 INET is an extension of OMNET++, oriented to recreate a network simulation environment, with the capability to reproduce the activity
 of a wireless communication system across multiple nodes. It contains definition and implemetaton of network related modules.
@@ -35,10 +35,13 @@ Every Host contains 4 submodules:
 \begin{itemize}
     \item \textbf{Mobility} module privided by INET manage the position of the parent module (Host); it allow various types of movements,
         but we are going to use it only for the initial random placement of the nodes, then they will remain static.
-    \item \textbf{interface Table} module is provided by INET and is required for corrent operation of radioMedium module.
+    \item \textbf{interface Table} module is provided by INET and is required for correct operation of radioMedium module.
     \item \textbf{wlan} module is the wireless interface that allow nodes to communicate with each others. It's a compund module of type 
         \textbf{AckingWirelessInterface}, which is the simplest wireless interface provided by INET.
     \item \textbf{ProcUnit} is the processing unit, that implement the node behaviour when a message arrive. It's connected to
     the wlan module in order to receive and send messages through that.
 \end{itemize}
 
+The processing unit realize behaviours of nodes: LISTENING, TRANSMITTING, SLEEPING; it also collect statistics, emitting signals when 
+a message is correctly received and when it's sent out; the wlan module emit a signal every time a collision is detected, than the broken
+message is dropped instead of forwarded to the processing unit. 
