@@ -15,9 +15,12 @@
 
 package epidemic_broadcast;
 
-// a lot of imports are just for a rapid reference (by ctrl+click) to inet data structures
+// numOfHosts: 10
+// parametric: true
+// static:     false
+
+
 import inet.environment.common.PhysicalEnvironment;
-import inet.linklayer.acking.AckingWirelessInterface;
 import inet.node.base.ApplicationLayerNodeBase;
 import inet.node.base.LinkLayerNodeBase;
 import inet.node.base.NetworkLayerNodeBase;
@@ -29,33 +32,20 @@ import inet.node.inet.StandardHost;
 import inet.node.inet.WirelessHost;
 import inet.physicallayer.unitdisk.UnitDiskRadioMedium;
 import inet.visualizer.integrated.IntegratedVisualizer;
-import inet.physicallayer.contract.packetlevel.IRadioMedium;
-import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 
 
 network Floorplan
-{
+{	
     parameters:
-        int numHosts; // number of host in the floorplan
-        double height @unit(m); // size of the floorplan
-        double width @unit(m);
-        @display("bgb=100m,100m");
-        
-        
-        @signal[usersReached](type="long");
-        @statistic[coverage](title="Percentage of reached users"; source="usersReached"; record=sum);
-        
-        @signal[attempts](type="long");
-        @statistic[averageAttempts](title="Average attempts";source="attempts";record=mean;);
+        int numHosts;
+        double dim @unit(m);
+		@display("bgb=$dim,$dim,rect");
     submodules:
-        host[numHosts]: Host { // hosts array
-            @display("p=71,144");
+        host[numHosts]: Host {
+            @display("p=178,252");
         }
         visualizer: IntegratedVisualizer { // manage the visualization of the hosts and more (wave, range, collisions)
-            @display("p=72,22");
+            @display("p=456.54333,68.14079");
         }
-        radioMedium: UnitDiskRadioMedium { // the radio medium controller
-            @display("p=214,79");
-        }
-    connections:
+      
 }
