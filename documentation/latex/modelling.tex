@@ -116,8 +116,8 @@ consecutive slots is a geometric distribution:
 The successful transmission of the message from an active node to its neighbour
 is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k} = 0$.
 As for the total broadcast time \texttt{T}, on average it is equal to the mean
-value of the geometric distribution, $\frac{1 - p}{p}$, times the number of hops needed
-to reach the last node:
+value of the geometric distribution, $\frac{1 - p}{p}$, times the number of hops
+needed to reach the last node:
 \begin{equation}
 	E[T] = \frac{1 - p}{p} \cdot (N - 1).
 	\label{singleQueueMeanT}
@@ -152,60 +152,78 @@ would be ensured as well. As far as it concerns the total broadcast time
 the are now \textbf{two} hops involved in the broadcast: one from the starter
 node to the center node and the another from the center node to all the $N - 2$
 remaining ones.
-\subsection{Star configuration with all but one active nodes}
+\subsection{Star configuration with all but one active node}
 \label{ssec:star2}
 \begin{figure}[H]
-    \centering
-	{{\includegraphics[scale=0.5]{img/star_graph2.png} }}%
-    \caption{}%
-    \label{fig:star_graph_2}%
+    \begin{center}
+        \includegraphics[scale=0.5]{img/star_graph2.png}
+        \caption{Graph of the Star configuration with all but one active node}
+        \label{fig:single_queue}
+    \end{center}
 \end{figure}
 This configuration can be seen as the complement of the previous one: each node
 on the ray of the star is active and trying to transmit the message to the
-center node. Now there is the possibility of collisions and a non-zero
-probability that there will never be total coverage. To simplify the analysis of
-this system and obtain some more insight, it is useful to model it by means of a
-discrete-time Markov chain.
-%TODO choose better title for subsection, maybe?
+center node. This is actually the first scenario where collisions might happen
+with the possibility that total coverage might never be reached. To simplify the
+analysis of this system and obtain some insights, it is useful to model it by
+means of a discrete-time Markov chain.
 \subsubsection{Discrete-time Markov chain model for N nodes transmitting to a target}
-Since the state of the system evolves only once per slot, it can be modelled with a discrete-time Markov chain (DTMC).
-\hfill \break
-\hfill \break
-
-\begin{figure}[H]%
-    \centering
-	{{\includegraphics[scale=0.4]{img/DTMC.png} }}%
-    \caption{Discrete-time Markov chain for a scenario with N active devices}%
-    \label{fig:dtmc}%
+Since the state of the system evolves only once per slot, it can be modelled
+with a discrete-time Markov chain (DTMC) as follows:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.5]{img/DTMC.png}
+        \caption{Discrete-time Markov chain for a scenario with N active devices}
+        \label{fig:dtmc}
+    \end{center}
 \end{figure}
-\noindent Figure \ref{fig:dtmc} shows the DTMC for a generic configuration with N transmitters (transition probabilities are not shown for the sake of clarity).\\
-State 0 and states 2 to N represent the number of \texttt{sleeping} devices, namely devices that have already sent the message and have stopped. 
-State S represents the successful transmission state, which the system transitions to when only one device has transmitted the message during the previous slot.
-The initial state $X_{0}$ is 0. Any transition from a state $i$ to a state $j$, $j \neq S$, means that more than one device has transmitted the message and consequently the target device has detected a collision.
-Both state S and state N are \textit{absorbing states}, i.e. states that, once entered, cannot be left (as can be seen in Fig. \ref{fig:dtmc}, where the only outgoing arrow from each of the two goes back to the state itself).
-If the system transitions to state N, it stays in it indefinitely since all the devices would be \texttt{sleeping} and they cannot become active again. This implies that there will never be total coverage since the target device will forever stay in a \texttt{listening} state.\\
-%TODO improve? Is it clear?
-On the other hand, state S, although being an absorbing state as well, should actually be considered an ``exit" instead of a ``sink": if the system transitions to it, the target device has successfully received the message and the DTMC does not model the system any more.\\
-Another interesting observation concerns state N-1: once the system reaches this state, it would be guaranteed that the target device will sooner or later receive the message, for the same reason set forth in \ref{ssec:singlequeue}.
+\noindent Figure \ref{fig:dtmc} shows the DTMC for a generic configuration with
+$N$ transmitters (transition probabilities are not shown for the sake of clarity).\\
+State $0$ and states $2$ to $N$ represent the number of \texttt{transmitting}
+devices, namely devices that have already sent the message and have stopped. 
+State $S$ represents the successful transmission state, which the system
+transitions to when only one device has transmitted the message during the
+previous slot.
+The initial state $X_{0}$ is $0$. Any transition from a state $i$ to a state
+$j$, $j \neq S$, means that more than one device has transmitted the message 
+resulting in the target device detecting a collision.
+Both state $S$ and state $N$ are \textit{absorbing states}, i.e. states that,
+once entered, cannot be left (as can be seen in Fig. \ref{fig:dtmc}, where the
+only outgoing arrow from each of the two goes back to the state itself).\\
+If the system transitions to state $N$, it stays in it indefinitely since all
+the devices would be \texttt{sleeping} and they cannot become active again. This
+implies that there will never be total coverage since the target device will
+forever stay in a \texttt{listening} state without ever receiving the message.
+On the other hand, state $S$, although being an absorbing state as well, should
+actually be considered as an "exit" state rather than a "sink" state: if the
+system transitions to this state, the target device has successfully received
+the message: total coverage has been reached.\\
+Another interesting observation concerns state $N - 1$: once the system reaches
+this state, it would be guaranteed that the target device will sooner or later
+receive the message, for the same reason set forth in \ref{ssec:singlequeue}.
 \subsubsection{Transition probabilities}
-Let us now address the challenging part: computing the transition probability.
-\hfill \break
-During the first slot, the probability that $j$ devices out of $N$ transmit the message is the following:
+Let us now address the challenging part: computing the transition probability.\\
+During the first slot, the probability that $j$ devices out of $N$ transmit
+the message is the following:
 \begin{equation}
-	P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
+	P_{1}(j, N) = {N \choose j} p^{j} (1 - p)^{N - j}
 	\label{eq:firstSlotTransProb}
 \end{equation}
-
-\noindent Derivation of \ref{eq:firstSlotTransProb} can be found in Appendix A.\\
-
-As for the probability of $j$ devices transmitting at the same time during slot $k$, be it $P_{k}(j)$, we can model the system as if it was in the first slot, with the total number of active devices now being equal to $N$ - $t$, where $t$ is the total number of devices that have transmitted up to the $(k\text{-}1)$-th slot.\\
-%TODO fix
-The problem with this formulation is... Is what? \\
-
-A better way to compute the probability of having $j$ devices transmitting at slot $k$, is to use the \textit{stochastic matrix} of the Markov chain.
-
-If the probability of moving from state $i$ to $j$ in one time slot is $Pr(j|i) = P_{i,j}$, the stochastic matrix P is given by using $P_{i,j}$ as the i-th row and j-th column element, e.g.
-
+Derivation of \ref{eq:firstSlotTransProb} can be found in Appendix A.\\
+\\
+As for the probability of $j$ devices transmitting at the same time during slot
+$k$, be it $P_{k}(j)$, we can model the system as if it was in the first slot,
+with the total number of active devices now being equal to $N$ - $t$, where $t$
+is the total number of devices that have transmitted up to the $(k\text{-}1)$-th
+time slot.\\
+Carrying on with the computation of the transition probabilities this way, leads
+to unsatisfactory results which are difficult to interpret.\\
+\\
+A better way to compute the probability of having $j$ devices transmitting at
+slot $k$, is to use the \textit{stochastic matrix} of the Markov chain. If the
+probability of moving from state $i$ to $j$ in one time slot is
+$Pr(j|i) = P_{i,j}$, the stochastic matrix $P$ is given by using
+$P_{i,j}$ as the $i$-th row and $j$-th column element, e.g.
 \begin{equation*}
 P = 
 \begin{bmatrix}

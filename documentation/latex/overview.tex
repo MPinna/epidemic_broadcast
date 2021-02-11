@@ -22,20 +22,19 @@ made about the parameters to be adjusted. According to the specifications, the
 main three metrics for this study are:
 \begin{itemize}
 	\item the broadcast time \colorbox{gray!30}{\large \texttt{T}} for a message
-	to cover as many user as possible in the entire floorplan; the effective duration 
-	of the transmissions slots obviously has an effect
+	to cover as many user as possible in the entire floorplan; the effective
+	duration of the transmissions slots obviously has an effect
 	on the total broadcast time\footnote{The total amount of time required for a
 	broadcast message to cover the entire floorplan.}, but it is only a scaling
 	factor on the total number of slots. \texttt{T} can therefore be measured in
 	terms of slots and converted to units of time accordingly.
 	\item the percentage of covered users \colorbox{gray!30}{\large \texttt{U}};
-	\item the number of collisions \colorbox{gray!30}{\large \texttt{C}}; collisions
-	are detected by nodes, when they try to receive more than one message in the same slot;
-	in order to mesure the number of collisions, we consider a single event of collision
-	every time a node detect one of them; every statistical analysis is done taking this
-	assumption.
+	\item the number of collisions \colorbox{gray!30}{\large \texttt{C}};
+	collisions are detected by nodes, when they try to receive more than one
+	message in the same slot; in order to messure the number of collisions, we
+	consider a single event of collision every time a node detect one of them;
+	every statistical analysis is done taking this assumption.
 \end{itemize}
-
 The following parameters have been identified: the transmission range of the
 users, the \textit{per-slot} transmission probability, the floorplan size and
 its shape, and the density of users in the floorplan per square metre.\\
@@ -50,22 +49,22 @@ To be more in detailed:
 	metres.
 	\item the \textit{per-slot} transmission probability
 	\colorbox{gray!30}{\large \texttt{p}}: it is the success probability for the
-	Bernoulli random variable associated to the transmission; as a probability, it 
-	can assume values between 0 and 1;
+	Bernoulli random variable associated to the transmission; as a probability,
+	it can assume values between 0 and 1;
     \item the width of the side of the floorplan rectangle
     \colorbox{gray!30}{\large \texttt{L}};
 	\item the \textit{aspect ratio} of the floorplan rectangle
 	\colorbox{gray!30}{\large \texttt{a}}, defined as the ratio between the
-	longer side $L$ and the shorter side $W$; because of the radial symmetry of the
-	transmission phenomenon, there is no actual need to consider values for
+	longer side $L$ and the shorter side $W$; because of the radial symmetry of
+	the transmission phenomenon, there is no actual need to consider values for
 	\texttt{a} lower than 1; this parameter is fixed at 1 in our simulation model, 
-	so we are considering only sqare floorplans; this will allow us to focus the analysis
-	on other parameters, but still considering a quite common scenario;
+	so we are considering only sqare floorplans; this will allow us to focus the
+	analysis on other parameters, but still considering a quite common scenario;
 	\item number of users \colorbox{gray!30}{\large \texttt{N}}, defined
 	as the number of users in the floorplan;
-	\item users population density \colorbox{gray!30}{\large \texttt{d}}, defined
-	as the number of users per square meter. We choose to study two opposite 
-	density scenarios (high: 1/$m^2$, low 0.1/$m^2$) 
+	\item users population density \colorbox{gray!30}{\large \texttt{d}},
+	defined as the number of users per square meter. We choose to study two
+	opposite density scenarios (high: 1/$m^2$, low 0.1/$m^2$).
 \end{itemize}
 The rationales behind the choices of the parameters were the following:
 \begin{itemize}
@@ -82,12 +81,12 @@ The rationales behind the choices of the parameters were the following:
     time to be covered entirely by the broadcast message;
     \item a very long and very narrow floorplan will probably cause less
     collisions than a square one with the same area, as the average number of
-    users in the collision range of other users decreases; on the other hand, the 
-	performance of this type of scenario will be higly influenced by the position of the 
-	starting node;
+    users in the collision range of other users decreases; on the other hand,
+    the performance of this type of scenario will be higly influenced by the
+    position of the starting node;
     \item in order to exploit various values of  population density \texttt{d}
-	we choose to fix the total users \texttt{N}=100, then we choose the 2 values for $L$: 
-	$10$ metres and $100$ metres.
+	we choose to fix the total users \texttt{N}=100, then we choose the 2 values
+	for $L$: $10$ metres and $100$ metres.
 \end{itemize}
 
 
