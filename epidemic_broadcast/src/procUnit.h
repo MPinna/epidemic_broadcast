@@ -25,18 +25,39 @@ using namespace inet;
 /**
  * TODO - Generated class
  */
+
+
+// - LISTENING:the module has not yet received a broadcast
+//              message from the outside
+// - TRANSMITTING:  the module has received a broadcast message
+//                  and on each slot will flip a coin
+//                  to decide wheter it should broadcast or not
+// - SLEEPING:      the module has transmitted the broadcast and
+//                  will be sleeping (actually turned off)
+enum Status {LISTENING, TRANSMITTING, SLEEPING};
+
 class ProcUnit : public cSimpleModule
 {
     private:
         cMessage* slotBeep_;
         cMessage* opStop_;
         cMessage* broadcast_;
+
+        // used to distinguish between
+        // different statuses:
         Status procUnitStatus_;
 
         double slotLength_;
         double timeToNextSlot_;
+
+        // used during developement process
+        // just to check if the average number
+        // of broadcast attempt is consistent
+        // with the value of p
         long attempts_;
 
+        // success probability for the
+        // Bernoulli variable
         double p_;
 
         //signal variables
@@ -44,7 +65,7 @@ class ProcUnit : public cSimpleModule
 
         // number of coin tosses
         simsignal_t attemptsSignal_;
-        simsignal_t reachSignal_;
+        simsignal_t receptionSignal_;
     protected:
         virtual void initialize();
         virtual double getTimeToNextSlot();
@@ -52,13 +73,11 @@ class ProcUnit : public cSimpleModule
         virtual void handleBroadcastMessage(cMessage *msg);
         virtual void handleSlotBeepMessage(cMessage *msg);
         virtual void handleStopOperationMessage();
-        // prepare and send a Inet.Packet to the out gate
         virtual void sendPkt(Packet *packet);
 
     public:
         ProcUnit();
         ~ProcUnit();
-
 };
 
 #endif

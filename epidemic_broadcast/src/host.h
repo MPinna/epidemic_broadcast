@@ -20,22 +20,16 @@
 
 using namespace omnetpp;
 
-
-enum Status {LISTENING, TRANSMITTING, SLEEPING};
-
 /**
  * generic host module - Generated class
  */
 class Host : public cModule
 {
     private:
-        Status status_;
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
     public:
-        Status getStatus();
-        void setStatus(Status s);
 };
 
 #endif

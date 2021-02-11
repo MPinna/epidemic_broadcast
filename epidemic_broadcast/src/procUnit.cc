@@ -69,42 +69,55 @@ void ProcUnit::initialize()
 
     attempts_ = 0;
     //registerSignal("attempts");
-    reachSignal_ = registerSignal("usersReached");
+    receptionSignal_ = registerSignal("usersReached");
 
-    // if is the first node to transmit, create a packet then send it out
+    // if it is the first node to transmit,
+    // create a packet then send it out
     int init=par("hasInitToken");
     if(init==1){
         procUnitStatus_ = TRANSMITTING;
-        auto data = makeShared<ByteCountChunk>(B(1000)); // a generic payload, can't be empty
-        inet::Packet *packet=new inet::Packet("COVID", data); // create the packet
+
+        // a generic payload, cannot be empty
+        auto data = makeShared<ByteCountChunk>(B(1000));
+
+        // create the packet
+        inet::Packet *packet=new inet::Packet("COVID", data);
+
         // any supported protocol can be used, but one is needed
         packet->addTag<PacketProtocolTag>()->setProtocol(&Protocol::ipv4);
-        auto ipv4Header = makeShared<Ipv4Header>(); // create new ipv4 header
-        packet->insertAtFront(ipv4Header); // insert header into packet
+
+        // create new ipv4 header
+        auto ipv4Header = makeShared<Ipv4Header>();
+
+        // insert header into packet
+        packet->insertAtFront(ipv4Header);
 
         sendPkt(packet);
         procUnitStatus_ = SLEEPING;
-        auto parent = this->getParentModule();
 
-        //TODO: add schedule_at to trigger interface shutdown
+        // schedule opStop operation to shut down radio
         EV<<"opstop to be scheduled at " <<(simTime() + slotLength_) <<endl;
         scheduleAt(simTime() + slotLength_, opStop_);
-
-        //delete packet;
     }
     else
     {
+        // all the other node should be listening
         procUnitStatus_ = LISTENING;
         p_ = par("p");
 
     }
 }
 
+// returns the difference between the
+// beginning of the next slot and the
+// current sim_time
 double ProcUnit::getTimeToNextSlot()
 {
     return slotLength_ - fmod(simTime().dbl(), slotLength_);
 }
 
+// handle the reception of a broadcast message
+// from the outside
 void ProcUnit::handleBroadcastMessage(cMessage *msg)
 {
     auto parent=this->getParentModule();
@@ -118,7 +131,7 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
     {
         case(LISTENING):
         {
-//              //emit()
+//            emit(receptionSignal_)
             EV<<"Broadcast message received while in listening mode. Ok." <<endl;
             procUnitStatus_ = TRANSMITTING;
             broadcast_ = msg;
@@ -137,6 +150,11 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
 
             break;
         }
+
+        // there should be no need anymore for these last
+        // two cases since the procUnit does not
+        // listen for incoming messages anymore
+        // once it has received the broadcast once
         case(TRANSMITTING):
         {
             EV<<"I already received the message, I am ignoring this one." <<endl;
@@ -150,6 +168,8 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
     }
 }
 
+// handle the reception of a self message used
+// as timer to sync the procUnit with the time slots
 void ProcUnit::handleSlotBeepMessage(cMessage *msg)
 {
     auto parent=this->getParentModule();
@@ -157,8 +177,7 @@ void ProcUnit::handleSlotBeepMessage(cMessage *msg)
     LifecycleController* lifecycleController=new LifecycleController();
     LifecycleOperation::StringMap params;
 
-    EV<<"Next slot arrived." <<endl;
-    EV<<"Flipping a coin." <<endl;
+    EV<<"Next slot arrived. Flipping a coin." <<endl;
     bool coin = bernoulli(p_);
 
     attempts_ ++;
@@ -166,7 +185,7 @@ void ProcUnit::handleSlotBeepMessage(cMessage *msg)
     // if heads comes up
     if(coin)
     {
-        EV<<"Testa. Chiamo la startOperation per trasmettere il broadcast" <<endl;
+        EV<<"Heads. Calling startOperation to turn on radio." <<endl;
         // turn on the interface to allow
         // message broadcast
         ModuleStartOperation *startOperation = new ModuleStartOperation();
@@ -178,7 +197,7 @@ void ProcUnit::handleSlotBeepMessage(cMessage *msg)
 //        delete startOperation;
 
 
-        EV<<"Heads. Broadcasting the message." <<endl;
+        EV<<"Broadcasting the message." <<endl;
         sendPkt((Packet*)broadcast_);
         broadcast_ = nullptr;
 
@@ -190,6 +209,7 @@ void ProcUnit::handleSlotBeepMessage(cMessage *msg)
         // Shutdown is scheduled for the next slot and not
         // called immediately to give the module
         // enough time to send out the whole message
+        EV<<"Scheduling stopOperation for next slot to shut down radio." <<endl;
         scheduleAt(simTime() + slotLength_, opStop_);
 
         //emit(attemptsSignal_, attempts_);
@@ -201,27 +221,30 @@ void ProcUnit::handleSlotBeepMessage(cMessage *msg)
     }
 }
 
+// handle the reception of a self message used
+// to shut down the module and prevent reception
+// and collisions detection when the module should
+// ignore everything
 void ProcUnit::handleStopOperationMessage()
 {
     auto parent=this->getParentModule();
+
+    procUnitStatus_ = SLEEPING;
 
 
     LifecycleController* lifecycleController=new LifecycleController();
     LifecycleOperation::StringMap params;
 
-    EV<<"I am now inside handleStopOperationMessage" <<endl;
+    EV<<"Calling stopOperation to permanently shut down radio." <<endl;
     parent->par("stat")="stop";
 
     ModuleStopOperation *stopOperation = new ModuleStopOperation();
     stopOperation->initialize(parent, params);
     lifecycleController->initiateOperation(stopOperation);
-    //parent->getDisplayString().setTagArg("i2", 0, "status/stop"); //change the mini-icon color
-
 }
 
 void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
 {
-    EV<<"The message name is: " <<msg->getName() <<endl;
     auto parent=this->getParentModule();
 
     // if the message has already been received
@@ -250,6 +273,8 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
         EV<<"Received unknown message type. Ignoring." <<endl;
     }
 }
+
+// prepare and send a Inet.Packet to the out gate
 
 void ProcUnit::sendPkt(Packet *packet)
 {
