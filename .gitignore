@@ -36,3 +36,10 @@
 *.log
 *.toc
 *.synctex.gz
+
+# Simulation output
+*results/*
+*.sca
+*.vec
+*.out
+*.elog
