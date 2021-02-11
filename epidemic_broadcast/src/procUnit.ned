@@ -18,13 +18,19 @@ package epidemic_broadcast;
 //
 // TODO auto-generated module
 //
-
-// a simple module representing the application running on the host
 simple ProcUnit
 {
     parameters:
-         // is 1 if the node is the first to transmit, 0 otherwise
-         int hasInitToken=default(0);
+        // is 1 if the node is the first to transmit, 0 otherwise
+        int hasInitToken=default(0);
+        double slotLength;
+         
+        // probability of success when extracting
+        // the Bernoulli RV
+		double p=default(0);
+         
+//		@signal[attempts](type=double);
+//        @statistic[attemptsStat](source="attempts";record=mean;);
      gates:
          // gates to the network interface
         input in;

@@ -18,6 +18,8 @@
 
 #include <omnetpp.h>
 #include "inet/common/packet/Packet.h"
+#include "host.h"
+
 using namespace omnetpp;
 using namespace inet;
 /**
@@ -25,11 +27,38 @@ using namespace inet;
  */
 class ProcUnit : public cSimpleModule
 {
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
-    // prepare and send a Inet.Packet to the out gate
-    virtual void sendPkt(Packet *packet);
+    private:
+        cMessage* slotBeep_;
+        cMessage* opStop_;
+        cMessage* broadcast_;
+        Status procUnitStatus_;
+
+        double slotLength_;
+        double timeToNextSlot_;
+        long attempts_;
+
+        double p_;
+
+        //signal variables
+        //TODO: fix code to collect statistics
+
+        // number of coin tosses
+        simsignal_t attemptsSignal_;
+        simsignal_t reachSignal_;
+    protected:
+        virtual void initialize();
+        virtual double getTimeToNextSlot();
+        virtual void handleMessage(cMessage *msg);
+        virtual void handleBroadcastMessage(cMessage *msg);
+        virtual void handleSlotBeepMessage(cMessage *msg);
+        virtual void handleStopOperationMessage();
+        // prepare and send a Inet.Packet to the out gate
+        virtual void sendPkt(Packet *packet);
+
+    public:
+        ProcUnit();
+        ~ProcUnit();
+
 };
 
 #endif
