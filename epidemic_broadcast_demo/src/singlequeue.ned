@@ -43,11 +43,14 @@ network SingleQueue
         int numHosts; // number of host in the floorplan
         double height @unit(m); // size of the floorplan
         double width @unit(m);
-        @display("bgb=100m,100m"); 
+        @display("bgb=100m,100m");
         
         
-         @signal[attempts](type="long");
-         @statistic[averageAttempts](title="Average attempts";source="attempts";record=mean;);
+        @signal[usersReached](type="long");
+        @statistic[coverage](title="Percentage of reached users"; source="usersReached"; record=sum);
+        
+        @signal[attempts](type="long");
+        @statistic[averageAttempts](title="Average attempts";source="attempts";record=mean;);
     submodules:
         host[numHosts]: Host { // hosts array
             @display("p=71,144");

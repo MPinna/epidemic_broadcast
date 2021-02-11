@@ -17,6 +17,7 @@
 #include "inet/linklayer/common/MacAddressTag_m.h"
 #include "inet/common/IProtocolRegistrationListener.h"
 #include "inet/common/ProtocolTag_m.h"
+#include "inet/physicallayer/common/packetlevel/Radio.h"
 #include "inet/linklayer/common/InterfaceTag_m.h"
 #include "inet/linklayer/common/MacAddressTag_m.h"
 #include "inet/networklayer/flooding/FloodingHeader_m.h"
@@ -25,7 +26,8 @@
 
 Define_Module(ProcUnit);
 
-    using namespace inet;
+using namespace inet;
+using namespace physicallayer;
 
 
 ProcUnit::ProcUnit()
@@ -56,6 +58,7 @@ void ProcUnit::initialize()
 
     attempts_ = 0;
     //registerSignal("attempts");
+    reachSignal_ = registerSignal("usersReached");
 
     // if is the first node to transmit, create a packet then send it out
     int init=par("hasInitToken");
@@ -93,6 +96,8 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
         // do nothing
         return;
 
+    //Radio* radio = (Radio*)getModuleByPath(".wlan.mac.radio");
+
     // if the msg is a broadcast from the outside
     if(not(msg->isSelfMessage()))
     {
@@ -100,6 +105,7 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
         {
             case(LISTENING):
             {
+//              //emit()
                 EV<<"Broadcast message received while in listening mode. Ok." <<endl;
                 procUnitStatus_ = TRANSMITTING;
                 broadcast_ = msg;
@@ -110,6 +116,8 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
                 timeToNextSlot_ = slotLength_ - fmod(simTime().dbl(), slotLength_);
                 EV<<"Broadcast attempt in " <<timeToNextSlot_ <<" seconds." <<endl;
                 scheduleAt(simTime() + timeToNextSlot_, slotBeep_);
+
+                //radio->setRadioMode(inet::physicallayer::Radio::RADIO_MODE_OFF);
             }
             case(TRANSMITTING):
             {
@@ -133,6 +141,8 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
         // if heads comes up
         if(coin)
         {
+            //radio->setRadioMode(inet::physicallayer::Radio::RADIO_MODE_TRANSMITTER);
+
             EV<<"Heads. Broadcasting the message." <<endl;
             sendPkt((Packet*)broadcast_);
             broadcast_ = nullptr;

@@ -47,6 +47,7 @@ class ProcUnit : public cSimpleModule
         // since it breaks the simulation
         //TODO: fix code to collect statistics
         simsignal_t attemptsSignal_;
+        simsignal_t reachSignal_;
     protected:
         virtual void initialize();
         virtual void handleMessage(cMessage *msg);
