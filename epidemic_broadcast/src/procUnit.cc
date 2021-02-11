@@ -67,15 +67,34 @@ void ProcUnit::initialize()
 
     slotLength_ = par("slotLength");
 
-    attempts_ = 0;
-    //registerSignal("attempts");
-    receptionSignal_ = registerSignal("usersReached");
+    // register signal for total coverage
+    coverageSignal_ = registerSignal("coverage");
+
+    // register signal for coverage as function
+    // of time
+    timeCoverageSignal_ = registerSignal("timeCoverage");
+
+    hostXsignal_ = registerSignal("hostX");
+    hostYsignal_ = registerSignal("hostY");
+
+    double parentX = getModuleByPath("^.mobility")->par("initialX");
+    double parentY = getModuleByPath("^.mobility")->par("initialY");
+
+    emit(hostXsignal_, parentX);
+    emit(hostYsignal_, parentY);
 
     // if it is the first node to transmit,
     // create a packet then send it out
     int init=par("hasInitToken");
     if(init==1){
         procUnitStatus_ = TRANSMITTING;
+
+        // make sure the starter is counted
+        // in the reached users
+        emit(coverageSignal_, 1);
+
+        currentSlot_ = getSlotNumberFromCurrentTime();
+        emit(timeCoverageSignal_, currentSlot_);
 
         // a generic payload, cannot be empty
         auto data = makeShared<ByteCountChunk>(B(1000));
@@ -116,6 +135,12 @@ double ProcUnit::getTimeToNextSlot()
     return slotLength_ - fmod(simTime().dbl(), slotLength_);
 }
 
+int ProcUnit::getSlotNumberFromCurrentTime()
+{
+    int ret = floor(simTime().dbl()/slotLength_ + 1);
+    return ret;
+}
+
 // handle the reception of a broadcast message
 // from the outside
 void ProcUnit::handleBroadcastMessage(cMessage *msg)
@@ -133,6 +158,15 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
         {
 //            emit(receptionSignal_)
             EV<<"Broadcast message received while in listening mode. Ok." <<endl;
+
+            emit(coverageSignal_, 1);
+
+
+            currentSlot_ = getSlotNumberFromCurrentTime();
+            EV<<"Broadcast received during slot n. " <<currentSlot_ <<endl;
+
+            emit(timeCoverageSignal_, currentSlot_);
+
             procUnitStatus_ = TRANSMITTING;
             broadcast_ = msg;
 

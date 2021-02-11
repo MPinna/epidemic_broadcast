@@ -29,8 +29,10 @@ simple ProcUnit
         // the Bernoulli RV
 		double p=default(0);
          
-//		@signal[attempts](type=double);
-//        @statistic[attemptsStat](source="attempts";record=mean;);
+		@signal[hostX](type=double);
+		@signal[hostY](type=double);
+        @statistic[hostXstat](source="hostX"; record = last);
+        @statistic[hostYstat](source="hostY"; record = last);
      gates:
          // gates to the network interface
         input in;

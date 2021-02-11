@@ -42,11 +42,12 @@ network Floorplan
         @display("bgb=100m,100m");
         
         
-        @signal[usersReached](type="long");
-        @statistic[coverage](title="Percentage of reached users"; source="usersReached"; record=sum);
+        @signal[coverage](type="long");
+        @statistic[coverageStat](title="Total number of reached users"; source="coverage"; record=sum);
         
-        @signal[attempts](type="long");
-        @statistic[averageAttempts](title="Average attempts";source="attempts";record=mean;);
+        @signal[timeCoverage](type="int");
+        @statistic[timeCoverageStat](title="Number of reached users during time"; source="timeCoverage"; record=vector);
+        
     submodules:
         host[numHosts]: Host { // hosts array
             @display("p=71,144");

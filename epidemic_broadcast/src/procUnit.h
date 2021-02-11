@@ -49,6 +49,7 @@ class ProcUnit : public cSimpleModule
 
         double slotLength_;
         double timeToNextSlot_;
+        int currentSlot_;
 
         // used during developement process
         // just to check if the average number
@@ -63,12 +64,23 @@ class ProcUnit : public cSimpleModule
         //signal variables
         //TODO: fix code to collect statistics
 
-        // number of coin tosses
-        simsignal_t attemptsSignal_;
-        simsignal_t receptionSignal_;
+
+        // to keep track of the total coverage
+        // at the end of the simulation
+        simsignal_t coverageSignal_;
+
+        // to keep track of the coverage
+        // as function of time
+        simsignal_t timeCoverageSignal_;
+
+        // coordinate of parent host signal
+        simsignal_t hostXsignal_;
+        simsignal_t hostYsignal_;
     protected:
         virtual void initialize();
+
         virtual double getTimeToNextSlot();
+        virtual int getSlotNumberFromCurrentTime();
         virtual void handleMessage(cMessage *msg);
         virtual void handleBroadcastMessage(cMessage *msg);
         virtual void handleSlotBeepMessage(cMessage *msg);
