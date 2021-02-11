@@ -5,23 +5,31 @@
 % Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
-\chapter{Simulator}
-In order to obtain exerimental results for the given scenario, we build a computerized simulator;
-this will allow us to reproduce various comfigurations with different parameters' values.\\
-\section{Omnet++ and INET frameworks}
-OMNeT++ is an extensible, modular, component-based C++ simulation library and framework, 
-primarily for building network simulators \footnote{https://omnetpp.org/}.\\
-INET Framework is an open-source model library for the OMNeT++ simulation environment. 
-It provides protocols, agents and other models for researchers and students working with 
-communication networks. INET is especially useful when designing and validating new protocols, 
-or exploring new or exotic scenarios \footnote{https://omnetpp.org/download-items/INET.html}.\\
-Omnet++ is a library and a framework, and can be used in a dedicated IDE. It permit to export simulation results
-and to inspect simulaton behaviour with a graphic user interface. Exploiting C++ compiler optimizations, can achieve low simulation duration.
-Netowks are composed by modules; there are two types for a module: simple module and compound module (the last one can contain other modules).
-INET is an extension of OMNET++, oriented to recreate a network simulation environment, with the capability to reproduce the activity
-of a wireless communication system across multiple nodes. It contains definition and implemetaton of network related modules.
+\chapter{Simulator}\label{simulator}
+In order to obtain experimental results for the presented scenarios, a simulator
+was built using OMNeT++. This will allow us to reproduce the different scenarios
+with different values for the identified parameters.\\
+\section{Omnet++ and INET framework}
+OMNeT++ is an extensible, modular, component-based C++ simulation library and
+framework, primarily for building network simulators\footnote{https://omnetpp.org/}.\\
+The INET Framework is an open-source model library for the OMNeT++ simulation
+environment. It provides protocols, agents and other predefined models for
+researchers and students working with communication networks. INET is especially
+useful when designing and validating new protocols, or exploring new or exotic
+scenarios\footnote{https://omnetpp.org/download-items/INET.html}.\\
+OMNeT++ is a library and a framework, and can be used with the dedicated IDE.
+Not only it allows for development of the simulator itself, but also to export
+simulation results and to inspect simulation behaviour with a graphical user
+interface. Exploiting C++ compiler optimizations, it can achieve low simulation
+duration. Netowks are composed by modules; there are two types for a module:
+simple module and compound module (the last one can contain other modules).
+INET is an extension of OMNET++, oriented to recreating a network simulation
+environment, with the capability of reproducing the activity of a wireless
+communication system across multiple nodes. It contains ready to use definitions
+and implementations of network related modules.
 \section{Network architecture}
-The network base architecture is composed by an Array of Host modules, a visualizer (Integrated visualizer) and a radioMedium (UnitDiskRadioMedium);
+The network based architecture is composed by an Array of Host modules, a
+visualizer (the Integrated visualizer) and a radioMedium (UnitDiskRadioMedium);
 % TODO: immagine rete
 \begin{itemize}
     \item \textbf{UnitDiskRadioMedium} is a compound module provided by INET. It can reproduce a the behaviour of the wireless communication 
