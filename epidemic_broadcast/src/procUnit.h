@@ -16,9 +16,11 @@
 #ifndef __EPIDEMIC_BROADCAST_PROCUNIT_H_
 #define __EPIDEMIC_BROADCAST_PROCUNIT_H_
 
+#include "host.h"
 #include <omnetpp.h>
 #include "inet/common/packet/Packet.h"
-#include "host.h"
+#include "inet/common/lifecycle/LifecycleController.h"
+#include "inet/common/lifecycle/LifecycleOperation.h"
 
 using namespace omnetpp;
 using namespace inet;
@@ -44,6 +46,9 @@ enum Status {
 class ProcUnit : public cSimpleModule
 {
     private:
+        LifecycleController *lifecycleController;
+        LifecycleOperation::StringMap params;
+
         cMessage* slotBeep_;
         cMessage* opStop_;
         cMessage* broadcast_;

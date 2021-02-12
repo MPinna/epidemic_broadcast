@@ -15,8 +15,6 @@
 
 #include "procUnit.h"
 #include "inet/linklayer/common/MacAddressTag_m.h"
-#include "inet/common/lifecycle/NodeStatus.h"
-#include "inet/common/lifecycle/LifecycleController.h"
 #include "inet/common/IProtocolRegistrationListener.h"
 #include "inet/common/ProtocolTag_m.h"
 #include "inet/physicallayer/common/packetlevel/Radio.h"
@@ -24,7 +22,7 @@
 #include "inet/linklayer/common/MacAddressTag_m.h"
 #include "inet/networklayer/flooding/FloodingHeader_m.h"
 #include "inet/networklayer/ipv4/Ipv4Header_m.h"
-#include <math.h>       /* modf */
+#include <math.h>
 
 Define_Module(ProcUnit);
 
@@ -57,8 +55,8 @@ ProcUnit::~ProcUnit()
  */
 void ProcUnit::initialize()
 {
-    //TODO: declare LifecycleController in constructor
-    // and instantiate it here
+    // instantiate LifecycleController and params
+    lifecycleController = new LifecycleController();
 
     // self message to be sent to implement synchronization with the time slots
     slotBeep_ = new cMessage("beep");
@@ -145,25 +143,20 @@ void ProcUnit::initialize()
 void ProcUnit::sendPkt(Packet *packet)
 {
     // retrieve MacAddresspacket Req
-    auto packetMacAdr = packet->addTag<inet::MacAddressReq>();
+    auto macAddressReq = packet->addTag<inet::MacAddressReq>();
 
     // create new MAC address for broadcast message
     MacAddress *dest = new MacAddress();
     dest->setBroadcast();
 
     // set MAC address
-    packetMacAdr->setDestAddress(*dest);
+    macAddressReq->setDestAddress(*dest);
 
     // send the packet
     send(packet, "out");
-}
 
-// returns the difference between the
-// beginning of the next slot and the
-// current sim_time
-double ProcUnit::getTimeToNextSlot()
-{
-    return slotLength_ - fmod(simTime().dbl(), slotLength_);
+    // log packet sent
+    EV << "Packet sent." << endl;
 }
 
 /**
@@ -175,22 +168,18 @@ int ProcUnit::getSlotNumberFromCurrentTime()
     return ret;
 }
 
-// handle the reception of a broadcast message
-// from the outside
+/**
+ * Handles received broadcast message.
+ */
 void ProcUnit::handleBroadcastMessage(cMessage *msg)
 {
-    auto parent=this->getParentModule();
+    auto parent = this->getParentModule();
 
-    // instantiate LifecycleController and
-    // params to allow for operations
-    LifecycleController* lifecycleController=new LifecycleController();
-    LifecycleOperation::StringMap params;
-
+    // switch on node processing unit status
     switch(procUnitStatus_)
     {
         case(LISTENING):
         {
-//            emit(receptionSignal_)
             EV<<"Broadcast message received while in listening mode. Ok." <<endl;
 
             emit(coverageSignal_, 1);
@@ -234,6 +223,14 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
             break;
         }
     }
+}
+
+// returns the difference between the
+// beginning of the next slot and the
+// current sim_time
+double ProcUnit::getTimeToNextSlot()
+{
+    return slotLength_ - fmod(simTime().dbl(), slotLength_);
 }
 
 // handle the reception of a self message used
