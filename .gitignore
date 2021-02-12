@@ -38,6 +38,7 @@
 *.synctex.gz
 
 # Simulation output
+*.vci
 *.sca
 *.vec
 *.out
