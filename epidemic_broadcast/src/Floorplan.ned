@@ -19,29 +19,30 @@ import inet.physicallayer.unitdisk.UnitDiskRadioMedium;
 import inet.visualizer.integrated.IntegratedVisualizer;
 
 //
+// Represents the2D floorplan with N users randomly dropped in it.
 //
 network Floorplan
 {
     parameters:
-        int numHosts; // number of host in the floorplan
-        double height @unit(m); // size of the floorplan
-        double width @unit(m);
+        int numHosts;				// number of host in the floorplan
+        double height @unit(m);		// height of the floorplan
+        double width @unit(m);		// width of the floorplan
         @display("bgb=100m,100m");
 
         @signal[coverage](type="long");
         @statistic[coverageStat](title="Total number of reached users"; source="coverage"; record=sum);
 
         @signal[timeCoverage](type="int");
-        @statistic[timeCoverageStat](title="Number of reached users during time"; source="timeCoverage"; record=vector);
+        @statistic[timeCoverageStat](title="Number of reached users during each time slot"; source="timeCoverage"; record=vector);
         
     submodules:
-        host[numHosts]: Host { // hosts array
+        host[numHosts]: Host {				// hosts array
             @display("p=71,144");
         }
-        visualizer: IntegratedVisualizer { // manage the visualization of the hosts and more (wave, range, collisions)
+        visualizer: IntegratedVisualizer {	// manages the visualization of the hosts, waves, range, collisions etc...
             @display("p=72,22");
         }
-        radioMedium: UnitDiskRadioMedium { // the radio medium controller
+        radioMedium: UnitDiskRadioMedium {	// the radio medium controller
             @display("p=214,79");
         }
     connections:
