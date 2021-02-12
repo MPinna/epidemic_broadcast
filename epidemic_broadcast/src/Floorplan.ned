@@ -34,7 +34,7 @@ network Floorplan
 
         @signal[timeCoverage](type="int");
         @statistic[timeCoverageStat](title="Number of reached users during each time slot"; source="timeCoverage"; record=vector);
-        
+
     submodules:
         host[numHosts]: Host {				// hosts array
             @display("p=71,144");

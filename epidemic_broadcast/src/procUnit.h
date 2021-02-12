@@ -41,7 +41,8 @@ enum Status {
 };
 
 /**
- * TODO - Generated class
+ * The Processing Unit implements the logic for the behaviour
+ * of each host node.
  */
 class ProcUnit : public cSimpleModule
 {

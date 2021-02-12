@@ -16,18 +16,17 @@
 package epidemic_broadcast;
 
 //
-// TODO auto-generated module
+// The Processing Unit implements the logic for the behaviour of each host node.
 //
 simple ProcUnit
 {
     parameters:
-        // is 1 if the node is the first to transmit, 0 otherwise
-        int hasInitToken=default(0);
+        // set to 1 if the node is the first one to transmit, 0 otherwise
+        int hasInitToken = default(0);
         double slotLength;
          
-        // probability of success when extracting
-        // the Bernoulli RV
-		double p=default(0);
+        // probability of success when extracting Bernoulli RV
+		double p = default(0);
          
 		@signal[hostX](type=double);
 		@signal[hostY](type=double);
