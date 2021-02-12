@@ -38,7 +38,7 @@ visualizer (the Integrated visualizer) and a radioMedium (UnitDiskRadioMedium);
     and events in the graphic user interface.
     \item \textbf{Host} is a compound module representing a node in our network environment. 
 \end{itemize}
-Every Host contains 4 submodules:
+The Host module extends the NodeBase module defined by INET.
 % TODO: immagine interno modulo host
 \begin{itemize}
     \item \textbf{Mobility} module privided by INET manage the position of the parent module (Host); it allow various types of movements,
@@ -46,10 +46,41 @@ Every Host contains 4 submodules:
     \item \textbf{interface Table} module is provided by INET and is required for correct operation of radioMedium module.
     \item \textbf{wlan} module is the wireless interface that allow nodes to communicate with each others. It's a compund module of type 
         \textbf{AckingWirelessInterface}, which is the simplest wireless interface provided by INET.
+    \item \textbf{status} module is provided by INET and is required to shutdown and restart network interfaces.
     \item \textbf{ProcUnit} is the processing unit, that implement the node behaviour when a message arrive. It's connected to
     the wlan module in order to receive and send messages through that.
+    \item energyStorage, energyManagement and energyGenerator are modules inherited from NodeBase but they are not instantiated,
+        because we don't need to model energy related behaviours.
 \end{itemize}
-
-The processing unit realize behaviours of nodes: LISTENING, TRANSMITTING, SLEEPING; it also collect statistics, emitting signals when 
-a message is correctly received and when it's sent out; the wlan module emit a signal every time a collision is detected, than the broken
-message is dropped instead of forwarded to the processing unit. 
+The wlan module check every message for collisions,and drop broken messages instead of forwarding it to the processing unit. 
+The processing unit realize behaviours of nodes; it handle the broadcast message when received, and then retransmit it when 
+the random variable give a positive result. Finally it shut down the network interface, prevent it to receive any message (or collision).
+The network interface is also turned off durign the RV extraction. \\
+\section{Parameters and Statistics}
+During the simulation this signals are emitted and this statistics are collected:
+\begin{itemize}
+    \item The wlan module emit a signal every time a collision is detected; this signal is collected by the \textbf{packetDropIncorrectlyReceived}
+        of the same module; we are intrested in the total (count) number of collisions detected by each node.
+    \item The ProcUnit module emit 2 signal when initialized, hostX and hostY, collected rispectively by \textbf{hostXstat}
+         and \textbf{hostYstat}; those are the coordinates of the parent node in the floorplan.
+    \item The ProcUnit module emit timeCoverage singal, collected by the Flooplan module in the \textbf{timeCoverageStat} statistic;
+        this is a vector, containing the number of the slot when each node has been covered; it's dimension represent the number of 
+        nodes covered at the end of the simulaton.
+    \item The ProcUnit module emit coverage singal, collected by the Flooplan module in the \textbf{coverageStat} statistic; 
+        this sum also represent the number of nodes covered at the end of the simulaton.
+\end{itemize}
+Most significative parameters set up in the initialization file (floorplan.ini) are reported belaw:
+%snapshot del file ini con gli sweep per p ed r, e altri parametri più significativi 
+\section{Design Choises and Optimizations}
+The utilization of INET framework for simulator developement allow us to exploit a pre-builted model for wireless communications;
+for example, collision detection and statistic collection about it is already implemented in INET modules. During the developement
+we choise for every aspect the optimal level of abstraction for owr purpose, but it's possible to model other aspects just 
+changing typse to the INET modules, or adding new ones. We voluntarily omitted phenomena like pathloss and node movement, and we 
+restrict owr considerations to a discrete time scenario, but it will be very easy to model this complex things just changing
+few modules types and attributes. \\
+INET modules have also pre-builted optimizaton structures, that become indispensable when the number of modules become large; in order
+to make the simulator ready for high complex scenarios we used an the \textbf{neighborCache} structure offered by the radioMedium module.
+This module is in charge of store the proximity information of every nodes, in order to speed up messages delivery. Setting the type of this
+module to \texttt{GridNeighborCache} it's possible to reduce the time needed for a simulaton with more than 2000 devices, by a factor of 
+10; we also found that this particulare type of cache (with the right cellSize) is the best trade-off beetween speed and memory occupancy,
+for this type of workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighborCache.html}.  
