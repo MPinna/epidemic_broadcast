@@ -16,6 +16,11 @@
 #ifndef __EPIDEMIC_BROADCAST_HOST_H_
 #define __EPIDEMIC_BROADCAST_HOST_H_
 
+/**
+ * Desired OMNeT log level.
+ */
+#define COMPILETIME_LOGLEVEL LOGLEVEL_DEBUG
+
 #include <omnetpp.h>
 
 using namespace omnetpp;
