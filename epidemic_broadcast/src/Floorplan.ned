@@ -15,24 +15,11 @@
 
 package epidemic_broadcast;
 
-// a lot of imports are just for a rapid reference (by ctrl+click) to inet data structures
-import inet.environment.common.PhysicalEnvironment;
-import inet.linklayer.acking.AckingWirelessInterface;
-import inet.node.base.ApplicationLayerNodeBase;
-import inet.node.base.LinkLayerNodeBase;
-import inet.node.base.NetworkLayerNodeBase;
-import inet.node.base.NodeBase;
-import inet.node.base.TransportLayerNodeBase;
-import inet.node.inet.AdhocHost;
-import inet.node.inet.INetworkNode;
-import inet.node.inet.StandardHost;
-import inet.node.inet.WirelessHost;
 import inet.physicallayer.unitdisk.UnitDiskRadioMedium;
 import inet.visualizer.integrated.IntegratedVisualizer;
-import inet.physicallayer.contract.packetlevel.IRadioMedium;
-import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 
-
+//
+//
 network Floorplan
 {
     parameters:
@@ -40,11 +27,10 @@ network Floorplan
         double height @unit(m); // size of the floorplan
         double width @unit(m);
         @display("bgb=100m,100m");
-        
-        
+
         @signal[coverage](type="long");
         @statistic[coverageStat](title="Total number of reached users"; source="coverage"; record=sum);
-        
+
         @signal[timeCoverage](type="int");
         @statistic[timeCoverageStat](title="Number of reached users during time"; source="timeCoverage"; record=vector);
         
