@@ -107,29 +107,55 @@ void ProcUnit::initialize()
         auto data = makeShared<ByteCountChunk>(B(1000));
 
         // create the INET network packet
-        inet::Packet *packet=new inet::Packet("COVID", data);
+        inet::Packet *packet = new inet::Packet("COVID", data);
 
-        // any supported protocol can be used, but one is needed
+        // any supported protocol can be used, IPv4 was chosen
         packet->addTag<PacketProtocolTag>()->setProtocol(&Protocol::ipv4);
 
-        // create new ipv4 header
+        // create new IPv4 header
         auto ipv4Header = makeShared<Ipv4Header>();
 
-        // insert header into packet
+        // insert header into INET network packet
         packet->insertAtFront(ipv4Header);
 
+        // send packet
         sendPkt(packet);
+
+        // update node processing unit status
         procUnitStatus_ = SLEEPING;
 
         // schedule opStop operation to shut down radio
-        EV<<"opstop to be scheduled at " <<(simTime() + slotLength_) <<endl;
         scheduleAt(simTime() + slotLength_, opStop_);
-    } else {
-        // all the other node should be listening
-        procUnitStatus_ = LISTENING;
-        p_ = par("p");
 
+        // log opStop scheduled
+        EV << "opStop scheduled at " << (simTime() + slotLength_) << endl;
+    } else {
+        // all the other nodes should be listening
+        procUnitStatus_ = LISTENING;
+
+        // load Bernoulli RV success probability parameter
+        p_ = par("p");
     }
+}
+
+/**
+ * Processes and sends the given INET network Packet: the MacAddressReq tag must
+ * be set for the packet, with at least the destination address
+ */
+void ProcUnit::sendPkt(Packet *packet)
+{
+    // retrieve MacAddresspacket Req
+    auto packetMacAdr = packet->addTag<inet::MacAddressReq>();
+
+    // create new MAC address for broadcast message
+    MacAddress *dest = new MacAddress();
+    dest->setBroadcast();
+
+    // set MAC address
+    packetMacAdr->setDestAddress(*dest);
+
+    // send the packet
+    send(packet, "out");
 }
 
 // returns the difference between the
@@ -314,17 +340,4 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
     {
         EV<<"Received unknown message type. Ignoring." <<endl;
     }
-}
-
-// prepare and send a Inet.Packet to the out gate
-
-void ProcUnit::sendPkt(Packet *packet)
-{
-    EV<<"sendPkt called" <<endl;
-    // a MacAddressReq tag must be set, with at least the destination address
-    auto mac = packet->addTag<inet::MacAddressReq>();
-    MacAddress *dest=new MacAddress();
-    dest->setBroadcast(); // it's a broadcast message
-    mac->setDestAddress(*dest);
-    send(packet, "out");
 }
