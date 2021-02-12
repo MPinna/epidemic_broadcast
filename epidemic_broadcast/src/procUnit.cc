@@ -31,49 +31,54 @@ Define_Module(ProcUnit);
 using namespace inet;
 using namespace physicallayer;
 
-
+/**
+ * Sets uninitialized pointers to nullptr in order to avoid crashes
+ * in the destructor even when the initialize() subroutine isn't
+ * called because of a runtime error or user cancellation during the
+ * startup process.
+ */
 ProcUnit::ProcUnit()
-    {
-        // Set the pointer to nullptr, so that the destructor won't crash
-        // even if initialize() doesn't get called because of a runtime
-        // error or user cancellation during the startup process.
-        slotBeep_ = broadcast_= nullptr;
-    }
+{
+    slotBeep_ = broadcast_= nullptr;
+}
 
-
+/**
+ * Disposes dynamically allocated objects.
+ */
 ProcUnit::~ProcUnit()
-    {
-        // Dispose of dynamically allocated the objects
-        cancelAndDelete(slotBeep_);
-        delete broadcast_;
-    }
+{
+    cancelAndDelete(slotBeep_);
+    delete opStop_;
+    delete broadcast_;
+}
 
-
-
+/**
+ * Called after the module creation.
+ */
 void ProcUnit::initialize()
 {
     //TODO: declare LifecycleController in constructor
     // and instantiate it here
 
-    // self message to be sent to implement
-    // syncrhonization to slots
+    // self message to be sent to implement synchronization with the time slots
     slotBeep_ = new cMessage("beep");
 
-    // self message to be sent after sending
-    // a broadcast to trigger stop operation
+    // self message to be sent after broadcasting to trigger stop subroutine
     opStop_ = new cMessage("stop");
 
+    // broadcast message: initialized only by the first node
     broadcast_ = nullptr;
 
+    // load time slot duration parameter
     slotLength_ = par("slotLength");
 
-    // register signal for total coverage
+    // register signal for total coverage statistics
     coverageSignal_ = registerSignal("coverage");
 
-    // register signal for coverage as function
-    // of time
+    // register signal for coverage as function of time statistics
     timeCoverageSignal_ = registerSignal("timeCoverage");
 
+    // register coordinates of parent host signals
     hostXsignal_ = registerSignal("hostX");
     hostYsignal_ = registerSignal("hostY");
 
@@ -83,23 +88,25 @@ void ProcUnit::initialize()
     emit(hostXsignal_, parentX);
     emit(hostYsignal_, parentY);
 
-    // if it is the first node to transmit,
-    // create a packet then send it out
-    int init=par("hasInitToken");
-    if(init==1){
+    // retrieve first node to transmit parameter
+    int init = par("hasInitToken");
+
+    // if this is the first node to transmit, create a packet then send it out
+    if(init == 1) {
+        // update node processing status
         procUnitStatus_ = TRANSMITTING;
 
-        // make sure the starter is counted
-        // in the reached users
+        // make sure the starter node is counted as reached users
         emit(coverageSignal_, 1);
 
+        // retrieve current simulation time slot
         currentSlot_ = getSlotNumberFromCurrentTime();
         emit(timeCoverageSignal_, currentSlot_);
 
-        // a generic payload, cannot be empty
+        // create a generic payload, cannot be empty
         auto data = makeShared<ByteCountChunk>(B(1000));
 
-        // create the packet
+        // create the INET network packet
         inet::Packet *packet=new inet::Packet("COVID", data);
 
         // any supported protocol can be used, but one is needed
@@ -117,9 +124,7 @@ void ProcUnit::initialize()
         // schedule opStop operation to shut down radio
         EV<<"opstop to be scheduled at " <<(simTime() + slotLength_) <<endl;
         scheduleAt(simTime() + slotLength_, opStop_);
-    }
-    else
-    {
+    } else {
         // all the other node should be listening
         procUnitStatus_ = LISTENING;
         p_ = par("p");
@@ -135,6 +140,9 @@ double ProcUnit::getTimeToNextSlot()
     return slotLength_ - fmod(simTime().dbl(), slotLength_);
 }
 
+/**
+ * Returns the slot number based on the current simulation time.
+ */
 int ProcUnit::getSlotNumberFromCurrentTime()
 {
     int ret = floor(simTime().dbl()/slotLength_ + 1);

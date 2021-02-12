@@ -24,5 +24,5 @@ void Host::initialize()
 
 void Host::handleMessage(cMessage *msg)
 {
-
+    // TODO - Generated method body
 }

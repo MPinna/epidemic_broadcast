@@ -1,0 +1,59 @@
+file 3941 1613130710                                            
+version 2
+run small-4-20210212-12:51:50-9941
+attr configname small
+attr datetime 20210212-12:51:50
+attr experiment small
+attr inifile floorplan.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network Floorplan
+attr processid 9941
+attr repetition 4
+attr replication #4
+attr resultdir results
+attr runnumber 4
+attr seedset 4
+param Floorplan.height 10m
+param Floorplan.width 10m
+param Floorplan.host[*].wlan.radio.transmitter.communicationRange 2m
+param Floorplan.host[*].mobility.constraintAreaMaxX 10m
+param Floorplan.host[*].mobility.constraintAreaMaxY 10m
+param Floorplan.numHosts 100
+param Floorplan.host[*].wlan.radio.transmitter.communicationRange 10m
+param Floorplan.host[*].proc.p 0.8
+param Floorplan.height 100m
+param Floorplan.width 100m
+param Floorplan.host[*].mobility.constraintAreaMinX 0m
+param Floorplan.host[*].mobility.constraintAreaMinY 0m
+param Floorplan.host[*].mobility.constraintAreaMinZ 0m
+param Floorplan.host[*].proc.slotLength 1
+param Floorplan.host[*].proc.p 1
+param Floorplan.host[*].hasStatus true
+param Floorplan.host[*].mobility.typename "\"StationaryMobility\""
+param Floorplan.host[*].mobility.initialZ 0m
+param Floorplan.host[0].proc.hasInitToken 1
+param Floorplan.host[0].stat "\"green\""
+param Floorplan*.host[*].wlan.radio.typename "\"UnitDiskRadio\""
+param Floorplan.host[*].**.bitrate 1Mbps
+param Floorplan.radioMedium.mediumLimitCache.maxTransmissionDuration 1s
+param Floorplan.host[*].wlan.radio.receiver.ignoreInterference false
+param Floorplan.host[*].wlan.mac.useAck false
+param Floorplan.host[*].wlan.mac.fullDuplex false
+param Floorplan.radioMedium.propagation.typename "\"ConstantTimePropagation\""
+param Floorplan.radioMedium.rangeFilter "\"communicationRange\""
+param Floorplan.radioMedium.neighborCache.typename "\"GridNeighborCache\""
+param Floorplan*.radioMedium.neighborCache.cellSizeX 1m
+param Floorplan*.radioMedium.neighborCache.cellSizeY 1m
+param Floorplan*.radioMedium.neighborCache.cellSizeZ 0m
+param Floorplan.radioMedium.neighborCache.refillPeriod 10000s
+param Floorplan.visualizer.*.mediumVisualizer.displaySignals true
+param Floorplan.visualizer.*.mediumVisualizer.displayCommunicationRanges true
+param Floorplan.host[*].mobility.initFromDisplayString false
+
+vector 0 Floorplan timeCoverageStat:vector ETV
+attr source timeCoverage
+attr title "Number of reached users during time, vector"
+0	2375 1565 0 5300 0 12.010848 89 1 13 597 5119
+

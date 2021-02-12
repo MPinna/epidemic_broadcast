@@ -22,20 +22,25 @@
 
 using namespace omnetpp;
 using namespace inet;
+
+/**
+ * Represents the node status.
+ */
+enum Status {
+    // the module has not yet received the broadcast message
+    LISTENING,
+
+    // broadcast message received, extracting RV to decide whether
+    // it should transmit or not
+    TRANSMITTING,
+
+    // the module has transmitted the broadcast and will turned off
+    SLEEPING
+};
+
 /**
  * TODO - Generated class
  */
-
-
-// - LISTENING:the module has not yet received a broadcast
-//              message from the outside
-// - TRANSMITTING:  the module has received a broadcast message
-//                  and on each slot will flip a coin
-//                  to decide wheter it should broadcast or not
-// - SLEEPING:      the module has transmitted the broadcast and
-//                  will be sleeping (actually turned off)
-enum Status {LISTENING, TRANSMITTING, SLEEPING};
-
 class ProcUnit : public cSimpleModule
 {
     private:
@@ -43,37 +48,30 @@ class ProcUnit : public cSimpleModule
         cMessage* opStop_;
         cMessage* broadcast_;
 
-        // used to distinguish between
-        // different statuses:
+        // node processing unit status
         Status procUnitStatus_;
 
+        // time slot duration parameter in seconds
         double slotLength_;
         double timeToNextSlot_;
         int currentSlot_;
 
-        // used during developement process
-        // just to check if the average number
-        // of broadcast attempt is consistent
-        // with the value of p
+        // used for debugging purposes to check if the average number
+        // of broadcast attempts is consistent with the value of p
         long attempts_;
 
-        // success probability for the
-        // Bernoulli variable
+        // success probability for the Bernoulli RV
         double p_;
 
-        //signal variables
-        //TODO: fix code to collect statistics
+        // Signal variables to collect statistics //
 
-
-        // to keep track of the total coverage
-        // at the end of the simulation
+        // keeps track of the total coverage at the end of the simulation
         simsignal_t coverageSignal_;
 
-        // to keep track of the coverage
-        // as function of time
+        // keeps track of the coverage as function of time
         simsignal_t timeCoverageSignal_;
 
-        // coordinate of parent host signal
+        // coordinates of parent host signals
         simsignal_t hostXsignal_;
         simsignal_t hostYsignal_;
     protected:

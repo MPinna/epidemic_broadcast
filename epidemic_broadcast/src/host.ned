@@ -21,8 +21,9 @@ import inet.node.inet.INetworkNode;
 import inet.linklayer.acking.AckingWirelessInterface;
 import inet.linklayer.contract.IWirelessInterface;
 import inet.networklayer.common.InterfaceTable;
+
 //
-// minimal implementation of a wireless network node
+// Minimal implementation of a wireless network node.
 //
 module Host extends NodeBase like INetworkNode 
 {
