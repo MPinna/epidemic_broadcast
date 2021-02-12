@@ -45,6 +45,7 @@ ProcUnit::ProcUnit()
  */
 ProcUnit::~ProcUnit()
 {
+    delete lifecycleController;
     cancelAndDelete(slotBeep_);
     cancelAndDelete(opStop_);
     delete broadcast_;
@@ -168,34 +169,23 @@ int ProcUnit::getSlotNumberFromCurrentTime()
     return ret;
 }
 
-void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
+/**
+ * Called by the simulation kernel when the module receives a
+ * message: implements internal logic of the module.
+ */
+void ProcUnit::handleMessage(cMessage *msg)
 {
-    auto parent=this->getParentModule();
-
-    // if the message has already been received
-    if(!strcmp(parent->par("stat"),"stop"))
-        // do nothing
-        return;
-
-    // if the message is a broadcast from the outside
-    if(msg->isName("COVID"))
-    {
+    if (msg->isName("COVID")) {     // handle COVID broadcast message
         handleBroadcastMessage(msg);
     }
-
-    // if the message is a slot sync timer
-    else if(msg->isName("beep"))
-    {
+    else if (msg->isName("beep")) { // handle time slot sync message
         handleSlotBeepMessage(msg);
     }
-    // if the message is a stop operation trigger
-    else if(msg->isName("stop"))
-    {
+    else if (msg->isName("stop")) { // handle opStop trigger message
         handleStopOperationMessage();
     }
-    else
-    {
-        EV_DEBUG<<"Received unknown message type. Ignoring." <<endl;
+    else {
+        EV_DEBUG << "Received unknown message type. Ignoring." << endl;
     }
 }
 
@@ -204,6 +194,7 @@ void ProcUnit::handleMessage(cMessage *msg) // this must take a cMessage
  */
 void ProcUnit::handleBroadcastMessage(cMessage *msg)
 {
+    // retrieve containing module
     auto parent = this->getParentModule();
 
     // switch on node processing unit status
@@ -223,118 +214,97 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
             // emits the long value as a signal
             emit(timeCoverageSignal_, currentSlot_);
 
+            // node processing unit status is not transmitting
             procUnitStatus_ = TRANSMITTING;
-            broadcast_ = msg;
 
-            parent->par("stat")="green";
-            parent->getDisplayString().setTagArg("i2", 0, "status/green"); //change the mini-icon color
+            // broadcast message to be re-transmitted
+            broadcast_ = msg;
 
             timeToNextSlot_ = getTimeToNextSlot();
             EV_DEBUG << "Broadcast attempt at " << timeToNextSlot_ << " seconds." <<endl;
+
+            // schedule starting Bernoulli RV extractions at the next time slot
             scheduleAt(simTime() + timeToNextSlot_, slotBeep_);
 
+            // initiate the process of orderly stopping down a module
             ModuleStopOperation *stopOperation = new ModuleStopOperation();
             stopOperation->initialize(parent, params);
             lifecycleController->initiateOperation(stopOperation);
 
             break;
         }
-
-        // there should be no need anymore for these last
-        // two cases since the procUnit does not
-        // listen for incoming messages anymore
-        // once it has received the broadcast once
-        case(TRANSMITTING):
-        {
-            EV_DEBUG<<"I already received the message, I am ignoring this one." <<endl;
-            break;
-        }
-        case(SLEEPING):
-        {
-            EV_DEBUG<<"I am sleeping, I am ignoring everything." <<endl;
-            break;
-        }
     }
 }
 
-// returns the difference between the
-// beginning of the next slot and the
-// current sim_time
+/**
+ * Returns the difference between the beginning of the next time
+ * slot and the current simulation time.
+ */
 double ProcUnit::getTimeToNextSlot()
 {
     return slotLength_ - fmod(simTime().dbl(), slotLength_);
 }
 
-// handle the reception of a self message used
-// as timer to sync the procUnit with the time slots
+/**
+ * Handles the reception of the self message used as timer to sync the
+ * procUnit with the time slots.
+ */
 void ProcUnit::handleSlotBeepMessage(cMessage *msg)
 {
-    auto parent=this->getParentModule();
+    // retrieve containing module
+    auto parent = this->getParentModule();
 
-    LifecycleController* lifecycleController=new LifecycleController();
-    LifecycleOperation::StringMap params;
+    // flip the coin to decide whether to transmit or not
+    EV_DEBUG << "Next time slot started. Flipping the coin." << endl;
+    bool success = bernoulli(p_);
 
-    EV_DEBUG<<"Next slot arrived. Flipping a coin." <<endl;
-    bool coin = bernoulli(p_);
-
-    attempts_ ++;
-
-    // if heads comes up
-    if(coin)
+    // in case of success
+    if (success)
     {
-        EV_DEBUG<<"Heads. Calling startOperation to turn on radio." <<endl;
-        // turn on the interface to allow
-        // message broadcast
+        EV_DEBUG << "Heads. Calling startOperation to turn on radio." << endl;
+
+        // turn on the radio interface to allow transmission of the message broadcast
         ModuleStartOperation *startOperation = new ModuleStartOperation();
         startOperation->initialize(parent, params);
         lifecycleController->initiateOperation(startOperation);
 
-        // should we delete it too since it
-        // was created with a 'new' ?
-//        delete startOperation;
-
-
-        EV_DEBUG<<"Broadcasting the message." <<endl;
+        // send broadcast message and set to null
+        EV_DEBUG << "Broadcasting the message." << endl;
         sendPkt((Packet*)broadcast_);
         broadcast_ = nullptr;
 
-        EV_DEBUG<<"Message broadcasted. Going to sleep." <<endl;
-        procUnitStatus_ = SLEEPING;
+        // debugging log message
+        EV_DEBUG << "Message broadcasted. Scheduling stop operation." << endl;
 
-        // schedule interface shutdown to avoid
-        // unwanted collision detection
-        // Shutdown is scheduled for the next slot and not
-        // called immediately to give the module
-        // enough time to send out the whole message
-        EV_DEBUG<<"Scheduling stopOperation for next slot to shut down radio." <<endl;
+        // schedule radio interface shutdown for the next time slot and not
+        // to give the module enough time to send out the whole message
+        EV_DEBUG << "Scheduling stopOperation for next time slot to shut down radio." << endl;
         scheduleAt(simTime() + slotLength_, opStop_);
-
-        //emit(attemptsSignal_, attempts_);
     }
-    else
-    {
-        EV_DEBUG<<"Tails. Retrying next slot." <<endl;
+    else {
+        // in case of failure, schedule a new trial for the next time slot
+        EV_DEBUG << "Tails. Retrying next slot." << endl;
         scheduleAt(simTime() + slotLength_, slotBeep_);
     }
 }
 
-// handle the reception of a self message used
-// to shut down the module and prevent reception
-// and collisions detection when the module should
-// ignore everything
+/**
+ * Handle the reception of the self message used to shut down the module
+ * and prevent false positive collisions detection when the module is
+ * actually powered off.
+ */
 void ProcUnit::handleStopOperationMessage()
 {
-    auto parent=this->getParentModule();
+    // retrieve containing module
+    auto parent = this->getParentModule();
 
+    // update node processing unit status
     procUnitStatus_ = SLEEPING;
 
+    // debugging log
+    EV_DEBUG << "Calling stopOperation to permanently shut down module radio interface." << endl;
 
-    LifecycleController* lifecycleController=new LifecycleController();
-    LifecycleOperation::StringMap params;
-
-    EV_DEBUG<<"Calling stopOperation to permanently shut down radio." <<endl;
-    parent->par("stat")="stop";
-
+    // initiate the process of orderly stopping down a module
     ModuleStopOperation *stopOperation = new ModuleStopOperation();
     stopOperation->initialize(parent, params);
     lifecycleController->initiateOperation(stopOperation);

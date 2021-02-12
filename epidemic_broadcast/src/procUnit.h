@@ -61,10 +61,6 @@ class ProcUnit : public cSimpleModule
         double timeToNextSlot_;
         int currentSlot_;
 
-        // used for debugging purposes to check if the average number
-        // of broadcast attempts is consistent with the value of p
-        long attempts_;
-
         // success probability for the Bernoulli RV
         double p_;
 
