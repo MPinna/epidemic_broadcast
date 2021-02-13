@@ -21,7 +21,7 @@ collisionsDF = collisionsDF.groupby(["run", "module"], as_index = False)["value"
 usersDF = collisionsDF.groupby(["module"], as_index = False)["value"].first()
 users = len(usersDF.index)
 collisionsDF = collisionsDF.groupby(["run"], as_index = False)["value"].sum()
-m, l, u = mean_confidence_interval(collisionsDF['value'])
+a, b, c = mean_confidence_interval(collisionsDF['value'])
 
 # percentage of covered users
 coverageDF = df[df['name'] == 'timeCoverageStat:vector']
@@ -29,21 +29,28 @@ coverageDF = coverageDF[['run', 'module', 'name', 'value', 'vectime', 'vecvalue'
 vectimeDF = coverageDF.groupby(["run"], as_index = False)["vectime"].first()
 repetitions = len(vectimeDF.index)
 vecvalueDF = coverageDF.groupby(["run"], as_index = False)["vecvalue"].first()
-totalCoverage = 0
-totalCoverageSlot = 0
+totalCoverage = []
+totalCoverageSlot = []
 for i in range(len(vecvalueDF.index)):
     coverageList = list(map(int, vecvalueDF["vecvalue"][i].split()))
     coverage = len(coverageList)
-    totalCoverage += coverage/float(users)
-    totalCoverageSlot += coverageList[len(coverageList)-1]
-totalCoverageSlot = float(totalCoverageSlot)/float(len(vecvalueDF.index))
+    totalCoverage.append(coverage/float(users))
+    totalCoverageSlot.append(coverageList[len(coverageList)-1])
+
+d, e, f = mean_confidence_interval(totalCoverage)
+g, h, i = mean_confidence_interval(totalCoverageSlot)
 
 print("REPETITIONS: " + str(repetitions))
 print("USERS: " + str(users) + "\n")
-print("COLLISIONS MEAN: " + str(collisionsDF['value'].mean()))
-print("COLLISIONS MEAN CONFIDENCE INTERVAL:")
-print(m)
-print(l)
-print(u)
-print("\nCOVERAGE MEAN: " + str(totalCoverage/len(vecvalueDF.index)))
-print("\nTOTAL BROADCAST TIME: " + str(totalCoverageSlot))
+print("COLLISIONS MEAN:")
+print(a)
+print(b)
+print(c)
+print("\nCOVERAGE MEAN:")
+print(d)
+print(e)
+print(f)
+print("\nTOTAL BROADCAST TIME:")
+print(g)
+print(h)
+print(i)
