@@ -71,9 +71,6 @@ void ProcUnit::initialize()
     // load time slot duration parameter
     slotLength_ = par("slotLength");
 
-    // register signal for total coverage statistics
-    coverageSignal_ = registerSignal("coverage");
-
     // register signal for coverage as function of time statistics
     timeCoverageSignal_ = registerSignal("timeCoverage");
 
@@ -94,9 +91,6 @@ void ProcUnit::initialize()
     if(init == 1) {
         // update node processing status
         procUnitStatus_ = TRANSMITTING;
-
-        // make sure the starter node is counted as reached users
-        emit(coverageSignal_, 1);
 
         // retrieve current simulation time slot
         currentSlot_ = getSlotNumberFromCurrentTime();
@@ -203,9 +197,6 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
         case(LISTENING):
         {
             EV_DEBUG << "Broadcast message received while in listening mode. Ok." << endl;
-
-            // emits the long value as a signal
-            emit(coverageSignal_, 1);
 
             // retrieve time slot number
             currentSlot_ = getSlotNumberFromCurrentTime();

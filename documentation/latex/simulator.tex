@@ -56,7 +56,16 @@ Integrated visualizer (visualizer) and a UnitDiskRadioMedium (radioMedium);
 \end{itemize}
 The \texttt{Host} module extends the NodeBase module defined by INET. This
 module contains the most basic infrastructure for network nodes that is not
-strictly communication protocol related.
+strictly communication protocol related. The following diagram shows usage
+relationships between types:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.26]{img/nodebase.png}
+        \caption{NodeBase Diagram.}
+        \label{fig:single_queue}
+    \end{center}
+    \vspace*{-0.8cm}
+\end{figure}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.35]{img/host.png}
@@ -66,32 +75,51 @@ strictly communication protocol related.
     \vspace*{-0.8cm}
 \end{figure}
 \begin{itemize}
-    \item \textbf{Mobility} module privided by INET manage the position of the parent module (Host); it allow various types of movements,
-        but we are going to use it only for the initial random placement of the nodes, then they will remain static.
-    \item \textbf{interface Table} module is provided by INET and is required for correct operation of radioMedium module.
-    \item \textbf{wlan} module is the wireless interface that allow nodes to communicate with each others. It's a compund module of type 
-        \textbf{AckingWirelessInterface}, which is the simplest wireless interface provided by INET.
-    \item \textbf{status} module is provided by INET and is required to shutdown and restart network interfaces.
-    \item \textbf{ProcUnit} is the processing unit, that implement the node behaviour when a message arrive. It's connected to
-    the wlan module in order to receive and send messages through that.
-    \item energyStorage, energyManagement and energyGenerator are modules inherited from NodeBase but they are not instantiated,
-        because we don't need to model energy related behaviours.
+    \item the \texttt{mobility} module privided by INET manages the position of
+    the parent module \texttt{Host}; it allows various types of movements, but
+    we are going to be using it only for the initial random placement of the
+    nodes, then all nodes will be stationary.
+    \item the \texttt{interfaceTable} module is provided by INET and is required
+    for correct operation of the radioMedium module.
+    \item the \texttt{wlan} module is the wireless interface that allows nodes
+    to communicate with each others. It's an \texttt{AckingWirelessInterface}
+    compound module, which is the simplest wireless interface provided by INET.
+    \item the \texttt{status} module is provided by INET as well and is required
+    to shutdown and restart network interfaces.
+    \item the \texttt{procUnit} module is the custom made processing unit, that
+    implements the node behaviour when a message arrives. It's connected to the
+    \texttt{wlan} module in order to be able to receive and send messages.
+    \item \texttt{energyStorage}, \texttt{energyManagement} and
+    \texttt{energyGenerator} are modules inherited from \texttt{NodeBase} but
+    they are not instantiated as we don't need to model energy related
+    behaviours.
 \end{itemize}
-The wlan module check every message for collisions,and drop broken messages instead of forwarding it to the processing unit. 
-The processing unit realize behaviours of nodes; it handle the broadcast message when received, and then retransmit it when 
-the random variable give a positive result. Finally it shut down the network interface, prevent it to receive any message (or collision).
-The network interface is also turned off durign the RV extraction. \\
+The \texttt{wlan} module is in charge of checking each and every message for
+collisions, and drop broken packets instead of forwarding them to the processing
+unit. The processing unit \texttt{ProcUnit} implements the behaviours of the
+nodes; it handles the broadcast message when received, and then its
+retransmission when the random variable extraction results in a success. Finally
+it shuts down the network interface, preventing it from receiving any messages
+or provoking collisions. The network interface is turned off also for the entire
+duration of the RV extractions.
 \section{Parameters and Statistics}
-During the simulation this signals are emitted and this statistics are collected:
+During the simulation, signals are used to collect the statistics. They are all
+collected by the \texttt{Flooplan} module:
 \begin{itemize}
-    \item The wlan module emit a signal every time a collision is detected; this signal is collected by the \textbf{packetDropIncorrectlyReceived}
-        of the same module; we are intrested in the total (count) number of collisions detected by each node.
-    \item The ProcUnit module emit 2 signal when initialized, hostX and hostY, collected rispectively by \textbf{hostXstat}
-         and \textbf{hostYstat}; those are the coordinates of the parent node in the floorplan.
-    \item The ProcUnit module emit timeCoverage singal, collected by the Flooplan module in the \textbf{timeCoverageStat} statistic;
-        this is a vector, containing the number of the slot when each node has been covered; it's dimension represent the number of 
-        nodes covered at the end of the simulaton.
-    \item The ProcUnit module emit coverage singal, collected by the Flooplan module in the \textbf{coverageStat} statistic; 
+    \item The \texttt{wlan} module emits a signal every time a collision is
+    detected; this signal is collected by the
+    \texttt{packetDropIncorrectlyReceived} statistic of the same module; we are
+    interested in the total number of collisions detected by each node.
+    \item The \texttt{ProcUnit} module emits $2$ signals when initialized,
+    \texttt{hostX} and \texttt{hostY}, collected, respectively, by the
+    \texttt{hostXstat} and \texttt{hostYstat} statistics; those are the
+    coordinates of the parent node in the floorplan.
+    \item The \texttt{ProcUnit} module emits the \texttt{timeCoverage} singal as
+    well, collected in the \texttt{timeCoverageStat} statistic; this is a
+    vector containing, for each node that received the broadcast message, the
+    number of the time slot when the broadcast message was actually received; at
+    the end of the simulation, it's size represents the number of covered nodes.
+    \item The \texttt{ProcUnit} module emits the \texttt{coverage} singal too;, collected by the Flooplan module in the \texttt{coverageStat} statistic; 
         this sum also represent the number of nodes covered at the end of the simulaton.
 \end{itemize}
 Most significative parameters set up in the initialization file (floorplan.ini) are reported belaw:

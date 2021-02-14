@@ -29,9 +29,6 @@ network Floorplan
         double width @unit(m);		// width of the floorplan
         @display("bgb=287,197");
 
-        @signal[coverage](type="long");
-        @statistic[coverageStat](title="Total number of reached users"; source="coverage"; record=sum);
-
         @signal[timeCoverage](type="int");
         @statistic[timeCoverageStat](title="Number of reached users during each time slot"; source="timeCoverage"; record=vector);
 

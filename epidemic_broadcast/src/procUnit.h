@@ -67,9 +67,6 @@ class ProcUnit : public cSimpleModule
 
         // Signal variables to collect statistics //
 
-        // keeps track of the total coverage at the end of the simulation
-        simsignal_t coverageSignal_;
-
         // keeps track of the coverage as function of time
         simsignal_t timeCoverageSignal_;
 
