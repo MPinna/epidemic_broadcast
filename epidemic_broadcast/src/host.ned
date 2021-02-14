@@ -26,12 +26,12 @@ import inet.networklayer.common.InterfaceTable;
 //
 // Minimal implementation of a wireless network node.
 //
-module Host extends NodeBase like INetworkNode 
+module Host extends NodeBase like INetworkNode
 {
     parameters:
         string stat = default("yellow"); // status of the node
         @networkNode;
-        @display("i=device/cellphone;i2=status/$stat");
+        @display("i=device/cellphone;i2=status/$stat;bgb=639.44995,574.875");
 
         // the mobility module of the antenna sub-module is implemented by the 
         // mobility module of the host container
@@ -39,30 +39,30 @@ module Host extends NodeBase like INetworkNode
 
         // inet network interfaces need an interfaceTable
         wlan.interfaceTableModule = default(absPath(".interfaceTable"));
-       
+
     gates:
         input radioIn @directIn; // needed but never used
 
     submodules:
 		// the wireless interface  allows the node to communicate using the radio medium
-        wlan: AckingWirelessInterface { 
+        wlan: AckingWirelessInterface {
             parameters:
-                @display("p=375,616,row,150;q=queue");
+                @display("p=452.025,368.55,row,150;q=queue");
         }
 
         // a simple module representing the application logic running on the host
-        proc: ProcUnit {
-            @display("p=125,240;is=s");
+        procUnit: ProcUnit {
+            @display("p=258.3,251.99998;is=s");
         }
 
-      	// inet network interfaces need an interface table
+        // inet network interfaces need an interface table
         interfaceTable: InterfaceTable {
             parameters:
-                @display("p=334,222;is=s");
+                @display("p=500.84998,66.15;is=s");
         }
     connections:
         // the procesing units actually communicate with each other using the wlan interface
-        proc.in <-- wlan.upperLayerOut;
-        proc.out --> wlan.upperLayerIn;
+        procUnit.in <-- wlan.upperLayerOut;
+        procUnit.out --> wlan.upperLayerIn;
         radioIn --> wlan.radioIn;
 }

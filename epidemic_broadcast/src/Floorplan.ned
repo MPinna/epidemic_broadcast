@@ -27,7 +27,7 @@ network Floorplan
         int numHosts;				// number of host in the floorplan
         double height @unit(m);		// height of the floorplan
         double width @unit(m);		// width of the floorplan
-        @display("bgb=100m,100m");
+        @display("bgb=287,197");
 
         @signal[coverage](type="long");
         @statistic[coverageStat](title="Total number of reached users"; source="coverage"; record=sum);
@@ -37,10 +37,10 @@ network Floorplan
 
     submodules:
         host[numHosts]: Host {				// hosts array
-            @display("p=71,144");
+            @display("p=63,138");
         }
         visualizer: IntegratedVisualizer {	// manages the visualization of the hosts, waves, range, collisions etc...
-            @display("p=72,22");
+            @display("p=64,44");
         }
         radioMedium: UnitDiskRadioMedium {	// the radio medium controller
             @display("p=214,79");

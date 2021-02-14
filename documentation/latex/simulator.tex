@@ -20,26 +20,51 @@ scenarios\footnote{https://omnetpp.org/download-items/INET.html}.\\
 OMNeT++ is a library and a framework, and can be used with the dedicated IDE.
 Not only it allows for development of the simulator itself, but also to export
 simulation results and to inspect simulation behaviour with a graphical user
-interface. Exploiting C++ compiler optimizations, it can achieve low simulation
-duration. Netowks are composed by modules; there are two types for a module:
-simple module and compound module (the last one can contain other modules).
-INET is an extension of OMNET++, oriented to recreating a network simulation
-environment, with the capability of reproducing the activity of a wireless
-communication system across multiple nodes. It contains ready to use definitions
-and implementations of network related modules.
+interface. Exploiting C++ compiler optimizations, it can achieve the lowest
+simulation duration possible. Networks are composed by modules; there are two
+types of modules: simple module and compound module (which can contain other
+modules itself). INET is an extension of OMNeT++, dedicated to recreating 
+network simulation environments, with the capability of reproducing the activity
+of a wireless communication system across multiple nodes. It contains ready to
+use definitions and implementations of network related modules.\\
+\\
+The choice was made to use the INET framework in order to avoid spending too
+much time on the coding side and therefore be able to focus more on other
+aspects such as the problem modeling and analysis.
 \section{Network architecture}
-The network based architecture is composed by an Array of Host modules, a
-visualizer (the Integrated visualizer) and a radioMedium (UnitDiskRadioMedium);
-% TODO: immagine rete
+The network based architecture is composed by an Array of Host modules, an
+Integrated visualizer (visualizer) and a UnitDiskRadioMedium (radioMedium);
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.35]{img/floorplan.png}
+        \caption{Floorplan.ned}
+        \label{fig:single_queue}
+    \end{center}
+    \vspace*{-0.8cm}
+\end{figure}
 \begin{itemize}
-    \item \textbf{UnitDiskRadioMedium} is a compound module provided by INET. It can reproduce a the behaviour of the wireless communication 
-    channel with various levels of abstraction
-    \item \textbf{Integrated visualizer} is a compound module provided by INET. It's resposible for the visual representation of modules properties 
-    and events in the graphic user interface.
-    \item \textbf{Host} is a compound module representing a node in our network environment. 
+    \item \textbf{UnitDiskRadioMedium} is a compound module provided by INET.
+    This radio medium model provides a very simple but fast and predictable
+    physical layer behavior. It must be used in conjunction with the
+    \texttt{UnitDiskRadio} model. It can simulate the behaviour of the wireless
+    communication channel with various levels of abstraction.
+    \item \textbf{Integrated visualizer} is a compound module provided by INET.
+    It's resposible for the visual representation of modules properties and
+    events in the graphic user interface.
+    \item \textbf{Host} is the compound module developer for representing a node
+    in our network environment.
 \end{itemize}
-The Host module extends the NodeBase module defined by INET.
-% TODO: immagine interno modulo host
+The \texttt{Host} module extends the NodeBase module defined by INET. This
+module contains the most basic infrastructure for network nodes that is not
+strictly communication protocol related.
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.35]{img/host.png}
+        \caption{host.ned}
+        \label{fig:single_queue}
+    \end{center}
+    \vspace*{-0.8cm}
+\end{figure}
 \begin{itemize}
     \item \textbf{Mobility} module privided by INET manage the position of the parent module (Host); it allow various types of movements,
         but we are going to use it only for the initial random placement of the nodes, then they will remain static.
