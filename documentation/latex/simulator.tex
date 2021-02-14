@@ -119,21 +119,33 @@ collected by the \texttt{Flooplan} module:
     vector containing, for each node that received the broadcast message, the
     number of the time slot when the broadcast message was actually received; at
     the end of the simulation, it's size represents the number of covered nodes.
-    \item The \texttt{ProcUnit} module emits the \texttt{coverage} singal too;, collected by the Flooplan module in the \texttt{coverageStat} statistic; 
-        this sum also represent the number of nodes covered at the end of the simulaton.
 \end{itemize}
-Most significative parameters set up in the initialization file (floorplan.ini) are reported belaw:
+Most significant parameters set up in the initialization file
+(\texttt{floorplan.ini}) are reported below:
+\begin{itemize}
+    \item \texttt{Floorplan.host[*].procUnit.slotLength = 1}
+    \item \texttt{Floorplan.host[*].procUnit.p = 1}
+\end{itemize}
 %snapshot del file ini con gli sweep per p ed r, e altri parametri più significativi 
-\section{Design Choises and Optimizations}
-The utilization of INET framework for simulator developement allow us to exploit a pre-builted model for wireless communications;
-for example, collision detection and statistic collection about it is already implemented in INET modules. During the developement
-we choise for every aspect the optimal level of abstraction for owr purpose, but it's possible to model other aspects just 
-changing typse to the INET modules, or adding new ones. We voluntarily omitted phenomena like pathloss and node movement, and we 
-restrict owr considerations to a discrete time scenario, but it will be very easy to model this complex things just changing
-few modules types and attributes. \\
-INET modules have also pre-builted optimizaton structures, that become indispensable when the number of modules become large; in order
-to make the simulator ready for high complex scenarios we used an the \textbf{neighborCache} structure offered by the radioMedium module.
-This module is in charge of store the proximity information of every nodes, in order to speed up messages delivery. Setting the type of this
-module to \texttt{GridNeighborCache} it's possible to reduce the time needed for a simulaton with more than 2000 devices, by a factor of 
-10; we also found that this particulare type of cache (with the right cellSize) is the best trade-off beetween speed and memory occupancy,
-for this type of workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighborCache.html}.  
+\section{Design Choices and Optimizations}
+Using the INET framework for the development of the simulator allowed us to
+make use of pre-built modules for modeling wireless communications; for example,
+collision detection and statistics collection is already implemented by INET
+modules. During the development we choose for every aspect the optimal level of
+abstraction for our purposes, but it's possible to model other aspects just 
+changing the types of INET modules used, or by adding new ones. We voluntarily
+avoided taking into account phenomena like pathloss and node movement, and we 
+restricted our considerations to a discrete time scenario. However, modeling
+continuous time scenarios can be done easily by changing few INET modules types
+and attributes.\\
+INET modules have also pre-built optimization structures, that become
+indispensable when the number of hosts become larger; in order to make the
+simulator ready for high complex scenarios we used an the \texttt{neighborCache}
+structure offered by the \texttt{radioMedium} module. This module is in charge
+of storing proximity information of each and every node, in order to speed up
+message delivery. Setting the type of this module to \texttt{GridNeighborCache}
+it's possible to reduce the time needed for a simulaton with more than
+$2000$ devices dropped on the floorplan, by a factor of $10$; we also found that
+this type of cache (with the right value for the \texttt{cellSize} parameter) is
+the best trade-off between speed and memory occupancy, for this type of
+workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighborCache.html}.  
