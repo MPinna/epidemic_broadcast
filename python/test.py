@@ -15,10 +15,10 @@ def lorenz_curve(X):
     ax.plot([0,1], [0,1], color='k')
 
 measurements = np.random.normal(loc = 20, scale = 5, size=100)   
-#stats.probplot(measurements, dist="exp", plot=pylab)
+stats.probplot(measurements, dist="norm", plot=pylab)
 g1=plt.subplot()
 unif=np.random.uniform(0,100,100)
-g1.scatter([0:100],unif, marker='.', color='darkgreen', s=100)
+#g1.scatter([0:100],unif, marker='.', color='darkgreen', s=100)
 #pylab.show()
 
 X = np.append(np.random.poisson(lam=10, size=40), 
