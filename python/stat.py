@@ -21,7 +21,7 @@ def lorenz_curve(X):
                marker='.', color='darkgreen', s=100)
     ## line plot of equality
     ax.plot([0,1], [0,1], color='k')
-df = pd.read_csv('results-500.csv')
+df = pd.read_csv('small04-2.csv')
 
 # average number of collisions
 collisionsDF = df[df['name'] == 'packetDropIncorrectlyReceived:count']
