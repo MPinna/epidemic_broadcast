@@ -1,7 +1,7 @@
 import os
 
-INPUT_DIR = "../epidemic_broadcast/src/results/"  # change accordingly
-OUTPUT_DIR = ""   # change accordingly
+INPUT_DIR = ""  # change accordingly
+OUTPUT_DIR = "csv/"   # change accordingly
 
 SCAVETOOL_PATH = "scavetool" 
 
@@ -9,7 +9,7 @@ SCAVETOOL_PATH = "scavetool"
 CONFIG_NAME = "big"
 
 def getInputFilename(p, r):
-    filename = CONFIG_NAME + "-p\=" + p + ",R\=" + r + "-#" + "*" + ".sca"
+    filename = CONFIG_NAME + "-p=" + p + ",R=" + r + "-#" + "*" + ".sca"
     return filename
 
 def getOutputFilename(p, r):
@@ -23,7 +23,7 @@ for p in range(1, 11, 1):
     pValues.append(str(float(p)/10))
 # print(pValues)
 
-for r in range(1, 2, 1):
+for r in range(1, 20, 1):
     RValues.append(str(r))
 
 for p in pValues:
