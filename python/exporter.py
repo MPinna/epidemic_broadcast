@@ -32,7 +32,7 @@ for p in pValues:
         outputFilename = getOutputFilename(p, r)
         outputPath = OUTPUT_DIR + outputFilename
         inputPath = INPUT_DIR + inputFilename
-        command = SCAVETOOL_PATH + " export -T s -o " + outputPath + " -F CSV-R " + inputPath
+        command = SCAVETOOL_PATH + " export -o " + outputPath + " -F CSV-R " + inputPath
         print("RUNNING: " + command)
         print("Exporting into " + outputPath)
         os.system(command)
