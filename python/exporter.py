@@ -9,7 +9,7 @@ SCAVETOOL_PATH = "scavetool"
 CONFIG_NAME = "big"
 
 def getInputFilename(p, r):
-    filename = CONFIG_NAME + "-p=" + p + ",R=" + r + "-#" + "*" + ".sca"
+    filename = CONFIG_NAME + "-p=" + p + ",R=" + r + "-#" + "*" + ".*"
     return filename
 
 def getOutputFilename(p, r):
