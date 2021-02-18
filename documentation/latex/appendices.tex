@@ -29,85 +29,87 @@ P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
 \\
 As for $P_{i}(j)$ we can model the system as if it was in the first slot, with the total number of active devices now being equal to $N-t$, where $t$ is the number of devices that have transmitted in the $(i\text{-}1)$-th slot.
 
-Therefore, for $i=2$ we have:
-
-\begin{align*}
-    &P_{2}(0)
-    	\begin{aligned}[t]
-    		&= P_{1}(0, N)P_{1}(0, N) + P_{1}(2, N)P_{1}(0, N - 2) + ... + P_{1}(N-1, N)P_{1}(0, 1) = \\
-			&= P_{1}(0, N)P_{1}(0, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(0, N-k) = \\
-			&= \sum_{k=0}^{N-1}P_{1}(k, N-k)P_{1}(0, N) - P_{1}(1, N)P_{1}(0, N-1)
-		\end{aligned}\\
-	&P_{2}(1)
-    	\begin{aligned}[t]
-    		&= P_{1}(0, N)P_{1}(1, N) + P_{1}(2, N)P_{1}(1, N - 2) + ... + P_{1}(N-1, N)P_{1}(1, 1) = \\
-			&= P_{1}(0, N)P_{1}(1, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(1, N-k) = \\
-			&= \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(1, N - k) - P_{1}(1, N)P_{1}(1, N-1)
-		\end{aligned}\\	
-    &P_{2}(2)
-    	\begin{aligned}[t]
-    		&= P_{1}(0, N)P_{1}(2, N) + P_{1}(2, N)P_{1}(2, N - 2) + ... + P_{1}(N-2, N)P_{1}(2, 2) = \\
-			&= P_{1}(0, N)P_{1}(2, N) + \sum_{k=2}^{N-2}P_{1}(k, N)P_{1}(2, N-k) = \\
-			&= \sum_{k=0}^{N-2}P_{1}(k, N)P_{1}(2, N - k) - P_{1}(1, N)P_{1}(2, N-1)
-		\end{aligned}\\	
-	&P_{2}(3) = ... = \sum_{k=0}^{N-3}P_{1}(k, N)P_{1}(3, N - k) - P_{1}(1, N)P_{1}(3, N-1)\\
-	&...\\
-	&P_{2}(N-2) = \sum_{k=0}^{2}P_{1}(k, N)P_{1}(N-2, N - k) - P_{1}(1, N)P_{1}(N-2, N-1)\\
-	&P_{2}(N-1) = \sum_{k=0}^{1}P_{1}(k, N)P_{1}(N-1, N - k) - P_{1}(1, N)P_{1}(N-1, N-1)\\
-	&P_{2}(N) = P_{1}(0, N)P_{1}(N, N)
-\end{align*}
-
-
-which has the general form:
-  \begin{equation}\label{eq:1}
-    P_{2}(j) =
-    \begin{cases*}
-      \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
-      \sum_{k=0}^{N-j}P_{1}(k, N)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-      P_{1}(0, N)P_{1}(N, N) & j = N \\
-    \end{cases*}
-  \end{equation}
-\\
-\\
-where the term with the minus sign is due to the fact that, if only one device transmitted during slot $i$, the target device T will have correctly received the message and therefore, starting from slot $i+1$ onwards, it will not be listening for incoming messages any more but it will be itself transmitting instead.\\
-\\
-%For $i=3$ we have:
+%Therefore, for $i=2$ we have:
 %
 %\begin{align*}
-%	&P_{3}(0) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{2}(1)P_{1}(0, N-1)\\
-%	&P_{3}(1) = \sum_{k=0}^{N-1}P_{2}(k)P_{1}(1, N - k) - P_{2}(1)P_{1}(1, N-1)\\
-%	&P_{3}(2) = \sum_{k=0}^{N-2}P_{2}(k)P_{1}(2, N - k) - P_{2}(1)P_{1}(2, N-1)\\
+%    &P_{2}(0)
+%    	\begin{aligned}[t]
+%    		&= P_{1}(0, N)P_{1}(0, N) + P_{1}(2, N)P_{1}(0, N - 2) + ... + P_{1}(N-1, N)P_{1}(0, 1) = \\
+%			&= P_{1}(0, N)P_{1}(0, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(0, N-k) = \\
+%			&= \sum_{k=0}^{N-1}P_{1}(k, N-k)P_{1}(0, N) - P_{1}(1, N)P_{1}(0, N-1)
+%		\end{aligned}\\
+%	&P_{2}(1)
+%    	\begin{aligned}[t]
+%    		&= P_{1}(0, N)P_{1}(1, N) + P_{1}(2, N)P_{1}(1, N - 2) + ... + P_{1}(N-1, N)P_{1}(1, 1) = \\
+%			&= P_{1}(0, N)P_{1}(1, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(1, N-k) = \\
+%			&= \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(1, N - k) - P_{1}(1, N)P_{1}(1, N-1)
+%		\end{aligned}\\	
+%    &P_{2}(2)
+%    	\begin{aligned}[t]
+%    		&= P_{1}(0, N)P_{1}(2, N) + P_{1}(2, N)P_{1}(2, N - 2) + ... + P_{1}(N-2, N)P_{1}(2, 2) = \\
+%			&= P_{1}(0, N)P_{1}(2, N) + \sum_{k=2}^{N-2}P_{1}(k, N)P_{1}(2, N-k) = \\
+%			&= \sum_{k=0}^{N-2}P_{1}(k, N)P_{1}(2, N - k) - P_{1}(1, N)P_{1}(2, N-1)
+%		\end{aligned}\\	
+%	&P_{2}(3) = ... = \sum_{k=0}^{N-3}P_{1}(k, N)P_{1}(3, N - k) - P_{1}(1, N)P_{1}(3, N-1)\\
 %	&...\\
-%	&P_{3}(N-1) = \sum_{k=0}^{1}P_{2}(k)P_{1}(N-1, N - k) - P_{2}(1)P_{1}(0, N-1)\\
-%	&P_{3}(N) = P_{1}(N, N)P_{1}(N, N) = [P_{1}(N, N)]^{2}
+%	&P_{2}(N-2) = \sum_{k=0}^{2}P_{1}(k, N)P_{1}(N-2, N - k) - P_{1}(1, N)P_{1}(N-2, N-1)\\
+%	&P_{2}(N-1) = \sum_{k=0}^{1}P_{1}(k, N)P_{1}(N-1, N - k) - P_{1}(1, N)P_{1}(N-1, N-1)\\
+%	&P_{2}(N) = P_{1}(0, N)P_{1}(N, N)
 %\end{align*}
-%which has a general form similar to \eqref{eq:1}:
-%  \begin{equation}
-%  \label{eq:2}
-%    P_{3}(j) =
+%
+%
+%which has the general form:
+%  \begin{equation}\label{eq:1}
+%    P_{2}(j) =
 %    \begin{cases*}
-%      \sum_{k=0}^{N-1}P_{2}(k)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
-%      \sum_{k=0}^{N-j}P_{2}(k)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-%      P_{2}(0)P_{1}(N, N) & j = N \\
+%      \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
+%      \sum_{k=0}^{N-j}P_{1}(k, N)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+%      P_{1}(0, N)P_{1}(N, N) & j = N \\
 %    \end{cases*}
 %  \end{equation}
 %\\
 %\\
-%
-%We can further generalize formula \ref{eq:2} to obtain the probability $P_{i}(j)$ we introduced at the beginning:
-%
-%  \begin{equation}
-%  \label{eq:3}
-%    P_{i}(j) =
-%    \begin{cases*}
-%      \sum_{k=0}^{N-1}P_{i-1}(k)P_{1}(0, N - k) - P_{i-1}(1, N)P_{1}(0, N-1) & j = 0 \\
-%      \sum_{k=0}^{N-j}P_{i-1}(k)P_{1}(j, N - k) - P_{i-1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-%      [P_{1}(0, N)]^{i-1}P_{1}(N, N) & j = N \\
-%    \end{cases*}
-%  \end{equation}
+%where the term with the minus sign is due to the fact that, if only one device transmitted during slot $i$, the target device T will have correctly received the message and therefore, starting from slot $i+1$ onwards, it will not be listening for incoming messages any more but it will be itself transmitting instead.\\
 %\\
-\\
+
 \section*{Appendix B}
+
+An example of stochastic matrix for a system with $N=5$ and $p = 0.4$:
+
+
+\begin{equation*}
+P = 
+\begin{bmatrix}
+P_{0,0}	& P_{0,2}	& P_{0,3}  	& P_{0, 4}	& P_{0,S}	& P_{0,5} \\
+		& P_{2,2}	& 0  		& P_{2, 4}	& P_{2,S}	& P_{2,5} \\
+		& 			& P_{3,3}	& 0			& P_{3,S}	& P_{3,5} \\
+		& 			& 			& P_{4,4}	& P_{4,S}	& 0\\
+		& 			& 			& 			& 1			& 0\\
+0		& 			& 		  	& 			& 			& 1\\
+\end{bmatrix}
+\label{exampleMatrix}
+\end{equation*}
+
+\hfill \break
+
+Here with numerical values (rounded to 4 decimal places):
+
+\begin{equation*}
+P = 
+\begin{bmatrix}
+0.0778	& 0.3456	& 0.2304  	& 0.0768	& 0.2592	& 0.0102 \\
+		& 0.216		& 0  		&0.288		& 0.432		& 0.064 \\
+		& 			& 0.36		& 0			& 0.48		& 0.16 \\
+		& 			& 			& 0.6		& 0.4		& 0\\
+		& 			& 			& 			& 1			& 0\\
+0		& 			& 		  	& 			& 			& 1\\
+\end{bmatrix}
+\label{exampleMatrixValues}
+\end{equation*}
+
+\hfill \break
+
+\section*{Appendix C}
 Given a generic convess shape as a floorplan, we can compute it'area ($A$); 
 if we imagine to put a (puntiform) transmitter (trx) in a random point of the floorplan, 
 it's easy to compute the probability for the trx to be located in a given 
