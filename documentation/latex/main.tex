@@ -16,10 +16,10 @@
 
 % configuration to typeset documents in italian
 \usepackage[english]{babel}
-
+\usepackage{import}
 % include graphics in the file
 \usepackage{graphicx}
-
+\usepackage{pgf}
 % used in the dedication environment definition
 \usepackage{afterpage}
 
@@ -57,7 +57,11 @@
     \addtocounter{page}{-1}%
     \newpage
 }
-
+\newcommand\inputpgf[2]{{
+\let\pgfimageWithoutPath\pgfimage
+\renewcommand{\pgfimage}[2][]{\pgfimageWithoutPath[##1]{#1/##2}}
+\input{#1/#2}
+}}
 % dedication environment
 \newenvironment{dedication}
 {
