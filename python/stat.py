@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import math
-
+import sys
 # return the mesurements of the number of collisions
 def read_collisions(file):
     df = pd.read_csv(file, dtype={"name":"string", "count":int})
@@ -21,14 +21,14 @@ def read_collisions(file):
 # return the mesurements of the number of users covered at the end of the simulation
 def read_final_coverage(file):  
     df = pd.read_csv(file, dtype={"name":"string", "count":int})
-    coverageDF = df[df['name'] == 'timeCoverageStat:vector']
-    coverageDF = coverageDF[['run', 'module', 'name', 'value', 'vectime', 'vecvalue']]
-    vecvalueDF = coverageDF.groupby(["run"], as_index = False)["vecvalue"].first()
     collisionsDF = df[df['name'] == 'packetDropIncorrectlyReceived:count']
     collisionsDF = collisionsDF[['run', 'module', 'name', 'value']]
     collisionsDF = collisionsDF.groupby(["run", "module"], as_index = False)["value"].first()
-    collisionsDF = collisionsDF.groupby(["run"], as_index = False)["value"].sum()
     usersDF = collisionsDF.groupby(["module"], as_index = False)["value"].first()
+    collisionsDF = collisionsDF.groupby(["run"], as_index = False)["value"].sum()
+    coverageDF = df[df['name'] == 'timeCoverageStat:vector']
+    coverageDF = coverageDF[['run', 'module', 'name', 'value', 'vectime', 'vecvalue']]
+    vecvalueDF = coverageDF.groupby(["run"], as_index = False)["vecvalue"].first()
     users = len(usersDF.index)
     totalCoverage = []
     for i in range(len(vecvalueDF.index)):
@@ -71,7 +71,7 @@ def median_confidence_interval(array, confidence=0.95):
 
 # drow 2 2D plots with different corves representing the behaveour in funciotn of 2 differents parameters
 # set asim=True if confidence intervals are asimmetric
-def x_y_plots(ylabel, serie, errors, asim=False):
+def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title=""):
     plt.figure(1)
     for j in range(1, 10):
         plt.errorbar(x=np.arange(1,20), y=serie[j-1], yerr=errors[j-1], capsize=3, linestyle="solid",
@@ -82,7 +82,9 @@ def x_y_plots(ylabel, serie, errors, asim=False):
     plt.xlabel("Transmission Range (m)")
     plt.xticks(np.arange(1,20))
     plt.ylabel(ylabel)
+    plt.title(title+" confidence= "+str(confidence*100)+"%")
     plt.figure(2)
+    plt.title(title+" confidence= "+str(confidence*100)+"%")
     for i in range(1, 20):
         if asim:
             err=np.transpose(errors[:,:,i-1])
@@ -134,9 +136,9 @@ def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
     serie=np.array(serie)
     errors=np.array(errors)
     if(ict=="median"):
-        x_y_plots(pki, serie, errors, True)
+        x_y_plots(pki, serie, errors, True, confidence=confidence, title="median values")
     else:
-        x_y_plots(pki, serie, errors)
+        x_y_plots(pki, serie, errors,confidence=confidence, title="mean values")
     plt.show()
 
 # drow an ECDF
@@ -201,9 +203,45 @@ def plot_fit(x, target, objective):
     y = objective(x,  popt)
     plt.plot(x, y, '--')
 
+# print an histogrm and a QQ plot for the given distribution
+def dist_analisis(pki,r, p):
+    data=[]
+    if(pki=="collisions"):
+        data= read_collisions('big_csv/big-p'+str(p)+'R'+str(r)+'.csv')
+    if(pki=="duration (s)"):
+        data= read_duration('big_csv/big-p'+str(p)+'R'+str(r)+'.csv')
+    if(pki=="coverage (%)"):
+        data= read_final_coverage('big_csv/big-p'+str(p)+'R'+str(r)+'.csv')
+    if(len(data)==0):
+        return
+    plt.figure(0)
+    bins= plt.hist(x=data, bins="auto", color='#0504aa', alpha=0.7, rwidth=0.85)
+    plt.grid(axis='y', alpha=0.75)
+    plt.xlabel(pki)
+    if "%" in pki:
+        plt.gca().xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
+    start=bins[1][0]
+    pace=bins[1][1]-start
+    start=(bins[1][1]+start)/2.
+    plt.xticks(np.arange(start, 1,pace))
+    plt.ylabel('Frequency')
+    plt.title('p='+str(p)+' R='+str(r))
+    plt.figure(1)
+    st.probplot(data, dist="norm", plot=plt)
+    plt.title('QQ plot: '+pki+' p='+str(p)+' R='+str(r)+' vs Normal')
+    plt.show()
 
-print_PKI_plots("collisions", "mean", 0.99)
+print("Usage:")
+print("[duration (s) | coverage (%) | collisions] [ mean | median ] [confidence interval (def=0.99)]")
+print(len(sys.argv))
+if(len(sys.argv)==3):
+    print_PKI_plots(str(sys.argv[1]), str(sys.argv[2]), 0.99)
+if(len(sys.argv)==4):
+    print_PKI_plots(sys.argv[1], sys.argv[2], float(sys.argv[3]))
 exit()
+
+#dist_analisis("collisions",11, 0.6)
+#exit()
 # objective function
 #def objective(x,  b, c,d):
 	#return b*np.power(x,2)+c*x+d
