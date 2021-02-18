@@ -30,8 +30,7 @@ of three different states:
 \end{itemize}
 \section{Graph model for wireless systems}
 The $N$ users dropped on the floorplan make up the set of vertices $V$ of a
-graph $G$, whose set of edges $E$ is composed by all the connections between
-each two nodes in reach of one another. Consider the following as a simplified
+graph $G$, whose set of edges $E$ is composed by all the connections between pairs of nodes one in reach of the other. Consider the following as a simplified
 scenario to exemplify this model.
 In figure \ref{fig:graph1} (a) devices A, C and D are within device B
 transmission radius. In the equivalent graph, there will be edges that connect
@@ -179,11 +178,11 @@ with a discrete-time Markov chain (DTMC) as follows:
 \end{figure}
 \noindent Figure \ref{fig:dtmc} shows the DTMC for a generic configuration with
 $N$ transmitters (transition probabilities are not shown for the sake of clarity).\\
-State $0$ and states $2$ to $N$ represent the number of \texttt{transmitting}
-devices, namely devices that have already sent the message and have stopped. 
+State $0$ and states $2$ to $N$ represent the number of \texttt{sleeping}
+devices, namely devices that have already sent the message and have stopped. The number of \texttt{sleeping} devices was chosen over the number of \texttt{transmitting} devices as the former only allows for non-decreasing sequences of states, since a device cannot become active again once it enters the \texttt{sleeping} state.\\
 State $S$ represents the successful transmission state, which the system
 transitions to when only one device has transmitted the message during the
-previous slot.
+previous slot.\\
 The initial state $X_{0}$ is $0$. Any transition from a state $i$ to a state
 $j$, $j \neq S$, means that more than one device has transmitted the message 
 resulting in the target device detecting a collision.
@@ -219,7 +218,7 @@ time slot.\\
 Carrying on with the computation of the transition probabilities this way, leads
 to unsatisfactory results which are difficult to interpret.\\
 \\
-A better way to compute the probability of having $j$ devices transmitting at
+A better way to compute the probability of having $j$ devices sleeping at
 slot $k$, is to use the \textit{stochastic matrix} of the Markov chain. If the
 probability of moving from state $i$ to $j$ in one time slot is
 $Pr(j|i) = P_{i,j}$, the stochastic matrix $P$ is given by using
@@ -239,14 +238,24 @@ P_{N,0}	& P_{N,S}	& P_{N,2}	& \dots		& P_{N,j}	& \dots		& P_{N,N} \\
 \end{equation*}
 \hfill \break
 Since S and N are absorbing states, $P_{S,j}=0$ for j $\neq$ S and $P_{N,j}=0$ for j $\neq$ N.\\
-Moreover, all the possible transitions can only generate a non-decreasing sequence of states, hence $P_{i, j} = 0 $ $ \forall i > j $.\\
-All the other elements of the matrix can be computed using formula \ref{eq:firstSlotTransProb}:
+Moreover, all the possible transitions can only generate a non-decreasing sequence of states and there are no transitions between states that differ by one, hence $P_{i, j} = 0 $ $ \forall i > j $ and $\forall j = i + 1$.\\
+All the other elements of the matrix can be computed using the following formula:
 
- \begin{equation}
-	P_{i,j} = {N-i\choose j} p^{j} (1-p)^{N-i-j}
+\begin{equation}
+	P_{i,j} = {N-i\choose j - i} p^{j - i} (1-p)^{N - j}
 	\label{eq:matrixElementProb}
 \end{equation}
 \hfill \break
+and $P_{i,S}$ is given by:
+
+\begin{equation}
+	P_{i,S} = {N-i\choose 1} p(1-p)^{N - i - 1}
+	\label{eq:matrixProbToS}
+\end{equation}
+\hfill \break
+which is just a particular case of \eqref{eq:matrixElementProb} when $j = i + 1$.
+\hfill \break
+
 Therefore the stochastic matrix becomes:
 
 \begin{equation*}
@@ -306,10 +315,10 @@ Calculating the k-th power of a matrix can be an intensive task from a computati
 P = 
 \begin{bmatrix}
 P_{0,0}	& P_{0,2}	& P_{0,3}  	& \dots	& P_{0, N-1}	& P_{0,S}	& P_{0,N} \\
-		& P_{2,2}	& P_{2,3}  	& \dots	& P_{2, N-1}	& P_{2,S}	& P_{2,N} \\
+		& P_{2,2}	& 0  	& \dots	& P_{2, N-1}	& P_{2,S}	& P_{2,N} \\
 		& 			& P_{3,3}	& \dots	& P_{3, N-1}	& P_{3,S}	& P_{3,N} \\
  		& 			& 			& \ddots& \vdots		& \vdots	& \vdots \\
-		& 			& 			& 		& P_{N-1,N-1}	& P_{N-1,S}	& P_{N-1, N}\\
+		& 			& 			& 		& P_{N-1,N-1}	& P_{N-1,S}	& 0\\
 		& 			& 			& 		& 				& 1			& 0		 \\
 0		& 			& 		  	& 		& 				& 			& 1		 \\
 \end{bmatrix}
