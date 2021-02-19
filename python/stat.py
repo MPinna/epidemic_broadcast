@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import math
 import sys
+import io
 # return the mesurements of the number of collisions
 def read_collisions(file):
     df = pd.read_csv(file, dtype={"name":"string", "count":int})
@@ -231,6 +232,32 @@ def dist_analisis(pki,r, p):
     plt.title('QQ plot: '+pki+' p='+str(p)+' R='+str(r)+' vs Normal')
     plt.show()
 
+def print_sigmoid_parameters(file="sigmoid_parameters.txt"):
+    def sigmoid(x, a,b):
+        return (1+np.tanh((a*x)-b))/2.
+    for j in range(1, 10):
+        y=[]
+        errs=[]
+        for i in range(1, 20):
+            datas= read_final_coverage('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+            mean, err=mean_confidence_interval(datas)
+            y.append(mean)
+            errs.append(err)
+        plt.figure(j)
+        plt.errorbar(x=np.arange(1,20), y=np.array(y), yerr=err, capsize=3, linestyle="solid",
+              marker='s', markersize=3, mfc="black", mec="black")
+
+        popt, _ = op.curve_fit(sigmoid, np.arange(1,20), np.array(y))
+        x_line = np.arange(1,20)
+        a,b = popt
+        # calculate the output for the range
+        y_line = sigmoid(x_line,  a,b)
+        plt.plot(x_line, y_line, '--')
+        with open(file, "a") as f:
+            f.write('p'+str(j/10)+' '+str(a)+" "+str(b)+"\n")
+    plt.show()
+print_sigmoid_parameters()
+exit()
 print("Usage:")
 print("[duration (s) | coverage (%) | collisions] [ mean | median ] [confidence interval (def=0.99)]")
 print(len(sys.argv))
@@ -243,7 +270,7 @@ exit()
 #dist_analisis("collisions",11, 0.6)
 #exit()
 # objective function
-#def objective(x,  b, c,d):
+
 	#return b*np.power(x,2)+c*x+d
 
 #popt, _ = op.curve_fit(objective, np.arange(1,10,1), np.array(serie[:,i-1]))
