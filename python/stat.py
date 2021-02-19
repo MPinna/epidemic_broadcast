@@ -96,6 +96,7 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title=""):
     plt.legend(title="Values of R (m)", loc='upper left', bbox_to_anchor=(1,1))
     plt.xlabel("Bernullian base (P)")
     plt.xticks(np.arange(0.1,1,0.1))
+    plt.xscale("log")
     plt.ylabel(ylabel)
     if "%" in ylabel:
         plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
@@ -253,10 +254,62 @@ def print_sigmoid_parameters(file="sigmoid_parameters.txt"):
         # calculate the output for the range
         y_line = sigmoid(x_line,  a,b)
         plt.plot(x_line, y_line, '--')
+        flex=(b-np.arctanh(1-(2*0.5)))/a
         with open(file, "a") as f:
-            f.write('p'+str(j/10)+' '+str(a)+" "+str(b)+"\n")
+            f.write('p'+str(j/10)+' '+str(a)+" "+str(b)+" flex: "+str(flex)+"\n")
     plt.show()
-print_sigmoid_parameters()
+def print_iperbole_parameters(file="iperbole_parameters.txt"):
+    def iperbole(x, a,b):
+        return (a/x)+b
+    for j in range(1, 20):
+        y=[]
+        errs=[]
+        for i in range(1, 10):
+            datas= read_duration('big_csv/big-p'+str(i/10)+'R'+str(j)+'.csv')
+            mean, err=mean_confidence_interval(datas)
+            y.append(mean)
+            errs.append(err)
+        plt.figure(j)
+        plt.errorbar(x=np.arange(1,10), y=np.array(y), yerr=err, capsize=3, linestyle="solid",
+              marker='s', markersize=3, mfc="black", mec="black")
+
+        popt, _ = op.curve_fit(iperbole, np.arange(1,10), np.array(y))
+        x_line = np.arange(1,20)
+        a,b = popt
+        # calculate the output for the range
+        y_line = iperbole(x_line,  a,b)
+        plt.plot(x_line, y_line, '--')
+        with open(file, "a") as f:
+            f.write('R'+str(j)+' '+str(a)+" "+str(b)+"\n")
+    plt.show()
+
+def print_sec_parameters(file="sec_parameters.txt"):
+    def sec(x, a,b, c): # this is the derivative of the sigmoid, scaled up by a factor c
+        return (a*c)/(np.cosh((2*b)-(2*a*x))+1)
+    for j in range(1, 10):
+        y=[]
+        errs=[]
+        for i in range(1, 20):
+            datas= read_duration('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+            mean, err=mean_confidence_interval(datas)
+            y.append(mean)
+            errs.append(err)
+        plt.figure(j)
+        plt.errorbar(x=np.arange(1,20), y=np.array(y), yerr=err, capsize=3, linestyle="solid",
+              marker='s', markersize=3, mfc="black", mec="black")
+
+        popt, _ = op.curve_fit(sec, np.arange(1,20), np.array(y))
+        x_line = np.arange(1,20)
+        a,b,c= popt
+        # calculate the output for the range
+        y_line = sec(x_line, a,b,c)
+        plt.plot(x_line, y_line, '--')
+        #max=(b-np.arctanh(1-(2*0.5)))/a
+        with open(file, "a") as f:
+            f.write('p'+str(j/10)+' '+str(a)+" "+str(b)+" "+str(c)+"\n")
+    plt.show()
+
+print_sec_parameters()
 exit()
 print("Usage:")
 print("[duration (s) | coverage (%) | collisions] [ mean | median ] [confidence interval (def=0.99)]")
