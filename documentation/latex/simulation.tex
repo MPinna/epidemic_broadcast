@@ -39,9 +39,10 @@ This plot show the coverage achived in function of R, for different values of P.
 \end{figure}
 As we can expect, and accordingly with the previus plot, the final coverage of the flooplan is very
 influenced by the transmission range; in this plot we can observe that the covreage increase exponentially
-in respect to the transmission range. As we can expect, when the transmission range become very large ($>20m$),
+in respect to the transmission range. When the transmission range become very large ($>20m$),
 the coverage tend to 100\%. We recognized the shape of a sigmoid\footnote{https://mathworld.wolfram.com/SigmoidFunction.html} 
-which can be express as an hyperbolic tangent ($ \tanh $); we found a good fit for this function:\\
+which can be express as an hyperbolic tangent ($ \tanh $); this function is always increasing and can be manipulated
+to be keeped between 0 and 1 (like the parameter we want to fit). A good fit for this curve is this one:\\
 \begin{equation*}
     C =  \frac{1+\tanh(aR+b)}{2} 
 \end{equation*} 
@@ -64,11 +65,23 @@ This plot show the Duration of the simulation (in slot) in function of P, for di
     \end{center}
     \vspace*{-1cm}
 \end{figure}
-The simulation needs more slots to complete when P is low; this is a consequence of two factors:%provare a interpolare con a+b/x
+The simulation needs more slots to complete when P is low; this is a consequence of two factors:
 \begin{itemize}
     \item the probability of retransmission is low, so nodes will skip more slots without transmitting;
     \item with less collisions, we can reach more nodes, and we have to wait until they all retrasmit the message once.
 \end{itemize}
+We try to interpolate those curves with an iperbolic function, because it fits well with the parameters we want to mode;
+first of all, the iperbole tends to infinity if P tends to 0, and this is coherent with the reality, because if the probability
+of retransmission is become low, the duration keeps increasing. If instead p become close to 1, the duration tends to a minumun.
+%compute it? todo
+We fit those shapes like this:
+\begin{equation*}  
+    D =  \frac{a}{P}+b 
+\end{equation*}
+with $D$ duration of the simulation, $P$ probability of retransmission, $a$ and $b$ depending on $R$ as:\\
+%vedi iperbole_parameters.txt, primi due non significativi
+PLACEHOLDER\footnote{first two parameters are not possible to compute correctly due to a poor dataset, infact 
+if the trasmission range is too short nodes cant really communicate}\\\\
 This plot show the Duration of the simulation (in slot) in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
@@ -77,7 +90,7 @@ This plot show the Duration of the simulation (in slot) in function of R, for di
     \vspace*{-1cm}
 \end{figure}
 The duration of the simulation tend to increase with the transmission range reaching a peak around 13m; the maximum value 
-depends on the probability of retransmission (p), but the tranmission range at which is reached do not. 
+depends on the probability of retransmission (p);
 This is an intresting result, and can be explained by:?%todo
 \subsection{Collisions}
 This plot show the Number of collisions in function of P, for different values of R.
