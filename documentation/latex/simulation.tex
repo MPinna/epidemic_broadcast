@@ -29,7 +29,7 @@ As we can observe, the coverage we can reach is maximum when P is low; this was 
 probability minimize the number of collisions, increasing the number of correct transmissions. 
 The acheiveble coverage decrease with the increasing of p, but this beahveour is quite slow and
 dont degenerate to 0, but it land at a value around (XX\%) of the bmaximum. %todo
-This shape is common for all the values of the transmission range R, but it's more evident for R$>$10.
+This shape is common for all the values of the transmission range R, but it's more evident for R$>$10.\\\\
 This plot show the coverage achived in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
@@ -40,8 +40,22 @@ This plot show the coverage achived in function of R, for different values of P.
 As we can expect, and accordingly with the previus plot, the final coverage of the flooplan is very
 influenced by the transmission range; in this plot we can observe that the covreage increase exponentially
 in respect to the transmission range. As we can expect, when the transmission range become very large ($>20m$),
-the coverage tend to 100\%; we compute a good fit for this exponential around: %todo
-
+the coverage tend to 100\%. We recognized the shape of a sigmoid\footnote{https://mathworld.wolfram.com/SigmoidFunction.html} 
+which can be express as an hyperbolic tangent ($ \tanh $); we found a good fit for this function:\\
+\begin{equation*}
+    C =  \frac{1+\tanh(aR+b)}{2} 
+\end{equation*} 
+with $C$ coverage, $R$ transmission range, $a$ and $b$ depending on $p$ as:\\
+%p0.1 0.3628314535334378 4.356732935967713
+%p0.2 0.3572920723369711 4.3206795324164835
+%p0.3 0.34371134773480694 4.193385575628803
+%p0.4 0.3217942874156316 3.9814759531755515
+%p0.5 0.3091448275788839 3.88645016495332
+%p0.6 0.2809863550485405 3.6000814495973996
+%p0.7 0.25932462296148107 3.3996924196436975
+%p0.8 0.23603288616377227 3.1648817545125527
+%p0.9 0.20917405109220505 2.929033169711656
+\\
 \subsection{Duration}
 This plot show the Duration of the simulation (in slot) in function of P, for different values of R.
 \begin{figure}[H]
@@ -50,6 +64,11 @@ This plot show the Duration of the simulation (in slot) in function of P, for di
     \end{center}
     \vspace*{-1cm}
 \end{figure}
+The simulation needs more slots to complete when P is low; this is a consequence of two factors:%provare a interpolare con a+b/x
+\begin{itemize}
+    \item the probability of retransmission is low, so nodes will skip more slots without transmitting;
+    \item with less collisions, we can reach more nodes, and we have to wait until they all retrasmit the message once.
+\end{itemize}
 This plot show the Duration of the simulation (in slot) in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
@@ -57,7 +76,9 @@ This plot show the Duration of the simulation (in slot) in function of R, for di
     \end{center}
     \vspace*{-1cm}
 \end{figure}
-
+The duration of the simulation tend to increase with the transmission range reaching a peak around 13m; the maximum value 
+depends on the probability of retransmission (p), but the tranmission range at which is reached do not. 
+This is an intresting result, and can be explained by:?%todo
 \subsection{Collisions}
 This plot show the Number of collisions in function of P, for different values of R.
 \begin{figure}[H]
