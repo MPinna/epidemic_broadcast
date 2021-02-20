@@ -5,25 +5,30 @@
 % Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
-
 \chapter{Simulation}\label{simulation}
-As we previusly described, we decided to consider a population of 100 users in two different scenarios:
+As we previously described, we decided to consider a population of $100$ users
+in two different scenarios:
 \begin{itemize}
-    \item \textbf{Small}: 10mx10m floorplan, with the transmission range going from 1m to 4.5m, with 0.5m steps, and
-        the Bernullian base p going from 0.05 to 0.95 with 0.05 steps; 
-    \item \textbf{Big}: 100mx100m floorplan, with the transmission range going from 1m to 19m, with 1m steps, and
-        the Bernullian base p going from 0.1 to 0.9 with 0.1 steps; 
+    \item \textbf{Small}: a $10$m x $10$m floorplan, with the transmission
+    radius ranging from $1$m to $4.5$m, with a step of $0.5$m, and a Bernullian
+    RV with success probability $p$ ranging from $0.05$ to $0.95$ with steps of
+    $0.05$;
+    \item \textbf{Big}: a $100$m x $100$m floorplan, with the transmission
+    radius ranging from $1$m to $19$m, with a step of $1$m, and a Bernoullian RV
+    with success probability $p$ ranging from $0.1$ to $0.9$ with steps of $0.1$;
 \end{itemize}
-In order to acheive meaningfull results with a minumum accurancy of 90\%, we decide to repeat the same scenario with
-the same parameters for 200 times, and than compute mean and median values from performance indexes, alogn with their confidence intervals.
+In order to achieve statistically significant results with a minimum accuracy of
+$90$\%, we decided to repeat the same scenario with the same parameters for
+$200$ times, and then computed mean and median values of the performance
+indexes, along with their confidence intervals.
 \section{Big}\label{big}
 \subsection{Coverage}
-This plot show the coverage achived in function of P, for different values of R.
+This plot show the coverage achieved in function of P, for different values of R.
 \begin{figure}[H]
     \begin{center}
         \scalebox{0.42}{\import{img}{img/Big_CovP_median.pgf}}
     \end{center}
-    \vspace*{-1cm}
+    \caption{sds}
 \end{figure}
 As we can observe, the coverage we can reach is maximum when P is low; this was predictable by the fact that a low transmission
 probability minimize the number of collisions, increasing the number of correct transmissions. 
@@ -35,7 +40,6 @@ This plot show the coverage achived in function of R, for different values of P.
     \begin{center}
         \scalebox{0.9}{\import{img}{img/Big_CovRange_mean.pgf}}
     \end{center}
-    \vspace*{-1cm}
 \end{figure}
 As we can expect, and accordingly with the previus plot, the final coverage of the flooplan is very
 influenced by the transmission range; in this plot we can observe that the covreage increase exponentially
@@ -63,7 +67,6 @@ This plot show the Duration of the simulation (in slot) in function of P, for di
     \begin{center}
         \scalebox{0.42}{\import{img}{img/Big_DurP_median.pgf}}
     \end{center}
-    \vspace*{-1cm}
 \end{figure}
 The simulation needs more slots to complete when P is low; this is a consequence of two factors:
 \begin{itemize}
@@ -87,7 +90,6 @@ This plot show the Duration of the simulation (in slot) in function of R, for di
     \begin{center}
         \scalebox{0.9}{\import{img}{img/Big_DurRange_mean.pgf}}
     \end{center}
-    \vspace*{-1cm}
 \end{figure}
 The duration of the simulation tend to increase with the transmission range reaching a peak around 13m; the maximum value 
 depends on the probability of retransmission (p);
@@ -98,12 +100,10 @@ This plot show the Number of collisions in function of P, for different values o
     \begin{center}
         \scalebox{0.4}{\import{img}{img/Big_CollP_median.pgf}}
     \end{center}
-    \vspace*{-1cm}
 \end{figure}
 This plot show the Number of collisions in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
         \scalebox{0.69}{\import{img}{img/Big_CollRange_mean.pgf}}
     \end{center}
-    \vspace*{-1cm}
 \end{figure}

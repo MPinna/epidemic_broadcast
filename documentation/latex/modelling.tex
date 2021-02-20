@@ -188,33 +188,34 @@ sequences of states, since a device cannot become active again once it enters
 the \texttt{sleeping} state.\\
 State $S$ represents the successful transmission state, which the system
 transitions to when only one device has transmitted the message during the
-previous slot.\\
+previous time slot.\\
 The initial state $X_{0}$ is $0$. Any transition from a state $i$ to a state
 $j$, $j \neq S$, means that more than one device has transmitted the message 
 resulting in the target device detecting a collision.
 Both state $S$ and state $N$ are \textit{absorbing states}, i.e. states that,
 once entered, cannot be left (as can be seen in Figure \ref{fig:dtmc}, where the
-only outgoing arrow from each of the two goes back to the state itself).\\
+only outgoing arrow from these states goes back to the state itself).\\
 If the system transitions to state $N$, it stays in it indefinitely since all
 the devices would be \texttt{sleeping} and they cannot become active again. This
 implies that there will never be total coverage since the target device will
-forever stay in a \texttt{listening} state without ever receiving the message.
+forever stay in the \texttt{listening} state without ever receiving the message.
 On the other hand, state $S$, although being an absorbing state as well, should
 actually be considered as an "exit" state rather than a "sink" state: if the
 system transitions to this state, the target device has successfully received
 the message: total coverage has been reached.\\
-Another interesting observation concerns state $N - 1$: once the system reaches
-this state, it would be guaranteed that the target device will sooner or later
-receive the message, for the same reason set forth in \ref{ssec:singlequeue}.
+Another interesting observation concerns state $N - 1$: if the system reaches
+this state, as there is one and only one remaining node which can transmit, it
+is guaranteed that the target device will sooner or later receive the message,
+for the same reason set forth in \ref{ssec:singlequeue}.
 \subsubsection{Transition probabilities}
 Let us now address the challenging part: computing the transition probability.\\
 During the first slot, the probability that $j$ devices out of $N$ transmit
-the message is the following:
+the message is given by:
 \begin{equation}
-	P_{1}(j, N) = {N \choose j} p^{j} (1 - p)^{N - j}
-	\label{eq:firstSlotTransProb}
+    P_{1}(j, N) = {N \choose j} p^{j} (1 - p)^{N - j}
+    \label{eq:firstSlotTransProb}
 \end{equation}
-Derivation of \ref{eq:firstSlotTransProb} can be found in Appendix A.\\
+Derivation of ($3.4$) can be found in Appendix A [\ref{app:a}].\\
 \\
 As for the probability of $j$ devices transmitting at the same time during slot
 $k$, be it $P_{k}(j)$, we can model the system as if it was in the first slot,
@@ -242,28 +243,23 @@ P_{N,0}	& P_{N,S}	& P_{N,2}	& \dots		& P_{N,j}	& \dots		& P_{N,N} \\
 \end{bmatrix}
 \label{stochasticMatrix1}
 \end{equation*}
-\hfill \break
-Since S and N are absorbing states, $P_{S,j}=0$ for j $\neq$ S and $P_{N,j}=0$ for j $\neq$ N.\\
-Moreover, all the possible transitions can only generate a non-decreasing sequence of states and there are no transitions between states that differ by one, hence $P_{i, j} = 0 $ $ \forall i > j $ and $\forall j = i + 1$.\\
+Since S and N are absorbing states, $P_{S,j}=0$ for j $\neq$ S and $P_{N,j} = 0$
+for $j \neq N$.\\
+Moreover, all the possible transitions can only generate a non-decreasing
+sequence of states and there are no transitions between states that differ by
+one, hence $P_{i, j} = 0 \forall i > j$ and $\forall j = i + 1$.\\
 All the other elements of the matrix can be computed using the following formula:
-
 \begin{equation}
-	P_{i,j} = {N-i\choose j - i} p^{j - i} (1-p)^{N - j}
-	\label{eq:matrixElementProb}
+    P_{i,j} = {N-i\choose j - i} p^{j - i} (1-p)^{N - j}
+    \label{eq:matrixElementProb}
 \end{equation}
-\hfill \break
 and $P_{i,S}$ is given by:
-
 \begin{equation}
-	P_{i,S} = {N-i\choose 1} p(1-p)^{N - i - 1}
-	\label{eq:matrixProbToS}
+    P_{i,S} = {N-i\choose 1} p(1-p)^{N - i - 1}
+    \label{eq:matrixProbToS}
 \end{equation}
-\hfill \break
-which is just a particular case of \eqref{eq:matrixElementProb} when $j = i + 1$.
-\hfill \break
-
+which is just a particular case of \eqref{eq:matrixElementProb} when $j = i + 1$.\\
 Therefore the stochastic matrix becomes:
-
 \begin{equation*}
 P = 
 \begin{bmatrix}
@@ -277,16 +273,16 @@ P_{0,0}	& P_{0,S}	& P_{0,2}	& \dots  	& P_{0,j}	& \dots		& P_{0,N} \\
 \end{bmatrix}
 \label{stochasticMatrix2}
 \end{equation*}
-\hfill \break
-Let $x_{0}$ be the \textit{initial state vector}, i.e. an $N \times 1$ vector that describes the probability distribution of starting at each of the N possible states.\\
-To compute the probability of transitioning to state $j$ in \textbf{k} steps, it is now sufficient to multiply the initial state vector $x_{0}$ by the stochastic matrix raised to the k-th power, e.g.
-
+Let $x_{0}$ be the \textit{initial state vector}, i.e. an $N \times 1$ vector
+that describes the probability distribution of starting at each of the $N$
+possible states.\\
+To compute the probability of transitioning to state $j$ in \textbf{k} steps, it
+is now sufficient to multiply the initial state vector $x_{0}$ by the stochastic
+matrix raised to the $k$-th power, e.g.
 \begin{equation}\label{probAtStateK1}
 P_{k}(j) = x_{0}\cdot P^{k}
 \end{equation}
-\hfill \break
 In our case, the system always starts in state 0, so we have
-
 \begin{equation*}
 x_{0} = 
 \begin{bmatrix}
@@ -298,9 +294,7 @@ x_{0} =
 \end{bmatrix}
 \label{initialStateVector}
 \end{equation*}
-\hfill \break
 which yields
-
 \begin{equation}
 P_{k}(j) = 
 \begin{bmatrix}
@@ -313,10 +307,10 @@ P_{k}(j) =
 \cdot P^{k} = (P^{k})_{0,j}
 \label{eq:Pk_of_j}
 \end{equation}
-\hfill \break
-
-Calculating the k-th power of a matrix can be an intensive task from a computational point of view. To improve the complexity of the computation, rows and columns of P can be rearranged, moving the S row and the S column as penultimate, thus obtaining
-
+Calculating the $k$-th power of a matrix can be an intensive task from a
+computational point of view. To improve the complexity of the computation, rows
+and columns of P can be rearranged, moving the S row and the S column as
+penultimate, thus obtaining
 \begin{equation*}
 P = 
 \begin{bmatrix}
@@ -330,9 +324,5 @@ P_{0,0}	& P_{0,2}	& P_{0,3}  	& \dots	& P_{0, N-1}	& P_{0,S}	& P_{0,N} \\
 \end{bmatrix}
 \label{triangularPMatrix}
 \end{equation*}
-\hfill \break
-
-P is now an upper triangular matrix and this allows for faster computation of its powers in \ref{eq:Pk_of_j} .
-
-
-%TODO add something about the number of collisions maybe?
+$P$ is now an upper triangular matrix and this allows for faster computation of
+its powers in \ref{eq:Pk_of_j}.

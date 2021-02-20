@@ -7,8 +7,9 @@
 %-------------------------------------------------------------------------------
 \chapter{Simulator}\label{simulator}
 In order to obtain experimental results for the presented scenarios, a simulator
-was built using OMNeT++. This will allow us to reproduce the different scenarios
-with different values for the identified parameters.\\
+was built using OMNeT++ with the support of the INET framework. This allowed us
+to reproduce the different scenarios, presented in the previous chapters, with
+different values for the identified parameters.\\
 \section{Omnet++ and INET framework}
 OMNeT++ is an extensible, modular, component-based C++ simulation library and
 framework, primarily for building network simulators\footnote{https://omnetpp.org/}.\\
@@ -17,17 +18,18 @@ environment. It provides protocols, agents and other predefined models for
 researchers and students working with communication networks. INET is especially
 useful when designing and validating new protocols, or exploring new or exotic
 scenarios\footnote{https://omnetpp.org/download-items/INET.html}.\\
+\\
 OMNeT++ is a library and a framework, and can be used with the dedicated IDE.
 Not only it allows for development of the simulator itself, but also to export
 simulation results and to inspect simulation behaviour with a graphical user
 interface. Exploiting C++ compiler optimizations, it can achieve the lowest
 simulation duration possible. Networks are composed by modules; there are two
 types of modules: simple module and compound module (which can contain other
-modules itself). INET is an extension of OMNeT++, dedicated to recreating 
+modules itself).
+INET, on the other hand, is an extension of OMNeT++, dedicated to recreating 
 network simulation environments, with the capability of reproducing the activity
 of a wireless communication system across multiple nodes. It contains ready to
 use definitions and implementations of network related modules.\\
-\\
 The choice was made to use the INET framework in order to avoid spending too
 much time on the coding side and therefore be able to focus more on other
 aspects such as the problem modeling and analysis.

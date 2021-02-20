@@ -6,77 +6,76 @@
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
 \chapter{Appendices}
-
-\section*{Appendix A}
-Given a scenario with $N$ transmitter devices and a target device $T$ in reach of all the transmitters, let us define the probabilities $P_{1}(j, N)$ as the probability of $j$ devices out of $N$ transmitting at the same time during slot 1 and $P_{i}(j)$ as the probability of $j$ devices transmitting at the same time during slot $i$.\\
-By specification, the successful reception of the message by device T happens if and only if \textbf{one} of the transmitters sends the message during the slot.
-Furthermore, the successful transmission of a device is ``\textit{a Bernoullian RV with success probability \emph{p} on every slot, until it achieves success}"; therefore we can model $P_{1}(j, N)$ as 
-follows:
-
+\section{Appendix A}
+\label{app:a}
+Given a scenario with $N$ transmitter devices and one target device $T$ in reach
+by all of the transmitter devices, let us define the probabilities $P_{1}(j, N)$
+as the probability of $j$ devices out of $N$ transmitting at the same time
+during the time slot $1$ and $P_{i}(j)$ as the probability of $j$ devices
+transmitting at the same time during slot $i$.\\
+By specification, the successful reception of the message by device $T$ occurs
+when \textbf{one} and only one of the transmitters sends the message during the
+time slot. Furthermore, the successful transmission of a device is
+"\textit{a Bernoullian RV with success probability \emph{p} on every slot, until
+it achieves success}". Therefore, we can model $P_{1}(j, N)$ as follows:
 \[
 \begin{drcases}
     &P_{1}(0, N) = (1-p)^{N} \\
     &P_{1}(1, N) = N p(1-p)^{N-1}\\
     &P_{1}(2, N) = {N\choose2}p^{2}(1-p)^{N-2}\\
-	&P_{1}(3, N) = {N\choose3}p^{3}(1-p)^{N-3}\\
-	&...\\
-	&P_{1}(N-1, N) = {N\choose N-1}p^{N-1}(1-p)\\
-	&P_{1}(N, N) = {N\choose N}p^{N}\\
+    &P_{1}(3, N) = {N\choose3}p^{3}(1-p)^{N-3}\\
+    &...\\
+    &P_{1}(N-1, N) = {N\choose N-1}p^{N-1}(1-p)\\
+    &P_{1}(N, N) = {N\choose N}p^{N}\\
 \end{drcases}
 P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
 \]
-\\
-\\
-As for $P_{i}(j)$ we can model the system as if it was in the first slot, with the total number of active devices now being equal to $N-t$, where $t$ is the number of devices that have transmitted in the $(i\text{-}1)$-th slot.
-
-%Therefore, for $i=2$ we have:
-%
-%\begin{align*}
-%    &P_{2}(0)
-%    	\begin{aligned}[t]
-%    		&= P_{1}(0, N)P_{1}(0, N) + P_{1}(2, N)P_{1}(0, N - 2) + ... + P_{1}(N-1, N)P_{1}(0, 1) = \\
-%			&= P_{1}(0, N)P_{1}(0, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(0, N-k) = \\
-%			&= \sum_{k=0}^{N-1}P_{1}(k, N-k)P_{1}(0, N) - P_{1}(1, N)P_{1}(0, N-1)
-%		\end{aligned}\\
-%	&P_{2}(1)
-%    	\begin{aligned}[t]
-%    		&= P_{1}(0, N)P_{1}(1, N) + P_{1}(2, N)P_{1}(1, N - 2) + ... + P_{1}(N-1, N)P_{1}(1, 1) = \\
-%			&= P_{1}(0, N)P_{1}(1, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(1, N-k) = \\
-%			&= \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(1, N - k) - P_{1}(1, N)P_{1}(1, N-1)
-%		\end{aligned}\\	
-%    &P_{2}(2)
-%    	\begin{aligned}[t]
-%    		&= P_{1}(0, N)P_{1}(2, N) + P_{1}(2, N)P_{1}(2, N - 2) + ... + P_{1}(N-2, N)P_{1}(2, 2) = \\
-%			&= P_{1}(0, N)P_{1}(2, N) + \sum_{k=2}^{N-2}P_{1}(k, N)P_{1}(2, N-k) = \\
-%			&= \sum_{k=0}^{N-2}P_{1}(k, N)P_{1}(2, N - k) - P_{1}(1, N)P_{1}(2, N-1)
-%		\end{aligned}\\	
-%	&P_{2}(3) = ... = \sum_{k=0}^{N-3}P_{1}(k, N)P_{1}(3, N - k) - P_{1}(1, N)P_{1}(3, N-1)\\
-%	&...\\
-%	&P_{2}(N-2) = \sum_{k=0}^{2}P_{1}(k, N)P_{1}(N-2, N - k) - P_{1}(1, N)P_{1}(N-2, N-1)\\
-%	&P_{2}(N-1) = \sum_{k=0}^{1}P_{1}(k, N)P_{1}(N-1, N - k) - P_{1}(1, N)P_{1}(N-1, N-1)\\
-%	&P_{2}(N) = P_{1}(0, N)P_{1}(N, N)
-%\end{align*}
-%
-%
-%which has the general form:
-%  \begin{equation}\label{eq:1}
-%    P_{2}(j) =
-%    \begin{cases*}
-%      \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
-%      \sum_{k=0}^{N-j}P_{1}(k, N)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-%      P_{1}(0, N)P_{1}(N, N) & j = N \\
-%    \end{cases*}
-%  \end{equation}
-%\\
-%\\
-%where the term with the minus sign is due to the fact that, if only one device transmitted during slot $i$, the target device T will have correctly received the message and therefore, starting from slot $i+1$ onwards, it will not be listening for incoming messages any more but it will be itself transmitting instead.\\
-%\\
-
-\section*{Appendix B}
-
-An example of stochastic matrix for a system with $N=5$ and $p = 0.4$:
-
-
+As for $P_{i}(j)$ we can model the system as if it was in the first time slot,
+with the total number of active devices now being equal to $N - t$, where
+$t$ is the number of devices that have transmitted in the $(i - 1)$-th slot.\\
+Therefore, for $i=2$ we have:
+\begin{align*}
+    &P_{2}(0)
+        \begin{aligned}[t]
+            &= P_{1}(0, N)P_{1}(0, N) + P_{1}(2, N)P_{1}(0, N - 2) + ... + P_{1}(N-1, N)P_{1}(0, 1) = \\
+            &= P_{1}(0, N)P_{1}(0, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(0, N-k) = \\
+            &= \sum_{k=0}^{N-1}P_{1}(k, N-k)P_{1}(0, N) - P_{1}(1, N)P_{1}(0, N-1)
+        \end{aligned}\\
+    &P_{2}(1)
+        \begin{aligned}[t]
+            &= P_{1}(0, N)P_{1}(1, N) + P_{1}(2, N)P_{1}(1, N - 2) + ... + P_{1}(N-1, N)P_{1}(1, 1) = \\
+            &= P_{1}(0, N)P_{1}(1, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(1, N-k) = \\
+            &= \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(1, N - k) - P_{1}(1, N)P_{1}(1, N-1)
+        \end{aligned}\\	
+    &P_{2}(2)
+        \begin{aligned}[t]
+            &= P_{1}(0, N)P_{1}(2, N) + P_{1}(2, N)P_{1}(2, N - 2) + ... + P_{1}(N-2, N)P_{1}(2, 2) = \\
+            &= P_{1}(0, N)P_{1}(2, N) + \sum_{k=2}^{N-2}P_{1}(k, N)P_{1}(2, N-k) = \\
+            &= \sum_{k=0}^{N-2}P_{1}(k, N)P_{1}(2, N - k) - P_{1}(1, N)P_{1}(2, N-1)
+        \end{aligned}\\	
+    &P_{2}(3) = ... = \sum_{k=0}^{N-3}P_{1}(k, N)P_{1}(3, N - k) - P_{1}(1, N)P_{1}(3, N-1)\\
+    &...\\
+    &P_{2}(N-2) = \sum_{k=0}^{2}P_{1}(k, N)P_{1}(N-2, N - k) - P_{1}(1, N)P_{1}(N-2, N-1)\\
+    &P_{2}(N-1) = \sum_{k=0}^{1}P_{1}(k, N)P_{1}(N-1, N - k) - P_{1}(1, N)P_{1}(N-1, N-1)\\
+    &P_{2}(N) = P_{1}(0, N)P_{1}(N, N)
+\end{align*}
+which has the general form:
+\begin{equation}\label{eq:1}
+    P_{2}(j) =
+    \begin{cases*}
+        \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
+        \sum_{k=0}^{N-j}P_{1}(k, N)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
+        P_{1}(0, N)P_{1}(N, N) & j = N \\
+    \end{cases*}
+\end{equation}
+where the term with the minus sign is due to the fact that, if only one device
+transmitted during slot $i$, the target device $T$ will have correctly received
+the message and therefore, starting from slot $i+1$ onwards, it will not be
+listening for incoming messages any more but it will be itself transmitting
+instead.
+\newpage
+\section{Appendix B}
+An example of stochastic matrix for a system with $N = 5$ and $p = 0.4$:
 \begin{equation*}
 P = 
 \begin{bmatrix}
@@ -89,11 +88,7 @@ P_{0,0}	& P_{0,2}	& P_{0,3}  	& P_{0, 4}	& P_{0,S}	& P_{0,5} \\
 \end{bmatrix}
 \label{exampleMatrix}
 \end{equation*}
-
-\hfill \break
-
 Here with numerical values (rounded to 4 decimal places):
-
 \begin{equation*}
 P = 
 \begin{bmatrix}
@@ -106,47 +101,53 @@ P =
 \end{bmatrix}
 \label{exampleMatrixValues}
 \end{equation*}
-
-\hfill \break
-
-\section*{Appendix C}
-Given a generic convess shape as a floorplan, we can compute it'area ($A$); 
-if we imagine to put a (puntiform) transmitter (trx) in a random point of the floorplan, 
-it's easy to compute the probability for the trx to be located in a given 
-point \textit{x} as:
+\newpage
+\section{Appendix C}
+Given a generic convex shape as floorplan, we can compute its area ($A$); if we
+imagine placing a point mass transmitter (\texttt{trx}) in a random point of
+such floorplan, it is easy to compute the probability for \texttt{trx} to be
+located in a given point \textit{x} as:
 \begin{equation*}
-  P(x)=1/A
+    P(x) = 1/A
 \end{equation*}
-Given that the trasmssion raduis in $r$, we can define a circle centered in x, 
-as the transmission range of the first trx ($R$). If the trx in far enough from 
-the border of the floorplan, all it's transmission range fall into the floorplan; 
-in this case, the probability for another (random positioned) trx to be placed 
-inside this transmission range is equal to:
+Given that the transmission radius in $r$, we can define a circle centered in x, 
+as the transmission range of the first \texttt{trx} ($R$). If the \texttt{trx}
+in far enough from the border of the floorplan, all it's transmission range fall
+into the floorplan; in this case, the probability for another (random
+positioned) \texttt{trx} to be placed inside this transmission range is equal to:
 \begin{equation*}
-  P(x') = \int_{R}^{} P(x)= \frac{2\pi r^2}{A} \ 
+    P(x') = \int_{R}^{} P(x)= \frac{2\pi r^2}{A} \ 
 \end{equation*}
-If the firts trx is placed at a distance less than $r$ from one or more borders of the floorplan,
-the probaility to randomly place another trx in it's range is less than the previous case; this is 
-because part of the area of the transmission range will fall out of the floorplan, and,
-by construction, trxs can't be placed there. 
-Depending on the floorplan' shape, we can identify the partition of the shape where the transmission range
-will fall out of the shape itself, and we will do specific computatin for this area;
-In general, by the middle value theorem for integrals, and the total probability theorem, the probailiy
-for 2 transmitters (let $x$ and $y$ be their coordinates) randomly placed to be close enough to communicate it's:
+If the first \texttt{trx} device is placed at a distance less than $r$ from one
+or more borders of the floorplan, the probability of randomly placing another
+\texttt{trx} device in its range is less than in the previous case; this is
+because part of the area of the transmission range will fall out of the
+floorplan and, by construction, \texttt{trx} devices can't be placed there. 
+Depending on the floorplan' shape, we can identify the partition of the shape
+where the transmission range will fall out of the shape itself, and we will do
+specific computation for this area.\\
+In general, by the middle value theorem for integrals, and the total probability
+theorem, the probailiy for $2$ transmitters (let $x$ and $y$ be their
+coordinates) randomly placed to be close enough to be able to communicate is:
 \begin{equation*}
-  \rho =P(|x-y|<r) = \frac{1}{A} \int_{A}^{} P(x') \ 
+    \rho = P(|x-y|<r) = \frac{1}{A} \int_{A}^{} P(x')
 \end{equation*}
-Since we know that $P(x')$ is not constant for all the area of the shape, this integral might be difficult to compute,
-even for a square floorplan; in any case it's value, it's constant for a given floorplan and a given $r$.
-Taking in to consideration only one trx, we can compute the probability density function for the number of trx in its
-transmission range, in function of the number of trx in the entire floorplan $C(N)$. Every time we put
-a trx in the floorplan, the probability that it falls in the transmission range of the highlighted one is $\rho$. This is true
-for every $N > 1$, because of indipendance. 
+Since we know that $P(x')$ is not constant for all the area of the shape, this
+integral might be difficult to compute, even for a square floorplan; in any case
+its value, it's constant for a given floorplan and a given $r$. Taking into
+consideration only one \texttt{trx}, we can compute the probability density
+function for the number of \texttt{trx} in its transmission range, in function
+of the number of \texttt{trx} in the entire floorplan $C(N)$. Every time we put
+a \texttt{trx} in the floorplan, the probability that it falls in the
+transmission range of the highlighted one is $\rho$. This is true for every
+$N > 1$, because of independence.
 \begin{equation*}
-	C(N)= \left(\frac{1}{p}\right)^{\left( N-1 \right)}
-  \end{equation*}
-This is a Bernullian distribution, and we can use this result only taking one trx at time; in other words we can't use this 
-distrubution for all the trx in a random configured floorplan, because they are not indipendent. 
-The distrubution for one trx will be influenced by the position of others. 
-Anyway, we can apply this distribution to many transmitters, each one taken from a different floorplan; in this way we can 
-validate the indipendanceof different random configurations.\\
+    C(N)= \left(\frac{1}{p}\right)^{\left( N-1 \right)}
+\end{equation*}
+This is a Bernullian distribution, and we can use this result only taking one
+\texttt{trx} at time; in other words we can't use this distribution for all the
+\texttt{trx} in a random configured floorplan, because they are not independent. 
+The distribution for one \texttt{trx} will be influenced by the position of
+others. Anyway, we can apply this distribution to many transmitters, each one
+taken from a different floorplan; in this way we can validate the independence
+of different random configurations.
