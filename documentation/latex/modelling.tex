@@ -91,7 +91,7 @@ reasoning that led us to obtain the final complete model.
 Let us consider a configuration where users are arranged in a line, as shown in
 figure \ref{fig:single_queue}. Each user only has two neighbours, except for
 the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ the
-starting user for the broadcast message, this is the only node in
+starting user with the broadcast message, this is the only node in
 \texttt{transmitting} state while all the other nodes are initially in
 \texttt{listening} state. 
 \begin{figure}[H]
@@ -100,15 +100,15 @@ starting user for the broadcast message, this is the only node in
         \caption{Graph of the Single queue configuration}
         \label{fig:single_queue}
     \end{center}
-    \vspace*{-0.8cm}
+    \vspace*{-0.4cm}
 \end{figure}
 \noindent It is clear that, with this configuration, each listening node has a
 maximum of one active node in its neighbourhood and thus cannot possibly receive
 the message from two different sources at the same time. This guarantees the
 absence of collisions. In such a scenario, $100\%$ asymptotic coverage is
-ensured: during each slot, the active node extracts a Bernoulli RV with success
-probability $p$. The probability of the active node not transmitting for $k$
-consecutive slots is a geometric distribution:
+ensured: during each slot, the active node extracts a Bernoullian RV with
+success probability $p$. The probability of the active node not transmitting for
+$k$ consecutive slots is a geometric distribution:
 \begin{equation}
 	P(X = k) = (1 - p)^{k}.
 	\label{geometric_distribution}
@@ -143,7 +143,8 @@ infinity.
 \end{figure}
 \noindent
 In this case, the average total broadcast time $E[T]$ is simply equal to the
-mean value of the geometric distribution, $\frac{1 - p}{p}$.\\
+mean value of the geometric distribution, $\frac{1 - p}{p}$, since the central
+node is placed at one hop from all the remaining nodes.\\
 \\
 If the broadcast starter node was not the one placed in the center of the star,
 there would not be much difference: absence of collisions and total coverage
@@ -180,7 +181,11 @@ with a discrete-time Markov chain (DTMC) as follows:
 \noindent Figure \ref{fig:dtmc} shows the DTMC for a generic configuration with
 $N$ transmitters (transition probabilities are not shown for the sake of clarity).\\
 State $0$ and states $2$ to $N$ represent the number of \texttt{sleeping}
-devices, namely devices that have already sent the message and have stopped. The number of \texttt{sleeping} devices was chosen over the number of \texttt{transmitting} devices as the former only allows for non-decreasing sequences of states, since a device cannot become active again once it enters the \texttt{sleeping} state.\\
+devices, namely devices that have already sent the message and have stopped. The
+number of \texttt{sleeping} devices was chosen over the number of
+\texttt{transmitting} devices as the former only allows for non-decreasing
+sequences of states, since a device cannot become active again once it enters
+the \texttt{sleeping} state.\\
 State $S$ represents the successful transmission state, which the system
 transitions to when only one device has transmitted the message during the
 previous slot.\\
@@ -188,7 +193,7 @@ The initial state $X_{0}$ is $0$. Any transition from a state $i$ to a state
 $j$, $j \neq S$, means that more than one device has transmitted the message 
 resulting in the target device detecting a collision.
 Both state $S$ and state $N$ are \textit{absorbing states}, i.e. states that,
-once entered, cannot be left (as can be seen in Fig. \ref{fig:dtmc}, where the
+once entered, cannot be left (as can be seen in Figure \ref{fig:dtmc}, where the
 only outgoing arrow from each of the two goes back to the state itself).\\
 If the system transitions to state $N$, it stays in it indefinitely since all
 the devices would be \texttt{sleeping} and they cannot become active again. This
