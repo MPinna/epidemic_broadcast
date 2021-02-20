@@ -26,19 +26,20 @@ indexes, along with their confidence intervals.
 This plot show the coverage achieved in function of P, for different values of R.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.9}{\import{img}{img/Big_CovP_median.pgf}}
+        \scalebox{0.42}{\input{img/Big_CovP_median.pgf} }
     \end{center}
-    \caption{sds}
 \end{figure}
 As we can observe, the coverage we can reach is maximum when P is low; this was predictable by the fact that a low transmission
-probability minimize the number of collisions, increasing the number of correct transmissions. 
-The acheiveble coverage decrease with the increasing of p, but this beahveour is quite slow and
-dont degenerate to 0, but it land at a value around (XX\%) of the bmaximum. %todo
-This shape is common for all the values of the transmission range R, but it's more evident for R$>$10.\\\\
+probability minimize the number of collisions, increasing the number of correct transmissions. For values of R<8 we observe an almost
+linear beahveour, because collisions are almost absents, so varietions of p do not change the final coverage. 
+For $R\geq8$ The acheiveble coverage decrease with the increasing of p, but this beahveour is quite slow and
+dont degenerate to 0; instead it land at a value beetween 10\% and 40\% of the maximum. For values of R between 11 and 15, 
+the impact of colllisions in the coverage level is very high, and it tends to decrease for large values of R; we know in fact 
+that for $R\to L\sqrt{2}$ the coverage tends to 100\%, independently of other parameters.\\\\
 This plot show the coverage achived in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.9}{\import{img}{img/Big_CovRange_mean.pgf}}
+        \scalebox{0.9}{\input{img/Big_CovRange_mean.pgf}}
     \end{center}
 \end{figure}
 As we can expect, and accordingly with the previus plot, the final coverage of the flooplan is very
@@ -65,7 +66,9 @@ with $C$ coverage, $R$ transmission range, $a$ and $b$ depending on $p$ as:\\
 This plot show the Duration of the simulation (in slot) in function of P, for different values of R.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.42}{\import{img}{img/Big_DurP_median.pgf}}
+        \scalebox{0.42}{
+            \input{img/Big_DurP_median.pgf} 
+            }
     \end{center}
 \end{figure}
 The simulation needs more slots to complete when P is low; this is a consequence of two factors:
@@ -88,7 +91,7 @@ if the trasmission range is too short nodes cant really communicate}\\\\
 This plot show the Duration of the simulation (in slot) in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.9}{\import{img}{img/Big_DurRange_mean.pgf}}
+        \scalebox{0.9}{\input{img/Big_DurRange_mean.pgf}}
     \end{center}
 \end{figure}
 The duration of the simulation tend to increase with the transmission range reaching a peak around 13m; the maximum value 
@@ -98,12 +101,12 @@ This is an intresting result, and can be explained by:?%todo
 This plot show the Number of collisions in function of P, for different values of R.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.4}{\import{img}{img/Big_CollP_median.pgf}}
+        \scalebox{0.4}{\input{img/Big_CollP_median.pgf}}
     \end{center}
 \end{figure}
 This plot show the Number of collisions in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.69}{\import{img}{img/Big_CollRange_mean.pgf}}
+        \scalebox{0.69}{\input{img/Big_CollRange_mean.pgf}}
     \end{center}
 \end{figure}
