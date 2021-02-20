@@ -17,96 +17,202 @@ in two different scenarios:
     radius ranging from $1$m to $19$m, with a step of $1$m, and a Bernoullian RV
     with success probability $p$ ranging from $0.1$ to $0.9$ with steps of $0.1$;
 \end{itemize}
+In what follows, for each of the scenarios, the floorplan coverage, the
+broadcast duration and the number of collisions.\\
 In order to achieve statistically significant results with a minimum accuracy of
 $90$\%, we decided to repeat the same scenario with the same parameters for
 $200$ times, and then computed mean and median values of the performance
 indexes, along with their confidence intervals.
 \section{Big}\label{big}
 \subsection{Coverage}
-This plot show the coverage achieved in function of P, for different values of R.
+Figure \ref{fig:floorplancoverage1} shows the floorplan coverage achieved as a
+function of the Bernullian RV success probability $p$, for different values of
+the transmission radius $R$. As we can observe, the coverage reached is maximum
+for lower values of $p$; this is due to the fact that a low transmission
+probability minimizes the number of collisions, increasing the number of correct
+transmissions. For values of $R < 8$ we observe an almost linear behaviour:
+collisions are almost absents with such a small transmission radius, therefore,
+variations of the value of $p$ do not play a fundamental role as far as it
+concerns the final reached coverage. For $R \geq 8$ the achievable coverage
+decreases with the increase of $p$, but quite slowly and also it does not
+degenerate to $0$; instead it reaches a value between $10$\% and $40$\% of the
+maximum.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.42}{\input{img/Big_CovP_median.pgf}}
+        \includegraphics[scale=.42]{img/Big_CovP_median.pdf}
     \end{center}
+    \vspace*{-0.5cm}
+    \caption{Floorplan coverage as a function of $p$ for different values of $R$}
+    \label{fig:floorplancoverage1}
 \end{figure}
-As we can observe, the coverage we can reach is maximum when P is low; this was predictable by the fact that a low transmission
-probability minimize the number of collisions, increasing the number of correct transmissions. For values of R<8 we observe an almost
-linear beahveour, because collisions are almost absents, so varietions of p do not change the final coverage. 
-For $R\geq8$ The acheiveble coverage decrease with the increasing of p, but this beahveour is quite slow and
-dont degenerate to 0; instead it land at a value beetween 10\% and 40\% of the maximum. For values of R between 11 and 15, 
-the impact of colllisions in the coverage level is very high, and it tends to decrease for large values of R; we know in fact 
-that for $R\to L\sqrt{2}$ the coverage tends to 100\%, independently of other parameters.\\\\
-This plot show the coverage achived in function of R, for different values of P.
-\begin{figure}[H]
-    \begin{center}
-        \scalebox{0.9}{\input{img/Big_CovRange_mean.pgf}}
-    \end{center}
-\end{figure}
-As we can expect, and accordingly with the previus plot, the final coverage of the flooplan is very
-influenced by the transmission range; in this plot we can observe that the covreage increase exponentially
-in respect to the transmission range. When the transmission range become very large ($>20m$),
-the coverage tend to 100\%. We recognized the shape of a sigmoid\footnote{https://mathworld.wolfram.com/SigmoidFunction.html} 
-which can be express as an hyperbolic tangent ($ \tanh $); this function is always increasing and can be manipulated
-to be keeped between 0 and 1 (like the parameter we want to fit). A good fit for this curve is this one:\\
-\begin{equation*}
-    C =  \frac{1+\tanh(aR+b)}{2} 
-\end{equation*} 
-with $C$ coverage, $R$ transmission range, $a$ and $b$ depending on $p$ as:\\
-%p0.1 0.3628314535334378 4.356732935967713
-%p0.2 0.3572920723369711 4.3206795324164835
-%p0.3 0.34371134773480694 4.193385575628803
-%p0.4 0.3217942874156316 3.9814759531755515
-%p0.5 0.3091448275788839 3.88645016495332
-%p0.6 0.2809863550485405 3.6000814495973996
-%p0.7 0.25932462296148107 3.3996924196436975
-%p0.8 0.23603288616377227 3.1648817545125527
-%p0.9 0.20917405109220505 2.929033169711656
+\noindent
+For values of $R$ between $11$ and $15$, the number of collisions has a strong
+effect on the coverage percentage; this effect tends to decrease for larger
+values of $R$; we know as a matter of fact that for $R \to L\sqrt{2}$ the
+coverage tends to $100$\%, independently of any other parameter.\\
 \\
-\subsection{Duration}
-This plot show the Duration of the simulation (in slot) in function of P, for different values of R.
+Figure \ref{fig:floorplancoverage2} shows the floorplan coverage achieved as a
+function of the transmission radius $R$, for different values of the Bernullian
+RV success probability $p$. As expected, accordingly with the previous plot, the
+final coverage of the flooplan is deeply influenced by the transmission range $R$.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.42}{
-            \input{img/Big_DurP_median.pgf} 
-            }
+        \includegraphics[scale=.75]{img/Big_CovRange_mean.pdf}
     \end{center}
+    \vspace*{-0.5cm}
+    \caption{Floorplan coverage as a function of $R$ for different values of $p$}
+    \label{fig:floorplancoverage2}
 \end{figure}
-The simulation needs more slots to complete when P is low; this is a consequence of two factors:
-\begin{itemize}
-    \item the probability of retransmission is low, so nodes will skip more slots without transmitting;
-    \item with less collisions, we can reach more nodes, and we have to wait until they all retrasmit the message once.
-\end{itemize}
-We try to interpolate those curves with an iperbolic function, because it fits well with the parameters we want to mode;
-first of all, the iperbole tends to infinity if P tends to 0, and this is coherent with the reality, because if the probability
-of retransmission is become low, the duration keeps increasing. If instead p become close to 1, the duration tends to a minumun.
-%compute it? todo
-We fit those shapes like this:
-\begin{equation*}  
-    D =  \frac{a}{P}+b 
+\noindent
+In this second plot we can observe that the coverage increases exponentially
+with the transmission range. When the transmission range becomes large
+($> 16$m), the coverage tends to $100$\%. We recognized the shape of the
+sigmoid\footnote{https://mathworld.wolfram.com/SigmoidFunction.html} function,
+which can be express as an hyperbolic tangent ($\tanh$); this function is always
+increasing and can be manipulated to remain between $0$ and $1$ (like the
+parameter we want to fit). A good fit for this curve is given by:
+\begin{equation*}
+    C = \frac{1+\tanh(aR+b)}{2}
 \end{equation*}
-with $D$ duration of the simulation, $P$ probability of retransmission, $a$ and $b$ depending on $R$ as:\\
-%vedi iperbole_parameters.txt, primi due non significativi
-PLACEHOLDER\footnote{first two parameters are not possible to compute correctly due to a poor dataset, infact 
-if the trasmission range is too short nodes cant really communicate}\\\\
-This plot show the Duration of the simulation (in slot) in function of R, for different values of P.
+where $C$ is the floorplan coverage, $R$ the transmission radius, and $a$ and
+$b$ depend on $p$ as shown in the following table:
+\begin{center}
+\begin{tabular}{ | m{1cm} | m{4cm}| m{4cm} | }
+\hline
+$p$&$a$&$b$\\
+\hline
+$0.1$&$0.3628314535334378$&$4.356732935967713$\\
+\hline
+$0.2$&$0.3572920723369711$&$4.3206795324164835$\\
+\hline
+$0.3$&$0.34371134773480694$&$4.193385575628803$\\
+\hline
+$0.4$&$0.3217942874156316$&$3.9814759531755515$\\
+\hline
+$0.5$&$0.3091448275788839$&$3.88645016495332$\\
+\hline
+$0.6$&$0.2809863550485405$&$3.6000814495973996$\\
+\hline
+$0.7$&$0.25932462296148107$&$3.3996924196436975$\\
+\hline
+$0.8$&$0.23603288616377227$&$3.1648817545125527$\\
+\hline
+$0.9$&$0.20917405109220505$&$2.929033169711656$\\
+\hline
+\end{tabular}
+\end{center}
+\subsection{Duration}
+This following figure shows the plot of the duration of the simulation (in
+seconds) as a function of $p$, for different values of $R$.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.9}{\input{img/Big_DurRange_mean.pgf}}
+        \includegraphics[scale=.51]{img/Big_DurP_median.pdf}
     \end{center}
+    \vspace*{-0.5cm}
+    \caption{Simulation duration as a function of $p$ for different values of $R$}
+    \label{fig:floorplancoverage3}
 \end{figure}
-The duration of the simulation tend to increase with the transmission range reaching a peak around 13m; the maximum value 
-depends on the probability of retransmission (p);
-This is an intresting result, and can be explained by:?%todo
+\noindent
+The simulation duration increases for lower values of $p$; this behaviour can be
+explained as a consequence of two main factors:
+\begin{itemize}
+    \item the probability of retransmission is low, so nodes will spend most
+    time slots waiting, without actually transmitting;
+    \item with a smaller number of collisions, a higher number of nodes is
+    reached; reaching a higher number of nodes requires a higher number of
+    retransmissions.
+\end{itemize}
+We tried to interpolate the curves shown in Figure \ref{fig:floorplancoverage3}
+with an hyperbolic function, because it fits well the parameters we want to
+model; first of all, the hyperbole tends to infinity as $p$ tends to $0$, and
+this is coherent with the reality, because if the probability of retransmission
+becomes low, then the duration keeps increasing. If instead $p$ gets close to
+$1$, the duration time tends to its minimum. We fit those shapes using:
+\begin{equation*}  
+    D = \frac{a}{P}+b 
+\end{equation*}
+where $D$ is the duration of the simulation, $p$ the probability of
+retransmission, and $a$ and $b$ depend on $R$ as specified in the following
+table:
+\begin{center}
+\begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
+\hline
+$R$&$a$&$b$\\
+\hline
+$1$&$2.4046845625846913$ e-09&$0.999999999244136$\\
+\hline
+$2$&$2.4046845625846913$ e-09&$0.999999999244136$\\
+\hline
+$3$&$0.7313966348173997$&$0.9495446821974095$\\
+\hline
+$4$&$1.3471717522270503$&$0.9454326532617134$\\
+\hline
+$5$&$1.7744177255115228$&$1.08724762049118$\\
+\hline
+$6$&$4.652279267805434$&$1.0487610714204172$\\
+\hline
+$7$&$9.586489452244717$&$1.088347295851843$\\
+\hline
+$8$&$15.841670397411658$&$1.0643797063994824$\\
+\hline
+$9$&$28.264640360031194$&$0.49558107430696624$\\
+\hline
+$10$&$43.141734847778814$&$0.22815570364285975$\\
+\hline
+$11$&$64.55944043148898$&$-0.07517936077209139$\\
+\hline
+$12$&$86.56257725232254$&$-0.09919809415424388$\\
+\hline
+$13$&$89.72686483087844$&$1.2578386401845827$\\
+\hline
+$14$&$82.15919574473708$&$3.0965825999956778$\\
+\hline
+$15$&$67.95268283187643$&$5.415446394742158$\\
+\hline
+$16$&$56.442159145137495$&$6.991880399220213$\\
+\hline
+$17$&$45.71412729773696$&$7.548465010848107$\\
+\hline
+$18$&$39.164500694866284$&$7.991652317096266$\\
+\hline
+$19$&$29.71836400235831$&$9.075854630828385$\\
+\hline
+\end{tabular}
+\end{center}
+To be able to compute the correct values the first two entries for $a$ and $b$,
+a larger dataset is needed; as a matter of fact, if the transmission range is
+too short nodes can not communicate: they are not in reach by each others.\\
+\\
+The following plot shows the duration of the simulation (in seconds) as a
+function of $R$, for different values of $p$.
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.7]{img/Big_DurRange_mean.pdf}
+    \end{center}
+    \vspace*{-0.5cm}
+    \caption{Simulation duration as a function of $R$ for different values of $p$}
+    \label{fig:floorplancoverage4}
+\end{figure}
+\noindent
+The duration of the simulation tends to increase with the transmission range
+reaching a peak around $13$m; the maximum value depends on the probability of
+retransmission ($p$);
+This is an interesting result, and can be explained by:?%todo
 \subsection{Collisions}
 This plot show the Number of collisions in function of P, for different values of R.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.4}{\input{img/Big_CollP_median.pgf}}
+        \includegraphics[scale=.4]{img/Big_CollP_median.pdf}
     \end{center}
+    \vspace*{-0.5cm}
+    \caption{Caption this}
+    \label{fig:floorplancoverage5}
 \end{figure}
-This plot show the Number of collisions in function of R, for different values of P.
 \begin{figure}[H]
     \begin{center}
-        \scalebox{0.69}{\input{img/Big_CollRange_mean.pgf}}
+        \includegraphics[scale=.7]{img/Big_CollRange_mean.pdf}
     \end{center}
+    \vspace*{-0.5cm}
+    \caption{Caption this}
+    \label{fig:floorplancoverage6}
 \end{figure}
