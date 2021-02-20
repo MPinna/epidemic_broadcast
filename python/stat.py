@@ -9,6 +9,7 @@ import matplotlib.ticker as mtick
 import math
 import sys
 import io
+path="results/big_csv"
 # return the mesurements of the number of collisions
 def read_collisions(file):
     df = pd.read_csv(file, dtype={"name":"string", "count":int})
@@ -72,7 +73,7 @@ def median_confidence_interval(array, confidence=0.95):
 
 # drow 2 2D plots with different corves representing the behaveour in funciotn of 2 differents parameters
 # set asim=True if confidence intervals are asimmetric
-def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title=""):
+def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_log=False):
     plt.figure(1)
     for j in range(1, 10):
         plt.errorbar(x=np.arange(1,20), y=serie[j-1], yerr=errors[j-1], capsize=3, linestyle="solid",
@@ -96,7 +97,8 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title=""):
     plt.legend(title="Values of R (m)", loc='upper left', bbox_to_anchor=(1,1))
     plt.xlabel("Bernullian base (P)")
     plt.xticks(np.arange(0.1,1,0.1))
-    plt.xscale("log")
+    if(p_log):
+        plt.xscale("log")
     plt.ylabel(ylabel)
     if "%" in ylabel:
         plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
@@ -121,11 +123,11 @@ def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
             errors[j-1].append([])
         for i in range(1, 20):
             if(pki=="collisions"):
-                datas= read_collisions('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_collisions(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(pki=="duration (s)"):
-                datas= read_duration('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_duration(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(pki=="coverage (%)"):
-                datas= read_final_coverage('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_final_coverage(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(ict=="median"):
                 cent, max, min=median_confidence_interval(datas[:n], confidence)
                 errors[j-1][0].append(cent-min)
@@ -142,6 +144,24 @@ def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
     else:
         x_y_plots(pki, serie, errors,confidence=confidence, title="mean values")
     plt.show()
+
+def print_coverage_drop(ict="mean", confidence=0.9):
+    if not(ict in ["median", "mean"]):
+        return
+    if not(confidence>0.7 and confidence<0.996):
+        return
+    print("R: max(p=0.1) min(p=0.9) drop(%)\n")
+    for j in range(1, 20):
+        for i in range(1, 10,8):
+            datas= read_final_coverage(path+'/big-p'+str(i/10)+'R'+str(j)+'.csv')
+            if(ict=="median"):
+                cent, max, min=median_confidence_interval(datas, confidence)
+            else:
+                cent, err=mean_confidence_interval(datas, confidence)
+            if i==1:
+                prec=cent
+            else:
+                print(str(j)+": "+str(prec)+" "+str(cent)+" "+str((cent-prec)*100/prec)+"%")
 
 # drow an ECDF
 def makeECDF(array, num_bins=20):
@@ -171,11 +191,11 @@ def print_ECFDs(pki,R_range, p_range, bins ):
     for j in p_range:
         for i in R_range:
             if(pki=="collisions"):
-                datas= read_collisions('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_collisions(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(pki=="duration (s)"):
-                datas= read_duration('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_duration(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(pki=="coverage (%)"):
-                datas= read_final_coverage('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_final_coverage(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             plt.figure(i)
             makeECDF(datas, bins)
         print("status:"+str(j)+"/"+str(10) )
@@ -187,11 +207,11 @@ def print_STDs(pki,R_range=np.arange(1, 20), p_range=np.arange(1, 10) ):
         plt.figure(j)
         for i in R_range:
             if(pki=="collisions"):
-                datas= read_collisions('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_collisions(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(pki=="duration (s)"):
-                datas= read_duration('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_duration(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             if(pki=="coverage (%)"):
-                datas= read_final_coverage('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+                datas= read_final_coverage(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             stds=[]
             for h in range(19, 200, 20):
                stds.append(np.std(datas[:h]))
@@ -209,11 +229,11 @@ def plot_fit(x, target, objective):
 def dist_analisis(pki,r, p):
     data=[]
     if(pki=="collisions"):
-        data= read_collisions('big_csv/big-p'+str(p)+'R'+str(r)+'.csv')
+        data= read_collisions(path+'/big-p'+str(p)+'R'+str(r)+'.csv')
     if(pki=="duration (s)"):
-        data= read_duration('big_csv/big-p'+str(p)+'R'+str(r)+'.csv')
+        data= read_duration(path+'/big-p'+str(p)+'R'+str(r)+'.csv')
     if(pki=="coverage (%)"):
-        data= read_final_coverage('big_csv/big-p'+str(p)+'R'+str(r)+'.csv')
+        data= read_final_coverage(path+'/big-p'+str(p)+'R'+str(r)+'.csv')
     if(len(data)==0):
         return
     plt.figure(0)
@@ -240,7 +260,7 @@ def print_sigmoid_parameters(file="sigmoid_parameters.txt"):
         y=[]
         errs=[]
         for i in range(1, 20):
-            datas= read_final_coverage('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+            datas= read_final_coverage(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             mean, err=mean_confidence_interval(datas)
             y.append(mean)
             errs.append(err)
@@ -265,7 +285,7 @@ def print_iperbole_parameters(file="iperbole_parameters.txt"):
         y=[]
         errs=[]
         for i in range(1, 10):
-            datas= read_duration('big_csv/big-p'+str(i/10)+'R'+str(j)+'.csv')
+            datas= read_duration(path+'/big-p'+str(i/10)+'R'+str(j)+'.csv')
             mean, err=mean_confidence_interval(datas)
             y.append(mean)
             errs.append(err)
@@ -290,7 +310,7 @@ def print_sec_parameters(file="sec_parameters.txt"):
         y=[]
         errs=[]
         for i in range(1, 20):
-            datas= read_duration('big_csv/big-p'+str(j/10)+'R'+str(i)+'.csv')
+            datas= read_duration(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
             mean, err=mean_confidence_interval(datas)
             y.append(mean)
             errs.append(err)
@@ -309,8 +329,9 @@ def print_sec_parameters(file="sec_parameters.txt"):
             f.write('p'+str(j/10)+' '+str(a)+" "+str(b)+" "+str(c)+"\n")
     plt.show()
 
-print_sec_parameters()
-exit()
+#print_coverage_drop()
+#print_sec_parameters()
+#exit()
 print("Usage:")
 print("[duration (s) | coverage (%) | collisions] [ mean | median ] [confidence interval (def=0.99)]")
 print(len(sys.argv))
