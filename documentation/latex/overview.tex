@@ -68,25 +68,24 @@ To be more detailed:
 \end{itemize}
 The rationales behind the choices of the parameters were the following:
 \begin{itemize}
-    \item the transmission radius clearly has a great impact on all the
-    performance metrics; the greater this radius, the faster the message moves
-    across the floorplan and the higher the number of users that can be reached;
-    on the other hand, a greater radius is likely to cause more collisions than
-    a smaller one;
-    \item the higher the transmission probability, the faster a message "moves
-    away" from a user; at the same time, a high transmission probability implies
-    a high collision probability in a local area where two or more nodes are
-    transmitting;
+    \item the transmission radius \texttt{R} clearly has a great impact on all
+    the performance metrics; the greater this radius, the faster the message
+    moves across the floorplan and the higher the number of users that can be
+    reached; on the other hand, a greater radius is likely to cause more
+    collisions than a smaller one;
+    \item the higher the transmission probability \texttt{p}, the faster a
+    message "moves away" from a user; at the same time, a high transmission
+    probability implies a high collision probability in a local area where two
+    or more nodes are transmitting;
     \item a bigger floorplan area, all else being equal, will require a longer
     time to be covered entirely by the broadcast message;
     \item a very long and very narrow floorplan will probably cause less
     collisions than a square one with the same area, as the average number of
     users in the collision range of other users decreases; on the other hand,
-    the performance of this type of scenario will be higly influenced by the
+    the performance of this type of scenario will be highly influenced by the
     position of the starting node;
-    \item in order to exploit various values of  population density \texttt{d}
-	we choose to fix the total users \texttt{N}=100, then we choose the 2 values
-	for $L$: $10$ metres and $100$ metres.
+    \item in order to exploit different values for the population density
+    \texttt{d} parameter, we decided to fix the total number of users on the
+    floorplan \texttt{N} to the constant value $100$, then, two values for $L$
+    were considered: $10$ metres and $100$ metres.
 \end{itemize}
-
-
