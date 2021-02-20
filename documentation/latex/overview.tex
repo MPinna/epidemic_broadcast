@@ -37,7 +37,7 @@ The following parameters have been identified: the transmission range of the
 users, the \textit{per-slot} transmission probability, the floorplan size and
 its shape, and the density of users in the floorplan per square metre.\\
 \\
-To be more in detailed:
+To be more detailed:
 \begin{itemize}
 	\item the radius of transmission \colorbox{gray!30}{\large \texttt{R}}: it
 	represents the maximum distance between two users such that the message
@@ -47,8 +47,8 @@ To be more in detailed:
 	metres.
 	\item the \textit{per-slot} transmission probability
 	\colorbox{gray!30}{\large \texttt{p}}: it is the success probability for the
-	Bernoulli random variable associated to the transmission; as a probability,
-	it can assume values between 0 and 1;
+	Bernoullian random variable associated to the transmission; as a
+	probability, it can assume values between 0 and 1;
     \item the width of the side of the floorplan rectangle
     \colorbox{gray!30}{\large \texttt{L}};
 	\item the \textit{aspect ratio} of the floorplan rectangle
@@ -56,18 +56,20 @@ To be more in detailed:
 	longer side $L$ and the shorter side $W$; because of the radial symmetry of
 	the transmission phenomenon, there is no actual need to consider values for
 	\texttt{a} lower than 1; this parameter is fixed at 1 in our simulation model, 
-	so we are considering only sqare floorplans; this will allow us to focus the
-	analysis on other parameters, but still considering a quite common scenario;
+	so we are considering only square floorplans; this will allow the analysis
+	to be focused on more important parameters, but still in a quite common
+	scenario;
 	\item number of users \colorbox{gray!30}{\large \texttt{N}}, defined
-	as the number of users in the floorplan;
+	as the number of users dropped on the floorplan;
 	\item users population density \colorbox{gray!30}{\large \texttt{d}},
-	defined as the number of users per square meter. We choose to study two
-	opposite density scenarios (high: 1/$m^2$, low 0.1/$m^2$).
+	defined as the number of users per square meter; for this parameters, we
+	decided to study two opposite density scenarios
+	(high: 1/$m^2$ and low 0.1/$m^2$).
 \end{itemize}
 The rationales behind the choices of the parameters were the following:
 \begin{itemize}
     \item the transmission radius clearly has a great impact on all the
-    performance metrics; the greater the radius, the faster the message moves
+    performance metrics; the greater this radius, the faster the message moves
     across the floorplan and the higher the number of users that can be reached;
     on the other hand, a greater radius is likely to cause more collisions than
     a smaller one;
