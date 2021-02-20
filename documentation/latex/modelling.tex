@@ -22,20 +22,21 @@ of three different states:
 	yet and therefore it is still listening for incoming messages from other nodes;
 	\item \texttt{transmitting}: the node has received the message and during
 	each time slot it is trying to transmit it to adjacent nodes; in what
-	follows, a node in \texttt{transmitting} state will be referred to as
+	follows, a node in \texttt{transmitting} state will be referred to as the
 	\textit{active} node;
-	\item \texttt{sleeping}: the node has already received the message and
-	retransmitted it; once a node is in a \texttt{sleeping} state, it will
-	remain in such state and will therefore have no	effect on the system any more.
+	\item \texttt{sleeping}: the node has already received and retransmitted
+	the broadcast message; once a node is in the \texttt{sleeping} state, it
+	will remain in such state and will therefore have no effect on the system
+	anymore.
 \end{itemize}
 \section{Graph model for wireless systems}
 The $N$ users dropped on the floorplan make up the set of vertices $V$ of a
-graph $G$, whose set of edges $E$ is composed by all the connections between pairs of nodes one in reach of the other. Consider the following as a simplified
-scenario to exemplify this model.
-In figure \ref{fig:graph1} (a) devices A, C and D are within device B
-transmission radius. In the equivalent graph, there will be edges that connect
-B to A, to C and to D. The same goes for all the other vertices. The resulting
-graph is shown in figure \ref{fig:graph1} (b).
+graph $G$, whose set of edges $E$ is composed by all the connections between
+pairs of nodes in reach of each other. Consider the following as a simplified
+scenario to exemplify this model: in figure \ref{fig:graph1} (a) devices A, C
+and D are within device B transmission radius. In the equivalent graph, there
+will be edges that connect B to A, to C and to D. The same goes for all the
+other vertices. The resulting graph is shown in figure \ref{fig:graph1} (b).
 \begin{figure}[H]
 	\begin{minipage}{.5\textwidth}
         \includegraphics[scale=.23]{img/wireless_graph_1.png}
@@ -55,17 +56,17 @@ graph is shown in figure \ref{fig:graph1} (b).
 \noindent
 In general, the existence of an edge from vertex $i$ to vertex $j$ means that
 nodes $i$ and $j$ are within reach of each other. Two vertices connected by an
-edge are said to be \textit{adjacent}. The set composed by the vertex $v$
-together with all its adjacent vertices form a subgraph called the
-\textit{neighbourhood of v}.\\
-During the broadcast, a node can only receive from and transmit to its
-neighbourhood.\\
+edge are said to be \textit{adjacent}. The neighbourhood of a vertex $v$ in a
+graph $G$ is the subgraph of $G$ induced by all vertices adjacent to $v$, i.e.,
+the graph composed of the vertices adjacent to $v$ and all edges connecting
+vertices adjacent to $v$. During the broadcast process, a node can only receive
+from and transmit to its neighbourhood.\\
 \\
-Once a node has transmitted the message and has gone into \texttt{sleeping}
-state, it disappears, along with all the edges connected to it. Therefore, the
-set of vertices $V$ changes with time. This is what in literature is called a
-\textit{dynamic graph} or, more specifically, a
-\textit{node-dynamic graph}\cite{harrygraph}.\\
+Once a node has transmitted the message and has gone into the \texttt{sleeping}
+state, from the point of view of the graph model, it disappears, along with all
+the edges connected to it. Therefore, the set of vertices $V$ changes with time.
+This is what in literature is called a \textit{dynamic graph} or, more
+specifically, a \textit{node-dynamic graph}\cite{harrygraph}.\\
 \\
 Modelling the system with graphs also allows for a simple computation of the
 lower bound for the broadcast time \texttt{T}, which can be useful for the
@@ -81,7 +82,7 @@ and any other vertex. This quantity, in graph theory, is called
 \textit{eccentricity} of the vertex $v^{*}$. More formally, the eccentricity of
 $v^{*}$ is defined as follows:
 \begin{equation}
-\epsilon(v^{*}) = \max_{v{\in}V} d(v^{*}, v)
+\epsilon(v^{*}) = \max_{u{\in}V} d(v^{*}, u)
 \end{equation}
 \section{Simplified models}
 In what follows, incrementally more complex scenarios are presented showing the
