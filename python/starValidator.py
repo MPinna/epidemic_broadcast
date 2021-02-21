@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import scipy.stats as st
 import scipy.special
 import scipy.optimize as op

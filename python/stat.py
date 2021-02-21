@@ -9,7 +9,9 @@ import matplotlib.ticker as mtick
 import math
 import sys
 import io
+
 path="results/big_csv"
+
 # return the mesurements of the number of collisions
 def read_collisions(file):
     df = pd.read_csv(file, dtype={"name":"string", "count":int})
