@@ -1,10 +1,9 @@
 import os
 
-INPUT_DIR = ""  # change accordingly
-OUTPUT_DIR = "csv/"   # change accordingly
+INPUT_DIR = ""          # change accordingly
+OUTPUT_DIR = "csv/"     # change accordingly
 
 SCAVETOOL_PATH = "scavetool" 
-
 
 CONFIG_NAME = "big"
 
@@ -21,7 +20,6 @@ RValues = []
 
 for p in range(1, 11, 1):
     pValues.append(str(float(p)/10))
-# print(pValues)
 
 for r in range(1, 20, 1):
     RValues.append(str(r))
@@ -36,5 +34,3 @@ for p in pValues:
         print("RUNNING: " + command)
         print("Exporting into " + outputPath)
         os.system(command)
-
-
