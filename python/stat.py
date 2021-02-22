@@ -6,12 +6,16 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
+import matplotlib.cm as cm
+import itertools
 import math
 import sys
 import io
 
 path="results/big_csv"
-
+cmap=cm.get_cmap("rainbow")
+colors20=iter(cmap(np.linspace(0,1,20)))
+colors10=iter(cmap(np.linspace(0,1,10)))
 # return the mesurements of the number of collisions
 def read_collisions(file):
     df = pd.read_csv(file, dtype={"name":"string", "count":int})
@@ -79,7 +83,7 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_lo
     plt.figure(1)
     for j in range(1, 10):
         plt.errorbar(x=np.arange(1,20), y=serie[j-1], yerr=errors[j-1], capsize=3, linestyle="solid",
-               marker='s', markersize=3, mfc="black", mec="black", label=str(j/10))
+               marker='s', markersize=3, mfc="black", mec="black", label=str(j/10), color=next(colors10))
     if "%" in ylabel:
         plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
     plt.legend(title="Values of P")
@@ -95,7 +99,7 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_lo
         else:
             err=errors[:,i-1]
         plt.errorbar(x=np.arange(0.1,1,0.1), y=np.array(serie[:,i-1]), yerr=err, capsize=3, linestyle="solid",
-              marker='s', markersize=3, mfc="black", mec="black", label=str(i))
+              marker='s', markersize=3, mfc="black", mec="black", label=str(i), color=next(colors20))
     plt.legend(title="Values of R (m)", loc='upper left', bbox_to_anchor=(1,1))
     plt.xlabel("Bernullian base (P)")
     plt.xticks(np.arange(0.1,1,0.1))
