@@ -296,17 +296,17 @@ def print_iperbole_parameters(file="iperbole_parameters.txt"):
             y.append(mean)
             errs.append(err)
         plt.figure(j)
-        plt.errorbar(x=np.arange(1,10), y=np.array(y), yerr=err, capsize=3, linestyle="solid",
+        plt.errorbar(x=np.arange(0.1, 1, 0.1), y=np.array(y), yerr=err, capsize=3, linestyle="solid",
               marker='s', markersize=3, mfc="black", mec="black")
 
-        popt, _ = op.curve_fit(iperbole, np.arange(1,10), np.array(y))
-        x_line = np.arange(1,20)
+        popt, _ = op.curve_fit(iperbole, np.arange(0.1, 1, 0.1), np.array(y))
+        x_line = np.arange(0.1, 1, 0.1)
         a,b = popt
         # calculate the output for the range
         y_line = iperbole(x_line,  a,b)
         plt.plot(x_line, y_line, '--')
         with open(file, "a") as f:
-            f.write('R'+str(j)+' '+str(a)+" "+str(b)+"\n")
+            f.write('R'+str(j)+' '+str(a)+" "+str(b)+" "+str(iperbole(1, a, b))+"\n")
     plt.show()
 
 def print_sec_parameters(file="sec_parameters.txt"):
@@ -335,7 +335,7 @@ def print_sec_parameters(file="sec_parameters.txt"):
             f.write('p'+str(j/10)+' '+str(a)+" "+str(b)+" "+str(c)+"\n")
     plt.show()
 
-#print_coverage_drop()
+#print_iperbole_parameters()
 #print_sec_parameters()
 #exit()
 print("Usage:")
