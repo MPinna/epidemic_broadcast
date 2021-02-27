@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import scipy.stats as st
+import fetcher as fe
 import scipy.optimize as op
 import numpy as np
 import pandas as pd
@@ -11,51 +12,6 @@ import itertools
 import math
 import sys
 import io
-
-path="results/big_csv"
-cmap=cm.get_cmap("rainbow")
-colors20=iter(cmap(np.linspace(0,1,20)))
-colors10=iter(cmap(np.linspace(0,1,10)))
-# return the mesurements of the number of collisions
-def read_collisions(file):
-    df = pd.read_csv(file, dtype={"name":"string", "count":int})
-    collisionsDF = df[df['name'] == 'packetDropIncorrectlyReceived:count']
-    collisionsDF = collisionsDF[['run', 'module', 'name', 'value']]
-    collisionsDF = collisionsDF.groupby(["run", "module"], as_index = False)["value"].first()
-    collisionsDF = collisionsDF.groupby(["run"], as_index = False)["value"].sum()
-    collisions=np.array(collisionsDF['value'])
-    return collisions
-
-# return the mesurements of the number of users covered at the end of the simulation
-def read_final_coverage(file):  
-    df = pd.read_csv(file, dtype={"name":"string", "count":int})
-    collisionsDF = df[df['name'] == 'packetDropIncorrectlyReceived:count']
-    collisionsDF = collisionsDF[['run', 'module', 'name', 'value']]
-    collisionsDF = collisionsDF.groupby(["run", "module"], as_index = False)["value"].first()
-    usersDF = collisionsDF.groupby(["module"], as_index = False)["value"].first()
-    collisionsDF = collisionsDF.groupby(["run"], as_index = False)["value"].sum()
-    coverageDF = df[df['name'] == 'timeCoverageStat:vector']
-    coverageDF = coverageDF[['run', 'module', 'name', 'value', 'vectime', 'vecvalue']]
-    vecvalueDF = coverageDF.groupby(["run"], as_index = False)["vecvalue"].first()
-    users = len(usersDF.index)
-    totalCoverage = []
-    for i in range(len(vecvalueDF.index)):
-        coverageList = list(map(int, vecvalueDF["vecvalue"][i].split()))
-        coverage = len(coverageList)
-        totalCoverage.append(coverage/float(users))
-    return totalCoverage
-
-# return the mesurements of the duration (in slots) of the simulation
-def read_duration(file):
-    df = pd.read_csv(file, dtype={"name":"string", "count":int})
-    coverageDF = df[df['name'] == 'timeCoverageStat:vector']
-    coverageDF = coverageDF[['run', 'module', 'name', 'value', 'vectime', 'vecvalue']]
-    vecvalueDF = coverageDF.groupby(["run"], as_index = False)["vecvalue"].first()
-    totalCoverageSlot = []
-    for i in range(len(vecvalueDF.index)):
-        coverageList = list(map(int, vecvalueDF["vecvalue"][i].split()))
-        totalCoverageSlot.append(coverageList[len(coverageList)-1])
-    return totalCoverageSlot
 
 # compute the samlpe mean and the mean error (simmetric) for a given confidence
 def mean_confidence_interval(data, confidence=0.95):
@@ -76,98 +32,6 @@ def median_confidence_interval(array, confidence=0.95):
     min=array[k]
     max=array[w]
     return median, max, min
-
-# drow 2 2D plots with different corves representing the behaveour in funciotn of 2 differents parameters
-# set asim=True if confidence intervals are asimmetric
-def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_log=False):
-    plt.figure(1)
-    for j in range(1, 10):
-        plt.errorbar(x=np.arange(1,20), y=serie[j-1], yerr=errors[j-1], capsize=3, linestyle="solid",
-               marker='s', markersize=3, mfc="black", mec="black", label=str(j/10), color=next(colors10))
-    if "%" in ylabel:
-        plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
-    plt.legend(title="Values of P")
-    plt.xlabel("Transmission Range (m)")
-    plt.xticks(np.arange(1,20))
-    plt.ylabel(ylabel)
-    plt.title(title+" confidence= "+str(confidence*100)+"%")
-    plt.figure(2)
-    plt.title(title+" confidence= "+str(confidence*100)+"%")
-    for i in range(1, 20):
-        if asim:
-            err=np.transpose(errors[:,:,i-1])
-        else:
-            err=errors[:,i-1]
-        plt.errorbar(x=np.arange(0.1,1,0.1), y=np.array(serie[:,i-1]), yerr=err, capsize=3, linestyle="solid",
-              marker='s', markersize=3, mfc="black", mec="black", label=str(i), color=next(colors20))
-    plt.legend(title="Values of R (m)", loc='upper left', bbox_to_anchor=(1,1))
-    plt.xlabel("Bernullian base (P)")
-    plt.xticks(np.arange(0.1,1,0.1))
-    if(p_log):
-        plt.xscale("log")
-    plt.ylabel(ylabel)
-    if "%" in ylabel:
-        plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
-
-# print pki plots fo a given confidence, with a given index of central tentencies (pki), with a gven number of samples n<=200
-def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
-    if not pki in ["collisions", "duration (s)", "coverage (%)"] :
-        return
-    if not(ict in ["median", "mean"]):
-        return
-    if not(n>20 and n<201):
-        return
-    if not(confidence>0.7 and confidence<0.996):
-        return
-    serie=[]
-    errors=[]
-    for j in range(1, 10, 1):
-        serie.append([])
-        errors.append([])
-        if(ict=="median"):
-            errors[j-1].append([])
-            errors[j-1].append([])
-        for i in range(1, 20):
-            if(pki=="collisions"):
-                datas= read_collisions(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
-            if(pki=="duration (s)"):
-                datas= read_duration(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
-            if(pki=="coverage (%)"):
-                datas= read_final_coverage(path+'/big-p'+str(j/10)+'R'+str(i)+'.csv')
-            if(ict=="median"):
-                cent, max, min=median_confidence_interval(datas[:n], confidence)
-                errors[j-1][0].append(cent-min)
-                errors[j-1][1].append(max-cent)
-            else:
-                cent, err=mean_confidence_interval(datas[:n], confidence)
-                errors[j-1].append(err)
-            serie[j-1].append(cent)
-        print("status:"+str(j)+"/"+str(10) )
-    serie=np.array(serie)
-    errors=np.array(errors)
-    if(ict=="median"):
-        x_y_plots(pki, serie, errors, True, confidence=confidence, title="median values")
-    else:
-        x_y_plots(pki, serie, errors,confidence=confidence, title="mean values")
-    plt.show()
-
-def print_coverage_drop(ict="mean", confidence=0.9):
-    if not(ict in ["median", "mean"]):
-        return
-    if not(confidence>0.7 and confidence<0.996):
-        return
-    print("R: max(p=0.1) min(p=0.9) drop(%)\n")
-    for j in range(1, 20):
-        for i in range(1, 10,8):
-            datas= read_final_coverage(path+'/big-p'+str(i/10)+'R'+str(j)+'.csv')
-            if(ict=="median"):
-                cent, max, min=median_confidence_interval(datas, confidence)
-            else:
-                cent, err=mean_confidence_interval(datas, confidence)
-            if i==1:
-                prec=cent
-            else:
-                print(str(j)+": "+str(prec)+" "+str(cent)+" "+str((cent-prec)*100/prec)+"%")
 
 # drow an ECDF
 def makeECDF(array, num_bins=20):
@@ -338,14 +202,7 @@ def print_sec_parameters(file="sec_parameters.txt"):
 #print_iperbole_parameters()
 #print_sec_parameters()
 #exit()
-print("Usage:")
-print("[duration (s) | coverage (%) | collisions] [ mean | median ] [confidence interval (def=0.99)]")
-print(len(sys.argv))
-if(len(sys.argv)==3):
-    print_PKI_plots(str(sys.argv[1]), str(sys.argv[2]), 0.99)
-if(len(sys.argv)==4):
-    print_PKI_plots(sys.argv[1], sys.argv[2], float(sys.argv[3]))
-exit()
+
 
 #dist_analisis("collisions",11, 0.6)
 #exit()
