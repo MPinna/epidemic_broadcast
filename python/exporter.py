@@ -1,33 +1,38 @@
+#!/usr/bin/env python
+
+################################################################################
+# Exporter program. Converts OMNeT++ simulations result files into .csv files.
+################################################################################
+
 import os
+import numpy as np
+
+__author__ = 'Marco Pinna, Rambod Rahmani, Yuri Mazzuoli'
+__copyright__ = 'Copyright (C) 2021'
+__license__ = 'GPLv3'
 
 INPUT_DIR = ""          # change accordingly
 OUTPUT_DIR = "csv/"     # change accordingly
 
 SCAVETOOL_PATH = "scavetool" 
 
-CONFIG_NAME = "big"
+CONFIG_NAME = "small"
 
 def getInputFilename(p, r):
-    filename = CONFIG_NAME + "-p=" + p + ",R=" + r + "-#" + "*" + ".*"
+    filename = CONFIG_NAME + "-p=" + p + ",R=" + str(r) + "-#" + "*" + ".*"
     return filename
 
 def getOutputFilename(p, r):
-    filename = CONFIG_NAME + "-p" + p + "R" + r + ".csv"
+    filename = CONFIG_NAME + "-p" + p + "R" + str(r) + ".csv"
     return filename
 
-pValues = []
-RValues = []
-
-for p in range(1, 11, 1):
-    pValues.append(str(float(p)/10))
-
-for r in range(1, 20, 1):
-    RValues.append(str(r))
+pValues = np.arange(0.1, 1.0, 0.1)
+RValues = np.arange(1.0, 5.0, 0.5)
 
 for p in pValues:
     for r in RValues:
-        inputFilename = getInputFilename(p, r)
-        outputFilename = getOutputFilename(p, r)
+        inputFilename = getInputFilename('%g'%p, ('%f' % r).rstrip('0').rstrip('.'))
+        outputFilename = getOutputFilename('%g'%p, ('%f' % r).rstrip('0').rstrip('.'))
         outputPath = OUTPUT_DIR + outputFilename
         inputPath = INPUT_DIR + inputFilename
         command = SCAVETOOL_PATH + " export -o " + outputPath + " -F CSV-R " + inputPath

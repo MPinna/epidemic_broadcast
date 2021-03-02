@@ -46,6 +46,7 @@
 *.elog
 *.anf
 *.csv
+*.temp
 
 # microsoft staff
 *.vscode

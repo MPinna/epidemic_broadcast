@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import networkx as nx
 import scipy.stats as st
 import scipy.optimize as op
