@@ -23,6 +23,12 @@ simple ProcUnit
     parameters:
         // set to 1 if the node is the first one to transmit, 0 otherwise
         int hasInitToken = default(0);
+        
+        // needed for validation runs.
+        // set to 1 if the node is the one that has to be reached
+        // is the one at the center of the star
+        int hasTargetToken = default(0);
+        
         double slotLength;
          
         // probability of success when extracting Bernoulli RV

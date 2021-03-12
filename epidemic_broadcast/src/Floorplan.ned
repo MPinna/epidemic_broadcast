@@ -28,7 +28,16 @@ network Floorplan
         double height @unit(m);		// height of the floorplan
         double width @unit(m);		// width of the floorplan
         @display("bgb=287,197");
+        
+        
+        // only needed (and emitted, check .ini file) for
+        // star5to1 validation configuration
+        @signal[stateSTransition](type="int");
+        @statistic[stateSTransitionStat](title="Current slot number when state S was reached"; source="stateSTransition"; record=last);
+		@signal[sleepCoverage](type="int");
+		@statistic[sleepCoverageStat](title="Number of sleeping users during each time slot"; source="sleepCoverage"; record=vector);
 
+		// vector statistic needed for every simulation
         @signal[timeCoverage](type="int");
         @statistic[timeCoverageStat](title="Number of reached users during each time slot"; source="timeCoverage"; record=vector);
 

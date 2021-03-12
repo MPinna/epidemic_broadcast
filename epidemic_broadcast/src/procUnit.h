@@ -69,6 +69,8 @@ class ProcUnit : public cSimpleModule
 
         // keeps track of the coverage as function of time
         simsignal_t timeCoverageSignal_;
+        simsignal_t sleepCoverageSignal_;
+        simsignal_t stateSSignal_;
 
         // coordinates of parent host signals
         simsignal_t hostXsignal_;

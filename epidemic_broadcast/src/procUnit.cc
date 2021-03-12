@@ -126,6 +126,14 @@ void ProcUnit::initialize()
         // all the other nodes should be listening
         procUnitStatus_ = LISTENING;
 
+        int target = par("hasTargetToken");
+        if(target)
+        {
+            stateSSignal_ = registerSignal("stateSTransition");
+        }
+
+        sleepCoverageSignal_ = registerSignal("sleepCoverage");
+
         // load Bernoulli RV success probability parameter
         p_ = par("p");
     }
@@ -205,6 +213,22 @@ void ProcUnit::handleBroadcastMessage(cMessage *msg)
             // emits the long value as a signal
             emit(timeCoverageSignal_, currentSlot_);
 
+            // only needed in star5to1 validation
+            int target = par("hasTargetToken");
+            if(target)
+            {
+                // if the target has successfully received the message
+                // during the previous slot, the system is now in the S state
+                // (according to the DTMC model)
+                // signal is emitted and simulation can be stopped
+
+                int currentSlot = getSlotNumberFromCurrentTime();
+
+                EV_DEBUG <<"Emitting stateSSignal" <<endl;
+                emit(stateSSignal_, currentSlot - 1);
+                endSimulation();
+            }
+
             // node processing unit status is not transmitting
             procUnitStatus_ = TRANSMITTING;
 
@@ -266,6 +290,20 @@ void ProcUnit::handleSlotBeepMessage(cMessage *msg)
 
         // debugging log message
         EV_DEBUG << "Message broadcasted. Scheduling stop operation." << endl;
+
+
+        int init = par("hasInitToken");
+        int target = par("hasTargetToken");
+
+        if(!init && !target)
+        {
+            // only needed in star5to1 validation
+
+            int currentSlot = getSlotNumberFromCurrentTime();
+
+            EV_DEBUG <<"Emitting sleepCoverageSignal" <<endl;
+            emit(sleepCoverageSignal_, currentSlot - 1);
+        }
 
         // schedule radio interface shutdown for the next time slot and not
         // to give the module enough time to send out the whole message
