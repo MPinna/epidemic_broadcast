@@ -107,22 +107,24 @@ maximum of one active node in its neighbourhood and thus cannot possibly receive
 the message from two different sources at the same time. This guarantees the
 absence of collisions. In such a scenario, $100\%$ asymptotic coverage is
 ensured: during each slot, the active node extracts a Bernoullian RV with
-success probability $p$. The probability of the active node not transmitting for
-$k$ consecutive slots is a geometric distribution:
+success probability $p$. The probability of the active node transmitting after exactly
+$k$ slots is a geometric distribution:
 \begin{equation}
-	P(X = k) = (1 - p)^{k}.
+	P(X = k) = (1 - p)^{k-1} \cdot p.
 	\label{geometric_distribution}
 \end{equation}
 The successful transmission of the message from an active node to its neighbour
-is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k} = 0$.
+is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k} \cdot p = 0$.
 As for the total broadcast time \texttt{T}, on average it is equal to the mean
-value of the geometric distribution, $\frac{1 - p}{p}$, times the number of hops
+value of the geometric distribution, $\frac{1}{p}$, times the number of hops
 needed to reach the last node:
 \begin{equation}
-	E[T] = \frac{1 - p}{p} \cdot (N - 1).
+	E[T] = \frac{1}{p} \cdot (N - 1).
 	\label{singleQueueMeanT}
 \end{equation}
-\subsection{Star configuration with one active node}
+
+\subsection{Star configuration with one active node (star 1-to-5)}
+\label{ssec:star1}
 Another useful simple configuration worth analysing is the star-shaped one. In
 this setup, there is a central node $A$ connected to $N - 1$ nodes, all of which
 are non-adjacent to each other. Let us suppose $A$ to be the broadcast starter.
@@ -143,17 +145,18 @@ infinity.
 \end{figure}
 \noindent
 In this case, the average total broadcast time $E[T]$ is simply equal to the
-mean value of the geometric distribution, $\frac{1 - p}{p}$, since the central
+mean value of the geometric distribution, $\frac{1}{p}$, since the central
 node is placed at one hop from all the remaining nodes.\\
 \\
 If the broadcast starter node was not the one placed in the center of the star,
 there would not be much difference: absence of collisions and total coverage
 would be ensured as well. As far as it concerns the total broadcast time
-\texttt{T}, its expected value would just be $2 \cdot \frac{1 - p}{p}$, since
+\texttt{T}, its expected value would just be $\frac{2}{p}$, since
 the are now \textbf{two} hops involved in the broadcast: one from the starter
 node to the center node and the another from the center node to all the $N - 2$
 remaining ones.
-\subsection{Star configuration with all but one active node}
+
+\subsection{Star configuration with all but one active node (star 5-to-1)}
 \label{ssec:star2}
 \begin{figure}[H]
     \begin{center}
