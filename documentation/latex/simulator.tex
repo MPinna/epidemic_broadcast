@@ -151,3 +151,57 @@ $2000$ devices dropped on the floorplan, by a factor of $10$; we also found that
 this type of cache (with the right value for the \texttt{cellSize} parameter) is
 the best trade-off between speed and memory occupancy, for this type of
 workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighborCache.html}.  
+
+\section{Validation}
+To ensure the correctness of the simulator and the meaningfulness of the results, the simulator has been validated by means of two simplified scenarios, namely the single queue configuration and the star configuration, which are discussed in \ref{ssec:singlequeue} and \ref{ssec:star2} respectively.
+
+\subsection{Single queue validation}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.75]{img/singleQueueGUI.png}
+        \caption{Validation configuration with 12 hosts placed on a line}
+        \label{fig:single_queueGUI}
+    \end{center}
+    \vspace*{-0.8cm}
+\end{figure}
+
+In this configuration, host[0] always broadcasts during the first slot and then the message travels along the queue, with a total of 10 hops. On every hop, the per-slot probability of successful transmission is $p$, which implies an average number of attempts equal to $\frac{1}{p}$. Therefore, the expected coverage time is
+
+\begin{equation}
+    E[T] = 1 + 10 \cdot \frac{1}{p}
+    \label{eq:singleQueueValidationAvgT}
+\end{equation}
+
+Validation was performed with 9 different configuration, one for  each value of $p$ ranging from $0.1$ to $0.9$, with 200 repetitions each.
+The following results were obtained:
+
+\begin{center}
+\begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
+\hline
+$p$& Expected value & Experimental value (mean, interval for 95\% confidence)\\
+\hline
+$0.1$&$101.0$&$\textbf{99.68}, 95.55, 103.81$\\
+\hline
+$0.2$&$51.0$&$\textbf{49.9}, 47.93, 51.86$\\
+\hline
+$0.3$&$34.33$&$\textbf{34.17}, 32.88, 35.46$\\
+\hline
+$0.4$&$26.0$&$\textbf{25.79}, 24.93, 26.65$\\
+\hline
+$0.5$&$21.0$&$\textbf{20.84}, 20.24, 21.44$\\
+\hline
+$0.6$&$17.67$&$\textbf{17.42}, 17.0, 17.84$\\
+\hline
+$0.7$&$15.29$&$\textbf{15.2}, 14.87, 15.52$\\
+\hline
+$0.8$&$13.5$&$\textbf{13.48}, 13.25, 13.72$\\
+\hline
+$0.9$&$12.11$&$\textbf{12.14}, 11.97, 12.3$\\
+\hline
+\end{tabular}
+\end{center}
+
+As can be seen in the table above %add label to table and reference it?
+the experimental results are consistent with the theoretical expected value, with a 95\% confidence level. %rephrase?
+\subsection{Star 5-to-1}
