@@ -25,9 +25,12 @@ def replacefig(fig):
     if(os.path.isfile(figpath+fig)):
         os.remove(figpath+fig)
     plt.savefig(figpath+fig)
+
 def get_file(p, r,l_path=path):
     return l_path+title+"-p"+str(round(p, 1))+'R'+str(round(r, 1))+'.csv'
-# drow 2 2D plots with different corves representing the behaveour in funciotn of 2 differents parameters
+
+    
+# draw 2 2D plots with different curves representing the behaviour in function of 2 differents parameters
 # set asim=True if confidence intervals are asimmetric
 def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_log=False):
     plt.figure(1)
@@ -64,7 +67,7 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_lo
     if "%" in ylabel:
         plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
 
-# print pki plots fo a given confidence, with a given index of central tentencies (pki), with a gven number of samples n<=200
+# print pki plots for a given confidence, with a given index of central tendencies (pki), with a given number of samples n<=200
 def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
     if not pki in ["collisions", "duration (s)", "coverage (%)"] :
         return
