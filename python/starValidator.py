@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from inspect import currentframe
+import math
+from numpy.core.numeric import NaN
 import scipy.stats as st
 import scipy.special
 import scipy.optimize as op
@@ -7,30 +10,67 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
+import fetcher as fe
 
-def analyze_file(file):
-    df = pd.read_csv(file, dtype={"name":"string", "count":int})
-    collisionsDF = df[df['name'] == 'packetDropIncorrectlyReceived:count']
-    collisionsDF = collisionsDF[['run', 'module', 'name', 'value']]
-    collisionsDF = collisionsDF.groupby(["run", "module"], as_index = False)["value"].first()
-    usersDF = collisionsDF.groupby(["module"], as_index = False)["value"].first()
-    users = len(usersDF.index)
-    collisionsDF = collisionsDF.groupby(["run"], as_index = False)["value"].sum()
-    collisions=np.array(collisionsDF['value'])
-    coverageDF = df[df['name'] == 'timeCoverageStat:vector']
-    coverageDF = coverageDF[['run', 'module', 'name', 'value', 'vectime', 'vecvalue']]
-    vectimeDF = coverageDF.groupby(["run"], as_index = False)["vectime"].first()
-    repetitions = len(vectimeDF.index)
-    vecvalueDF = coverageDF.groupby(["run"], as_index = False)["vecvalue"].first()
-    totalCoverage = []
-    totalCoverageSlot = []
-    for i in range(len(vecvalueDF.index)):
-        coverageList = list(map(int, vecvalueDF["vecvalue"][i].split()))
-        coverage = len(coverageList)
-        totalCoverage.append(coverage/float(users))
-        totalCoverageSlot.append(coverageList[len(coverageList)-1])
-    return users, repetitions, collisions, totalCoverage, totalCoverageSlot
+import pandas as pd
+import numpy as np
 
+from collections import Counter
+
+BASEFILENAME = "5to1csv/star5to1_validation-p=0."
+NUMOFBATCHES = 10
+NUMOFREPS = 1000
+NUMOFSLOTS = 10
+
+
+# order of the states in the Markov stochastic matrix
+STATES = [0, 2, 3, 4, 'S', 5]
+
+# get a sort of "cumulative distribution vector" of
+# the sleeping devices in a simulation
+def getCumulativeSleep(repetition, numOfSlots = NUMOFSLOTS):
+    sleepVector = repetition["vector"]
+    stateSSlot = repetition["stateSSlot"]
+
+    # the Counter structure optimizes counting the
+    # number of occurrences of various element
+    c = Counter(sleepVector)
+
+    cumulSleep = [0]*numOfSlots
+    runningSum = cumulSleep[0]
+
+    # if state S has never been reached, the cumulative sleep
+    # has to be computed up to the last slot in the vector
+    if(math.isnan(stateSSlot)):
+        # for every slot where some host went to sleep
+        for i in range(1, numOfSlots):
+            if i in c:
+                runningSum += c[i]
+            cumulSleep[i] = runningSum
+
+    # otherwise the last slot to be considered is the one before
+    # state S was reached (because the last host that went to sleep
+    # was the one to transmit the broadcast to the target and made it
+    # reach the state S, therefore the transition to consider in the DTMC
+    # is the one to state S, not the one to state N+1)
+    else:
+        for i in range(1, numOfSlots):
+            if i in c:
+                runningSum += c[i]
+            cumulSleep[i] = runningSum
+        for i in range(int(stateSSlot), numOfSlots):
+            cumulSleep[i] = ('S')
+
+    # # if necessary pad the rest of the vector
+    # # with the last state
+    # if(math.isnan(stateSSlot)):
+    #     for i in range(lastEmittedSlot, numOfSlots):
+    #         cumulSleep.append(runningSum)
+    # else:
+    #     for i in range(lastEmittedSlot, numOfSlots):
+    #         cumulSleep.append('S')
+    
+    return cumulSleep[0:numOfSlots]
 
 def getTransitionProbability(i, j, N, p):
     """
@@ -60,10 +100,6 @@ def getMarkovMatrix(N, prob):
     P[nStates - 2][1] = 1
     for j in range(1, nStates - 2):
         P[j][j+1] = 1
-
-    print("Perm matrix:")
-    for row in P:
-        print(row)
     
     # initialize M with probabilities
     for i in range(nStates):
@@ -95,17 +131,94 @@ def getMarkovMatrix(N, prob):
 
     return M
 
-# Stochastic Matrix for a scenario with 5 hosts
-M = getMarkovMatrix(5, 0.9)
+M = getMarkovMatrix(5, 0.2)
 
-print("Markov Matrix:")
-for row in M:
-    for element in row:
-        print(str(element) + "\t", end="")
+
+# read all files and combine every batch of the same configuration
+# into single dataframe. Then append the dataframe to the dataframes
+# vector
+
+configurations = {"p0.2": [],
+                     "p0.4": [],
+                     "p0.6": [],
+                     "p0.8": []
+                }
+
+configCumulatives = {"p0.2": [],
+                     "p0.4": [],
+                     "p0.6": [],
+                     "p0.8": []
+                    }
+
+# for each value of p, read every repetition
+for i in range(2, 9, 2):
+    configuration = []
+    for batch in range(0, NUMOFBATCHES):
+        filename = BASEFILENAME + str(i) + "_" + str(batch) + ".csv"
+        configuration.extend(fe.read_sleeping_coverage(filename))
+    configurations["p0." + str(i)] = configuration
+
+
+# for each repetition create the cumulative sleep vector
+for i in range(NUMOFREPS):
+
+    repetition = configurations["p0.2"][i]
+
+    cumulativeVector = getCumulativeSleep(repetition)
+    configCumulatives["p0.2"].append(cumulativeVector)
+    # print(i)
+    # print(repetition)
+    # print(cumulativeVector)
+    # print()
+
+
+sleepDataframe = pd.DataFrame(configCumulatives["p0.2"], columns=range(0, NUMOFSLOTS))
+
+
+theoreticalProbs = {}
+experimentalProbs = {}
+
+for state in STATES:
+    theoreticalProbs[state] = []
+    experimentalProbs[state] = []
+
+M = np.array(getMarkovMatrix(5, 0.2))
+
+
+# populate theoreticalProbs. Each row corresponds to a state.
+# The i-th element of j-th row is the theoretical probability 
+# of the system being in state j during the i-th slots
+for i in range(NUMOFSLOTS):
+    probs = np.linalg.matrix_power(M, i)[0] # row 0 because the initial state is always 0
+
+    for j, state in enumerate(STATES):
+        theoreticalProbs[state].append(probs[j]) 
+
+
+# populate experimentalProbs. Each row corresponds to a state.
+# The i-th element of j-th row is the experimental probability 
+# of the system being in state j during the i-th slots
+for i in range(NUMOFSLOTS):
+    probs = sleepDataframe[i].value_counts(normalize=True, sort=False).to_dict()
+
+    for state in STATES:
+        if(state in probs):
+            experimentalProbs[state].append(probs[state])
+        else:
+            experimentalProbs[state].append(0)
+
+
+
+for state in STATES:
+    print(str(state) + ":\t", end="")
+    for slot in range(NUMOFSLOTS):
+        print(round(theoreticalProbs[state][slot], 4), end="\t")
     print()
 
-print("20th power:")
-M20 = np.linalg.matrix_power(M, 20)
+print()
 
-for element in M20[0]:
-    print(round(element, 4) , end="\t")
+for state in STATES:
+    print(str(state) + ":\t", end="")
+    for slot in range(NUMOFSLOTS):
+        print(round(experimentalProbs[state][slot], 4), end="\t")
+    print()
