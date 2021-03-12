@@ -33,46 +33,7 @@ P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
 As for $P_{i}(j)$ we can model the system as if it was in the first time slot,
 with the total number of active devices now being equal to $N - t$, where
 $t$ is the number of devices that have transmitted in the $(i - 1)$-th slot.\\
-Therefore, for $i=2$ we have:
-\begin{align*}
-    &P_{2}(0)
-        \begin{aligned}[t]
-            &= P_{1}(0, N)P_{1}(0, N) + P_{1}(2, N)P_{1}(0, N - 2) + ... + P_{1}(N-1, N)P_{1}(0, 1) = \\
-            &= P_{1}(0, N)P_{1}(0, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(0, N-k) = \\
-            &= \sum_{k=0}^{N-1}P_{1}(k, N-k)P_{1}(0, N) - P_{1}(1, N)P_{1}(0, N-1)
-        \end{aligned}\\
-    &P_{2}(1)
-        \begin{aligned}[t]
-            &= P_{1}(0, N)P_{1}(1, N) + P_{1}(2, N)P_{1}(1, N - 2) + ... + P_{1}(N-1, N)P_{1}(1, 1) = \\
-            &= P_{1}(0, N)P_{1}(1, N) + \sum_{k=2}^{N-1}P_{1}(k, N)P_{1}(1, N-k) = \\
-            &= \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(1, N - k) - P_{1}(1, N)P_{1}(1, N-1)
-        \end{aligned}\\	
-    &P_{2}(2)
-        \begin{aligned}[t]
-            &= P_{1}(0, N)P_{1}(2, N) + P_{1}(2, N)P_{1}(2, N - 2) + ... + P_{1}(N-2, N)P_{1}(2, 2) = \\
-            &= P_{1}(0, N)P_{1}(2, N) + \sum_{k=2}^{N-2}P_{1}(k, N)P_{1}(2, N-k) = \\
-            &= \sum_{k=0}^{N-2}P_{1}(k, N)P_{1}(2, N - k) - P_{1}(1, N)P_{1}(2, N-1)
-        \end{aligned}\\	
-    &P_{2}(3) = ... = \sum_{k=0}^{N-3}P_{1}(k, N)P_{1}(3, N - k) - P_{1}(1, N)P_{1}(3, N-1)\\
-    &...\\
-    &P_{2}(N-2) = \sum_{k=0}^{2}P_{1}(k, N)P_{1}(N-2, N - k) - P_{1}(1, N)P_{1}(N-2, N-1)\\
-    &P_{2}(N-1) = \sum_{k=0}^{1}P_{1}(k, N)P_{1}(N-1, N - k) - P_{1}(1, N)P_{1}(N-1, N-1)\\
-    &P_{2}(N) = P_{1}(0, N)P_{1}(N, N)
-\end{align*}
-which has the general form:
-\begin{equation}\label{eq:1}
-    P_{2}(j) =
-    \begin{cases*}
-        \sum_{k=0}^{N-1}P_{1}(k, N)P_{1}(0, N - k) - P_{1}(1, N)P_{1}(0, N-1) & j = 0 \\
-        \sum_{k=0}^{N-j}P_{1}(k, N)P_{1}(j, N - k) - P_{1}(1, N)P_{1}(j, N-1) & 0 $<$ j $<$ N \\
-        P_{1}(0, N)P_{1}(N, N) & j = N \\
-    \end{cases*}
-\end{equation}
-where the term with the minus sign is due to the fact that, if only one device
-transmitted during slot $i$, the target device $T$ will have correctly received
-the message and therefore, starting from slot $i+1$ onwards, it will not be
-listening for incoming messages any more but it will be itself transmitting
-instead.
+
 \newpage
 \section{Appendix B}
 An example of stochastic matrix for a system with $N = 5$ and $p = 0.4$:
