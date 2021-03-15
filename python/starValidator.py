@@ -11,7 +11,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import fetcher as fe
-
+import stat_util as su
+import validationPlots as valPL
 import pandas as pd
 import numpy as np
 
@@ -21,6 +22,7 @@ BASEFILENAME = "5to1csv/star5to1_validation-p=0."
 NUMOFBATCHES = 10
 NUMOFREPS = 1000
 NUMOFSLOTS = 10
+CONFIDENCE = 0.95
 
 
 # order of the states in the Markov stochastic matrix
@@ -160,65 +162,105 @@ for i in range(2, 9, 2):
 
 
 # for each repetition create the cumulative sleep vector
-for i in range(NUMOFREPS):
+for p in configurations:
+    for i in range(NUMOFREPS):
 
-    repetition = configurations["p0.2"][i]
+        repetition = configurations[p][i]
 
-    cumulativeVector = getCumulativeSleep(repetition)
-    configCumulatives["p0.2"].append(cumulativeVector)
-    # print(i)
-    # print(repetition)
-    # print(cumulativeVector)
-    # print()
+        cumulativeVector = getCumulativeSleep(repetition)
+        configCumulatives[p].append(cumulativeVector)
+
+sleepDataFrameSet = {}
+
+for p in configurations:
+    sleepDataframe = pd.DataFrame(configCumulatives[p], columns=range(0, NUMOFSLOTS))
+    sleepDataFrameSet[p] = sleepDataframe
 
 
-sleepDataframe = pd.DataFrame(configCumulatives["p0.2"], columns=range(0, NUMOFSLOTS))
+#
+    # each element of theoreticalProbs is like:
+    #                0   1   2   3   4   5   6   7   8   9
+    # key: 0, value: P00 P01 P02 P03 P04 P05 P06 P07 P08 P09
+    # key: 2, value: P20 P21 P22 P23 P24 P25 P26 P27 P28 P29
+    # key: 3, value: P30 P31 P32 P33 P34 P35 P36 P37 P38 P39
+    # key: 4, value: P40 P41 P42 P43 P44 P45 P46 P47 P48 P49
+    # key: S, value: PS0 PS1 PS2 PS3 PS4 PS5 PS6 PS7 PS8 PS9
+    # key: 5, value: P50 P51 P52 P53 P54 P55 P56 P57 P58 P59
+    #
+    # where Pij is the theoretical prob of the system being in
+    # state i at slot j
+
+    # each element of experimentalProbs is like:
+    #                0   1   2   3   4   5   6   7   8   9
+    # key: 0, value: T00 T01 T02 T03 T04 T05 T06 T07 T08 T09
+    # key: 2, value: T20 T21 T22 T23 T24 T25 T26 T27 T28 T29
+    # key: 3, value: T30 T31 T32 T33 T34 T35 T36 T37 T38 T39
+    # key: 4, value: T40 T41 T42 T43 T44 T45 T46 T47 T48 T49
+    # key: S, value: TS0 TS1 TS2 TS3 TS4 TS5 TS6 TS7 TS8 TS9
+    # key: 5, value: T50 T51 T52 T53 T54 T55 T56 T57 T58 T59
+    #
+    # where Tij is a tuple with experimental prob of the system
+    # being in state i at slot j, along with relative error
 
 
 theoreticalProbs = {}
 experimentalProbs = {}
 
-for state in STATES:
-    theoreticalProbs[state] = []
-    experimentalProbs[state] = []
-
-M = np.array(getMarkovMatrix(5, 0.2))
+for p in configurations:
+    theoreticalProbs[p] = {}
+    experimentalProbs[p] = {}
+    for state in STATES:
+        theoreticalProbs[p][state] = [0] * NUMOFSLOTS
+        experimentalProbs[p][state] = [0] * NUMOFSLOTS
 
 
 # populate theoreticalProbs. Each row corresponds to a state.
 # The i-th element of j-th row is the theoretical probability 
 # of the system being in state j during the i-th slots
-for i in range(NUMOFSLOTS):
-    probs = np.linalg.matrix_power(M, i)[0] # row 0 because the initial state is always 0
+for index, pKey in enumerate(configurations):
 
-    for j, state in enumerate(STATES):
-        theoreticalProbs[state].append(probs[j]) 
+    # get value of p from iteration index
+    p = round((0.2*index + 0.2) ,1)
+    M = np.array(getMarkovMatrix(5, p))
+    for i in range(NUMOFSLOTS):
+        probs = np.linalg.matrix_power(M, i)[0] # row 0 because the initial state is always 0
 
+        # the i-th 'probs' row obtained is the i-th column
+        # of the theoretical probs
+        for j in range(len(probs)):
+            theoreticalProbs[pKey][STATES[j]][i] = probs[j]
+
+print("------THEORETICAL PROBABILITIES------")
+for p in theoreticalProbs:
+    print(p)
+    for state in theoreticalProbs[p]:
+        print(str(state) + ":\t", end="")
+        for slot in range(NUMOFSLOTS):
+            prob = round(theoreticalProbs[p][state][slot], 3)
+
+            print(str(prob) +  "\t", end="")
+        print()
 
 # populate experimentalProbs. Each row corresponds to a state.
-# The i-th element of j-th row is the experimental probability 
-# of the system being in state j during the i-th slots
-for i in range(NUMOFSLOTS):
-    probs = sleepDataframe[i].value_counts(normalize=True, sort=False).to_dict()
+# The i-th element of j-th row is a tuple with the mean 
+# experimental probability and the error
+for p in configurations:
+    for slot in range(0,NUMOFSLOTS):
+        slotData = sleepDataFrameSet[p][slot]
+        stateCount = slotData.value_counts().to_dict()
+        for state in STATES:
+            data = [0]*NUMOFREPS
+            if(state in stateCount):
+                occurrences = stateCount[state]
+                data[0:occurrences - 1] = [1]*occurrences
 
-    for state in STATES:
-        if(state in probs):
-            experimentalProbs[state].append(probs[state])
-        else:
-            experimentalProbs[state].append(0)
+            stateMeanCI = su.mean_confidence_interval(data, CONFIDENCE)
+
+            # append tuple <mean value, mean error> to
+            # corresponding experimentalProbs array
+            experimentalProbs[p][state][slot] = stateMeanCI
 
 
-
-for state in STATES:
-    print(str(state) + ":\t", end="")
-    for slot in range(NUMOFSLOTS):
-        print(round(theoreticalProbs[state][slot], 4), end="\t")
-    print()
-
-print()
-
-for state in STATES:
-    print(str(state) + ":\t", end="")
-    for slot in range(NUMOFSLOTS):
-        print(round(experimentalProbs[state][slot], 4), end="\t")
-    print()
+for index, p in enumerate(experimentalProbs):
+    figTitle = "p = " + str(round((0.2*index + 0.2) ,1))
+    valPL.star5to1ValidationPlot("probability", experimentalProbs[p], theoreticalProbs[p], NUMOFSLOTS, STATES, index, title=figTitle, confidence=CONFIDENCE)
