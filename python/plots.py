@@ -16,10 +16,10 @@ path="results/big_csv/"
 figpath="fig/"
 title="big"
 cmap=cm.get_cmap("rainbow")
-p_values=np.arange(0.1, 1., 0.1)
-r_values=np.arange(1, 20, 1)
-p_colors=cmap(np.linspace(0, 1 ,len(p_values)))
-r_colors=cmap(np.linspace(0, 1, len(r_values)))
+P_VALUES=np.arange(0.1, 1., 0.1)
+R_VALUES=np.arange(1, 20, 1)
+p_colors=cmap(np.linspace(0, 1 ,len(P_VALUES)))
+r_colors=cmap(np.linspace(0, 1, len(R_VALUES)))
 
 def replacefig(fig):
     if(os.path.isfile(figpath+fig)):
@@ -32,20 +32,40 @@ def get_file(p, r,l_path=path):
     
 # draw 2 2D plots with different curves representing the behaviour in function of 2 differents parameters
 # set asim=True if confidence intervals are asimmetric
-def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_log=False):
+# Fig 1:
+#   X axis: transmission range
+#   One line for each value of p
+# Fig 2:
+#   X axis: transmission probability
+#   One line for each value of R
+def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95,
+              title="", p_log=False, p_values=P_VALUES, r_values=R_VALUES):
     plt.figure(1)
+    plt.title(title+" confidence= "+str(confidence*100)+"%")
+    plt.legend(title="Values of P")
+    plt.xlabel("Transmission Range (m)")
+    plt.xticks(np.arange(1,20))
+    plt.ylabel(ylabel)
+    
     for j in range(0,len(p_values)):
         plt.errorbar(x=np.arange(1,20), y=serie[j], yerr=errors[j], capsize=3, linestyle="solid",
                marker='s', markersize=3, mfc="black", mec="black", label=str(round(p_values[j],1)), color=p_colors[j])
     if "%" in ylabel:
         plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
-    plt.legend(title="Values of P")
-    plt.xlabel("Transmission Range (m)")
-    plt.xticks(np.arange(1,20))
-    plt.ylabel(ylabel)
-    plt.title(title+" confidence= "+str(confidence*100)+"%")
+
+
     plt.figure(2)
     plt.title(title+" confidence= "+str(confidence*100)+"%")
+    plt.legend(title="Values of R (m)", loc='center left', bbox_to_anchor=(1,0.5))
+    plt.subplots_adjust(right=0.8)
+    plt.xlabel("Retransmission probability(P)")
+    plt.xticks(p_values)
+    plt.ylabel(ylabel)
+    if(p_log):
+        plt.xscale("log")
+    if "%" in ylabel:
+        plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
+    
     for i in range(0, len(r_values)):
         start=round(serie[0,i], 2)
         end=round(serie[len(p_values)-1,i],2)
@@ -57,15 +77,6 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95, title="", p_lo
             err=errors[:,i]
         plt.errorbar(x=p_values, y=np.array(serie[:,i]), yerr=err, capsize=3, linestyle="solid",
               marker='s', markersize=3, mfc="black", mec="black", label=str(r_values[i]),color=r_colors[i])
-    plt.legend(title="Values of R (m)", loc='center left', bbox_to_anchor=(1,0.5))
-    plt.subplots_adjust(right=0.8)
-    plt.xlabel("Retransmission probability(P)")
-    plt.xticks(p_values)
-    if(p_log):
-        plt.xscale("log")
-    plt.ylabel(ylabel)
-    if "%" in ylabel:
-        plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
 
 # print pki plots for a given confidence, with a given index of central tendencies (pki), with a given number of samples n<=200
 def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
@@ -79,19 +90,19 @@ def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
         return
     serie=[]
     errors=[]
-    for j in range(0, len(p_values)):
+    for j in range(0, len(P_VALUES)):
         serie.append([])
         errors.append([])
         if(ict=="median"):
             errors[j].append([])
             errors[j].append([])
-        for i in range(0, len(r_values)):
+        for i in range(0, len(R_VALUES)):
             if(pki=="collisions"):
-                datas=fe.read_collisions(get_file(p_values[j], r_values[i]))
+                datas=fe.read_collisions(get_file(P_VALUES[j], R_VALUES[i]))
             if(pki=="duration (s)"):
-                datas= fe.read_duration(get_file(p_values[j], r_values[i]))
+                datas= fe.read_duration(get_file(P_VALUES[j], R_VALUES[i]))
             if(pki=="coverage (%)"):
-                datas= fe.read_final_coverage(get_file(p_values[j], r_values[i]))
+                datas= fe.read_final_coverage(get_file(P_VALUES[j], R_VALUES[i]))
             if(ict=="median"):
                 cent, max, min=st.median_confidence_interval(datas[:n], confidence)
                 errors[j][0].append(cent-min)
@@ -100,7 +111,7 @@ def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
                 cent, err=st.mean_confidence_interval(datas[:n], confidence)
                 errors[j].append(err)
             serie[j].append(cent)
-        print("status:"+str(j)+"/"+str(len(p_values)))
+        print("status:"+str(j)+"/"+str(len(P_VALUES)))
     serie=np.array(serie)
     errors=np.array(errors)
     if(ict=="median"):
