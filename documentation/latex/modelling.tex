@@ -66,7 +66,7 @@ Once a node has transmitted the message and has gone into the \texttt{sleeping}
 state, from the point of view of the graph model, it disappears, along with all
 the edges connected to it. Therefore, the set of vertices $V$ changes with time.
 This is what in literature is called a \textit{dynamic graph} or, more
-specifically, a \textit{node-dynamic graph}\cite{harrygraph}.\\
+specifically, a \textit{node-dynamic graph}\cite{hararygraph}.\\
 \\
 Modelling the system with graphs also allows for a simple computation of the
 lower bound for the broadcast time \texttt{T}, which can be useful for validating the simulator or for gaining further insight about the results. Given a graph $G(V, E)$ which represents the users
@@ -88,7 +88,7 @@ In what follows, incrementally more complex scenarios are presented showing the
 reasoning that led us to obtain the final complete model.
 \subsection{Single queue configuration}\label{ssec:singlequeue}
 Let us consider a configuration where users are arranged in a line, as shown in
-figure \ref{fig:single_queue}. Each user only has two neighbours, except for
+figure \ref{fig:single_queue_graph}. Each user only has two neighbours, except for
 the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ the
 starting user with the broadcast message, this is the only node in
 \texttt{transmitting} state while all the other nodes are initially in
@@ -97,7 +97,7 @@ starting user with the broadcast message, this is the only node in
     \begin{center}
         \includegraphics[scale=0.6]{img/single_queue.png}
         \caption{Graph of the Single queue configuration}
-        \label{fig:single_queue}
+        \label{fig:single_queue_graph}
     \end{center}
     \vspace*{-0.4cm}
 \end{figure}
@@ -110,7 +110,7 @@ success probability $p$. The probability of the active node transmitting after e
 $k$ slots is a geometric distribution:
 \begin{equation}
 	P(X = k) = (1 - p)^{k-1} \cdot p.
-	\label{geometric_distribution}
+	\label{geometricDistribution}
 \end{equation}
 The successful transmission of the message from an active node to its neighbour
 is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k} \cdot p = 0$.
@@ -133,13 +133,13 @@ At each time slot, $A$ extracts a Bernoulli RV. When the extraction is
 successful, $A$ broadcasts the message to all of its neighbourhood and total
 coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case
 too, as the probability of $A$ not transmitting for $k$ consecutive slots is
-given by Eq. \ref{geometric_distribution} and goes to $0$ as $k$ goes to
+given by Eq. \ref{geometricDistribution} and goes to $0$ as $k$ goes to
 infinity.
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.6]{img/star_graph.png}
         \caption{Graph of the star configuration with one active node}
-        \label{fig:single_queue}
+        \label{fig:star1to5}
     \end{center}
 \end{figure}
 \noindent
@@ -161,7 +161,7 @@ remaining ones.
     \begin{center}
         \includegraphics[scale=0.5]{img/star_graph2.png}
         \caption{Graph of the Star configuration with all nodes but one active}
-        \label{fig:single_queue}
+        \label{fig:star5to1}
     \end{center}
 \end{figure}
 This configuration can be seen as the complement of the previous one: each node
@@ -307,7 +307,7 @@ P_{k}(j) =
 0
 \end{bmatrix}
 \cdot P^{k} = (P^{k})_{0,j}
-\label{eq:Pk_of_j}
+\label{eq:PkOfJ}
 \end{equation}
 Calculating the $k$-th power of a matrix can be an intensive task from a
 computational point of view. To improve the complexity of the computation, rows
@@ -327,4 +327,4 @@ P_{0,0}	& P_{0,2}	& P_{0,3}  	& \dots	& P_{0, N-1}	& P_{0,S}	& P_{0,N} \\
 \label{triangularPMatrix}
 \end{equation*}
 $P$ is now an upper triangular matrix and this allows for faster computation of
-its powers in \ref{eq:Pk_of_j}.
+its powers in \ref{eq:PkOfJ}.
