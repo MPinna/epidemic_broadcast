@@ -22,20 +22,25 @@ scenarios\footnote{https://omnetpp.org/download-items/INET.html}.\\
 OMNeT++ is a library and a framework, and can be used with the dedicated IDE.
 Not only it allows for development of the simulator itself, but also to export
 simulation results and to inspect simulation behaviour with a graphical user
-interface. Exploiting C++ compiler optimizations, it can achieve the lowest
-simulation duration possible. Networks are composed by modules; there are two
+interface. By taking advantage of the C++ compiler optimizations, it can achieve the lowest
+%riformulare o spostare ?
+% inoltre 'the lowest possible' forse è un po' azzardato da scrivere
+% dato che non possiamo provare che non ci siano altri modi più veloci
+simulation duration possible.
+
+Networks are composed by modules; there are two
 types of modules: simple module and compound module (which can contain other
 modules itself).
 INET, on the other hand, is an extension of OMNeT++, dedicated to recreating 
 network simulation environments, with the capability of reproducing the activity
 of a wireless communication system across multiple nodes. It contains ready to
 use definitions and implementations of network related modules.\\
-The choice was made to use the INET framework in order to avoid spending too
+The INET framework was chosen in order to avoid spending too
 much time on the coding side and therefore be able to focus more on other
-aspects such as the problem modeling and analysis.
+aspects such as the problem modelling and analysis.
 \section{Network architecture}
-The network based architecture is composed by an Array of Host modules, an
-Integrated visualizer (visualizer) and a UnitDiskRadioMedium (radioMedium);
+The network based architecture is composed by an array of \texttt{Host} modules, an
+\texttt{Integrated visualizer} (visualizer) and a \texttt{UnitDiskRadioMedium} (radioMedium);
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.35]{img/floorplan.png}
@@ -47,14 +52,14 @@ Integrated visualizer (visualizer) and a UnitDiskRadioMedium (radioMedium);
 \begin{itemize}
     \item \textbf{UnitDiskRadioMedium} is a compound module provided by INET.
     This radio medium model provides a very simple but fast and predictable
-    physical layer behavior. It must be used in conjunction with the
+    physical layer behaviour. It must be used in conjunction with the
     \texttt{UnitDiskRadio} model. It can simulate the behaviour of the wireless
     communication channel with various levels of abstraction.
     \item \textbf{Integrated visualizer} is a compound module provided by INET.
     It's resposible for the visual representation of modules properties and
     events in the graphic user interface.
-    \item \textbf{Host} is the compound module developer for representing a node
-    in our network environment.
+    \item \textbf{Host} is the compound module developed to represent a node
+    in the network environment.
 \end{itemize}
 The \texttt{Host} module extends the NodeBase module defined by INET. This
 module contains the most basic infrastructure for network nodes that is not
@@ -79,21 +84,21 @@ relationships between types:
 \begin{itemize}
     \item the \texttt{mobility} module privided by INET manages the position of
     the parent module \texttt{Host}; it allows various types of movements, but
-    we are going to be using it only for the initial random placement of the
-    nodes, then all nodes will be stationary.
+    in this study was only used for the initial random placement of the
+    nodes. After being placed, all nodes are stationary for the whole duration of the simulation.
     \item the \texttt{interfaceTable} module is provided by INET and is required
     for correct operation of the radioMedium module.
     \item the \texttt{wlan} module is the wireless interface that allows nodes
-    to communicate with each others. It's an \texttt{AckingWirelessInterface}
+    to communicate with each other. It is an \texttt{AckingWirelessInterface}
     compound module, which is the simplest wireless interface provided by INET.
     \item the \texttt{status} module is provided by INET as well and is required
-    to shutdown and restart network interfaces.
+    to shut down and restart network interfaces.
     \item the \texttt{procUnit} module is the custom made processing unit, that
-    implements the node behaviour when a message arrives. It's connected to the
+    implements the node behaviour when a message arrives. It is connected to the
     \texttt{wlan} module in order to be able to receive and send messages.
     \item \texttt{energyStorage}, \texttt{energyManagement} and
     \texttt{energyGenerator} are modules inherited from \texttt{NodeBase} but
-    they are not instantiated as we don't need to model energy related
+    they are not instantiated as there was no need to model energy-related
     behaviours.
 \end{itemize}
 The \texttt{wlan} module is in charge of checking each and every message for
@@ -104,9 +109,9 @@ retransmission when the random variable extraction results in a success. Finally
 it shuts down the network interface, preventing it from receiving any messages
 or provoking collisions. The network interface is turned off also for the entire
 duration of the RV extractions.
-\section{Parameters and Statistics}
+\section{Parameters and statistics}
 During the simulation, signals are used to collect the statistics. They are all
-collected by the \texttt{Flooplan} module:
+collected by the \texttt{Floorplan} module:
 \begin{itemize}
     \item The \texttt{wlan} module emits a signal every time a collision is
     detected; this signal is collected by the
@@ -120,37 +125,39 @@ collected by the \texttt{Flooplan} module:
     well, collected in the \texttt{timeCoverageStat} statistic; this is a
     vector containing, for each node that received the broadcast message, the
     number of the time slot when the broadcast message was actually received; at
-    the end of the simulation, it's size represents the number of covered nodes.
+    the end of the simulation, its size represents the number of covered nodes.
 \end{itemize}
 Most significant parameters set up in the initialization file
 (\texttt{floorplan.ini}) are reported below:
+%TODO remove? p=1 is just a place-holder which gets replaced
+% during initialize of every procUnit, it's not really significant
 \begin{itemize}
     \item \texttt{Floorplan.host[*].procUnit.slotLength = 1}
     \item \texttt{Floorplan.host[*].procUnit.p = 1}
 \end{itemize}
 %snapshot del file ini con gli sweep per p ed r, e altri parametri più significativi 
 \section{Design Choices and Optimizations}
-Using the INET framework for the development of the simulator allowed us to
-make use of pre-built modules for modeling wireless communications; for example,
-collision detection and statistics collection is already implemented by INET
+Using the INET framework for the development of the simulator allowed for the use of pre-built modules for modelling wireless communications; for example,
+collision detection and statistics collection are already implemented by INET
 modules. During the development we choose for every aspect the optimal level of
-abstraction for our purposes, but it's possible to model other aspects just 
+abstraction for our purposes, but it is possible to model other aspects just 
 changing the types of INET modules used, or by adding new ones. We voluntarily
-avoided taking into account phenomena like pathloss and node movement, and we 
-restricted our considerations to a discrete time scenario. However, modeling
+avoided taking into account phenomena like path loss and node movement, and we 
+restricted our considerations to a discrete time scenario. However, modelling
 continuous time scenarios can be done easily by changing few INET modules types
 and attributes.\\
-INET modules have also pre-built optimization structures, that become
-indispensable when the number of hosts become larger; in order to make the
-simulator ready for high complex scenarios we used an the \texttt{neighborCache}
+INET modules also have pre-built optimization structures, that become
+indispensable when the number of hosts becomes larger; in order to make the
+simulator ready for high complex scenarios we used the \texttt{neighborCache}
 structure offered by the \texttt{radioMedium} module. This module is in charge
 of storing proximity information of each and every node, in order to speed up
-message delivery. Setting the type of this module to \texttt{GridNeighborCache}
-it's possible to reduce the time needed for a simulaton with more than
+message delivery. By setting the type of this module to \texttt{GridNeighborCache},
+it is possible to reduce the time needed for a simulation with more than
 $2000$ devices dropped on the floorplan, by a factor of $10$; we also found that
 this type of cache (with the right value for the \texttt{cellSize} parameter) is
 the best trade-off between speed and memory occupancy, for this type of
-workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighborCache.html}.  
+workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighbor\\
+Cache.html}.  
 
 \section{Validation}
 To ensure the correctness of the simulator and the meaningfulness of the results, the simulator has been validated by means of two simplified scenarios, namely the single queue configuration and the star configuration, which are discussed in \ref{ssec:singlequeue} and \ref{ssec:star2} respectively.
@@ -173,8 +180,9 @@ In this configuration, host[0] always broadcasts during the first slot and then 
     \label{eq:singleQueueValidationAvgT}
 \end{equation}
 
-Validation was performed with 9 different configuration, one for  each value of $p$ ranging from $0.1$ to $0.9$, with 200 repetitions each.
+Validation was performed with 9 different configurations, one for  each value of $p$ ranging from $0.1$ to $0.9$, with 200 repetitions each.
 The following results were obtained:
+%TODO replace with plot? Better than table?
 
 \begin{center}
 \begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
@@ -202,6 +210,45 @@ $0.9$&$12.11$&$\textbf{12.14}, 11.97, 12.3$\\
 \end{tabular}
 \end{center}
 
-As can be seen in the table above %add label to table and reference it?
+As can be seen in the table above, %add label to table and reference it?
 the experimental results are consistent with the theoretical expected value, with a 95\% confidence level. %rephrase?
-\subsection{Star 5-to-1}
+\subsection{Star 5-to-1 validation}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+\includegraphics[width=1\linewidth]{img/omnetStar5to1.png} 
+\caption{Validation configuration with 5 hosts placed on a star and a target in the middle}
+\label{fig:star5to1GUI}
+\end{wrapfigure}
+
+In this configuration, host[0] is the target to be reached by the broadcast while all the others already have the message and try to broadcast at every slot with probability $p$.
+
+This system can be modelled by a discrete-time Markov chain, as explained in \ref{ssec:star2}.
+The probability of the system to be in the $i$-th state during the $j$-th slot is given by taking the $j$-th power of the stochastic matrix and taking the $i$-th element of the first row.
+
+Validation was performed with 4 different configurations, one for each value of $p$ ranging from $0.2$ to $0.8$ with steps of $0.2$, with 1000 repetitions each.\\
+For each configuration, data about the state of the system was recorded and statistics were computed, yielding experimental probabilities. These probabilities were then compared with theoretical predictions, obtained by taking powers of the appropriate stochastic matrix.\\
+All the experimental results proved to be consistent with theoretical computations.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.73]{img/star5to1p=0.4validation.pdf}
+        \caption{Validation data for p = 0.4}
+        \label{fig:5to1validPlot1}
+    \end{center}
+    \vspace*{-0.8cm}
+\end{figure}
+
+%TODO boh c'è spazio, ne ho messo due ma volendo se ne può lasciare solo una
+%TODO there's room for two images, we can keep just one if we want
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.73]{img/star5to1p=0.6validation.pdf}
+        \caption{Validation data for p = 0.6}
+        \label{fig:5to1validPlot2}
+    \end{center}
+    \vspace*{-0.8cm}
+\end{figure}
+
+Figures \ref{fig:5to1validPlot1} and \ref{fig:5to1validPlot2} show graphs of the experimental data (coloured solid lines) along with predictions (thinner black dashed lines).
+%TODO remove empty blank page betwee chapter 4 and 5
