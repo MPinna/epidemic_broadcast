@@ -6,11 +6,10 @@
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
 \chapter{Simulation}\label{simulation}
-As we previously described, we decided to consider a population of $100$ users
-in two different scenarios:
+As previously described, two different scenarios were considered, each with a population of $100$ users:
 \begin{itemize}
     \item \textbf{Small}: a $10$m x $10$m floorplan, with the transmission
-    radius ranging from $1$m to $4.5$m, with a step of $0.5$m, and a Bernullian
+    radius ranging from $1$m to $4.5$m, with a step of $0.5$m, and a Bernoullian
     RV with success probability $p$ ranging from $0.05$ to $0.95$ with steps of
     $0.05$;
     \item \textbf{Big}: a $100$m x $100$m floorplan, with the transmission
@@ -26,14 +25,14 @@ indexes, along with their confidence intervals.
 \section{Big}\label{big}
 \subsection{Coverage}
 Figure \ref{fig:floorplancoverage1} shows the floorplan coverage achieved as a
-function of the Bernullian RV success probability $p$, for different values of
-the transmission radius $R$. As we can observe, the coverage reached is maximum
+function of the success probability $p$, for different values of
+the transmission radius $R$. As we can observe, the coverage is maximum
 for lower values of $p$; this is due to the fact that a low transmission
 probability minimizes the number of collisions, increasing the number of correct
 transmissions. For values of $R < 8$ we observe an almost linear behaviour:
-collisions are almost absents with such a small transmission radius, therefore,
+collisions are almost absent with such a small transmission radius, therefore,
 variations of the value of $p$ do not play a fundamental role as far as it
-concerns the final reached coverage. For $R \geq 8$ the achievable coverage
+concerns the final coverage. For $R \geq 8$ the achievable coverage
 decreases with the increase of $p$, but quite slowly and also it does not
 degenerate to $0$; instead it reaches a value between $10$\% and $40$\% of the
 maximum.
@@ -52,8 +51,7 @@ values of $R$; we know as a matter of fact that for $R \to L\sqrt{2}$ the
 coverage tends to $100$\%, independently of any other parameter.\\
 \\
 Figure \ref{fig:floorplancoverage2} shows the floorplan coverage achieved as a
-function of the transmission radius $R$, for different values of the Bernullian
-RV success probability $p$. As expected, accordingly with the previous plot, the
+function of the transmission radius $R$, for different values of the success probability $p$. As expected, accordingly with the previous plot, the
 final coverage of the flooplan is deeply influenced by the transmission range $R$.
 \begin{figure}[H]
     \begin{center}
@@ -64,6 +62,7 @@ final coverage of the flooplan is deeply influenced by the transmission range $R
     \label{fig:floorplancoverage2}
 \end{figure}
 \noindent
+%TODO it's better to rephrase and remove 'exponentially' as coverage slows down immediately after r=12 and we ourselves say that it is in fact a sigmoid, not an exponential
 In this second plot we can observe that the coverage increases exponentially
 with the transmission range. When the transmission range becomes large
 ($> 16$m), the coverage tends to $100$\%. We recognized the shape of the
@@ -134,6 +133,7 @@ $1$, the duration time tends to its minimum. We fit those shapes using:
 where $D$ is the duration of the simulation, $p$ the probability of
 retransmission, and $a$ and $b$ depend on $R$ as specified in the following
 table:
+%TODO too many digits. Better to reformat as the wall of text is not exactly pretty
 \begin{center}
 \begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
 \hline
