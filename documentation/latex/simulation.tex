@@ -16,11 +16,35 @@ As previously described, two different scenarios were considered, each with a po
     radius ranging from $1$m to $19$m, with a step of $1$m, and a Bernoullian RV
     with success probability $p$ ranging from $0.1$ to $0.9$ with steps of $0.1$;
 \end{itemize}
+\section*{Methodological Note}\label{Methodological}
+In order to analyze all the possible choises for $p$ and $R$, we have to explore the space
+formed by the cartesian product of the possible values for each parameter. Every combination 
+identify a scenario, for which we have to approximate performance indexes; in our model
+every index is a random variable, and we want to compute its mean value, with a confidence interval
+according to a specific confidence level (at least 95\%). 
+We don't have enough details to identify the probability distribution of those variables, and 
+we are not even sure that they will be simmetric, so we choose to estimate the mean value of every 
+distribution by the sample mean and also by the sample median.
+We know that sample mean and sample median converge to the same value for a large number
+of samples; we simply want to plot the one with the small confidence interval, and we can't know
+\texttt{a priori} which will be.
+For confidence intervals, we choose algorithms that don't requires to know the distribution of the
+samples; in order to apply those algorithms we only have to verify that our distributions have a 
+limited variances. We can ensure that because:
+\begin{itemize}
+    \item the \textbf{broadcast time} is bounded from below (because it can't be less than 1) and from above
+        (see \texttt{single queue configuration})
+    \item the \textbf{percentage of covered users} is bounded from 0.01 (1\%) to 1 (100\%)
+    \item the \textbf{number of collisions} is bounded from below (because it can't be less than 0) and
+        from above because it's lower than the total number of trasmissions, which is equal to the number of nodes (100)
+\end{itemize} 
+
 %TODO I think a verb is missing
-In what follows, for each of the scenarios, the floorplan coverage, the
-broadcast duration and the number of collisions.\\
+For each of the scenarios, the floorplan coverage, the
+broadcast duration and the number of collisions are mesured and plotted in graphs in order to 
+extrapolate insighs about the behaviour of the system.\\
 In order to achieve statistically significant results with a minimum accuracy of
-$90$\%, each scenario configuration -- with the same parameters -- was run 200 times; then, mean and median values of the performance
+$95$\%, each scenario configuration -- with the same parameters -- was run 200 times; then, mean and median values of the performance
 indexes were computed, along with their confidence intervals.
 \section{Big}\label{big}
 \subsection{Coverage}
