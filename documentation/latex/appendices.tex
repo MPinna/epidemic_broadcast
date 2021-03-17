@@ -144,9 +144,14 @@ Finally, the last 2 out of 3 broadcast the message and the last one detects a co
 The total number of collision is therefore $95+93+91...+3+1\textbf{+1} = 2305$.
 
 \hfill \break
-In general, for a configuration with N hosts, the upper bound for the number of collision is given by the following formula
+It is trivial to prove that that if $N \leq 3$, no collisions can happen.
+\hfill \break
+In general, for a configuration with N hosts, $N \geq 4$, the upper bound for the number of collision is given by the following formula:
 
 \begin{equation}
 \label{eq:collisionUpperBound}
-	C_{max}(N) = 1+\sum_{i=0}^{\frac{N}{2} - 3}2i + 1
+	C_{max}(N) = \begin{cases}
+	1+(\frac{N}{2}-2)^2 &\text{if N is odd}\\
+	2+(\frac{N-1}{2} - 2)(\frac{N-1}{2}-1) &\text{if N is even}
+	\end{cases}
 \end{equation}

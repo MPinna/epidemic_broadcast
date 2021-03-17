@@ -13,7 +13,7 @@ behaviour is \textit{graph theory}. In this work the same approach was used.\\
 If we think of the users involved in the broadcasting of the message as the
 nodes of a graph, as the broadcast propagation goes on and the message is
 transmitted among the nodes, the system goes through different states where each
-node could be either transmitting, listening or stopped.
+node could be either listening, transmitting or sleeping.
 We can therefore think of the state of the entire system as a combination of
 the states of each node. The different nodes behaviours were modelled by means
 of three different states:
@@ -22,12 +22,12 @@ of three different states:
 	yet and therefore it is still listening for incoming messages from other nodes;
 	\item \texttt{transmitting}: the node has received the message and during
 	each time slot it is trying to transmit it to adjacent nodes; in what
-	follows, a node in \texttt{transmitting} state will be referred to as the
-	\textit{active} node;
+	follows, \texttt{transmitting} nodes will also be referred to as the
+	\textit{active} nodes;
 	\item \texttt{sleeping}: the node has already received and retransmitted
 	the broadcast message; once a node is in the \texttt{sleeping} state, it
 	will remain in such state and will therefore have no effect on the system
-	anymore.
+	any more.
 \end{itemize}
 \section{Graph model for wireless systems}
 The $N$ users dropped on the floorplan make up the set of vertices $V$ of a
@@ -66,6 +66,7 @@ Once a node has transmitted the message and has gone into the \texttt{sleeping}
 state, from the point of view of the graph model, it disappears, along with all
 the edges connected to it. Therefore, the set of vertices $V$ changes with time.
 This is what in literature is called a \textit{dynamic graph} or, more
+%TODO fix citation
 specifically, a \textit{node-dynamic graph}\cite{hararygraph}.\\
 \\
 Modelling the system with graphs also allows for a simple computation of the
@@ -102,9 +103,10 @@ starting user with the broadcast message, this is the only node in
     \vspace*{-0.4cm}
 \end{figure}
 \noindent It is clear that, with this configuration, each listening node has a
-maximum of one active node in its neighbourhood and thus cannot possibly receive
+maximum of one active node in its neighbourhood at any time and thus cannot possibly receive
 the message from two different sources at the same time. This guarantees the
-absence of collisions. In such a scenario, $100\%$ asymptotic coverage is
+absence of collisions.\\
+In such a scenario, $100\%$ asymptotic coverage is
 ensured: during each slot, the active node extracts a Bernoullian RV with
 success probability $p$. The probability of the active node transmitting after exactly
 $k$ slots is a geometric distribution:
@@ -113,7 +115,7 @@ $k$ slots is a geometric distribution:
 	\label{geometricDistribution}
 \end{equation}
 The successful transmission of the message from an active node to its neighbour
-is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k} \cdot p = 0$.
+is thus guaranteed since $\lim_{k \to \infty} (1 - p)^{k-1} \cdot p = 0$.
 As for the total broadcast time \texttt{T}, on average it is equal to the mean
 value of the geometric distribution, $\frac{1}{p}$, times the number of hops
 needed to reach the last node:
@@ -155,12 +157,12 @@ the are now \textbf{two} hops involved in the broadcast: one from the starter
 node to the center node and the another from the center node to all the $N - 2$
 remaining ones.
 
-\subsection{Star configuration with all but one active node (star 5-to-1)}
+\subsection{Star configuration with all nodes active but one (star 5-to-1)}
 \label{ssec:star2}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.5]{img/star_graph2.png}
-        \caption{Graph of the Star configuration with all nodes but one active}
+        \caption{Graph of the star configuration with all nodes active but one}
         \label{fig:star5to1}
     \end{center}
 \end{figure}
@@ -201,7 +203,7 @@ If the system transitions to state $N$, it stays in it indefinitely since all
 the devices would be \texttt{sleeping} and they cannot become active again. This
 implies that there will never be total coverage since the target device will
 forever stay in the \texttt{listening} state without ever receiving the message.
-On the other hand, state $S$, although being an absorbing state as well, should
+On the other hand, state $S$, despite being an absorbing state as well, should
 actually be considered as an ``exit" state rather than a ``sink" state: if the
 system transitions to this state, the target device has successfully received
 the message and total coverage has been reached.\\
@@ -282,7 +284,7 @@ To compute the probability of transitioning to state $j$ in \textbf{k} steps, it
 is now sufficient to multiply the initial state vector $x_{0}$ by the stochastic
 matrix raised to the $k$-th power, e.g.
 \begin{equation}\label{probAtStateK1}
-P_{k}(j) = x_{0}\cdot P^{k}
+P_{k}(j) = (x_{0}\cdot P^{k})_{j}
 \end{equation}
 In our case, the system always starts in state 0, so we have
 \begin{equation*}
