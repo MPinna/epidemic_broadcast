@@ -42,23 +42,42 @@ To be more detailed:
 	\item the radius of transmission \colorbox{gray!30}{\large \texttt{R}}: it
 	represents the maximum distance between two users such that the message
 	sent from one is detected by the other; it is the same for every user on
-	the floorplan; realistic values for $R$ have been taken from Bluetooth Low
-	Energy standard and range from a minimum of $5$ metres to a maximum of $50$
+	the floorplan.\\
+	$R$ clearly has a great impact on all
+    the performance metrics: the greater this radius, the faster the message
+    moves across the floorplan and the higher the number of users that can be
+    reached; on the other hand, a greater radius is likely to cause more
+    collisions than a smaller one. \\
+	 Realistic values for $R$ have been taken from Bluetooth Low
+	Energy standard and range from a minimum of $5$ metres to a maximum of $20$
 	metres.
 	\item the \textit{per-slot} transmission probability
 	\colorbox{gray!30}{\large \texttt{p}}: it is the success probability for the
-	Bernoullian random variable associated to the transmission; as a
-	probability, it can assume values between 0 and 1;
-    \item the width of the side of the floorplan rectangle
-    \colorbox{gray!30}{\large \texttt{L}};
+	Bernoullian random variable associated to the transmission. As a
+	probability, it can assume values between 0 and 1.\\
+	The higher the transmission probability $p$, the faster a message ”moves away” from
+a user; at the same time, a high transmission probability implies a high collision
+probability in a local area where two or more nodes are transmitting;
+    \item the length of the side of the floorplan rectangle
+    \colorbox{gray!30}{\large \texttt{L}}; \\
+    A bigger floorplan area, all else being equal, will require a longer
+    time to be covered entirely by the broadcast;
 	\item the \textit{aspect ratio} of the floorplan rectangle
 	\colorbox{gray!30}{\large \texttt{a}}, defined as the ratio between the
 	longer side $L$ and the shorter side $W$; because of the radial symmetry of
 	the transmission phenomenon, there is no actual need to consider values for
-	\texttt{a} lower than 1; this parameter is fixed at 1 in our simulation model, 
-	so we are considering only square floorplans; this will allow the analysis
-	to be focused on more important parameters, but still in a quite common
-	scenario;
+	\texttt{a} lower than 1.\\
+	A very long and very narrow floorplan will probably cause less collisions than a
+square one with the same area, as the average number of users in the collision
+range of a random user decreases; on the other hand, the performance of this type of
+scenario will be highly influenced by the position of the starting node;
+
+%TODO remove? Reprhase? We are already specifying that we only tweaked p and R
+%	this parameter is fixed at 1 in our simulation model, 
+%	so we are considering only square floorplans; this will allow the analysis
+%	to be focused on more important parameters, but still in a quite common
+%	scenario;
+%TODO number of users is defined as number of users? Redundant? Remove definition? Rephrase?
 	\item number of users \colorbox{gray!30}{\large \texttt{N}}, defined
 	as the number of users dropped on the floorplan;
 	\item users population density \colorbox{gray!30}{\large \texttt{d}},
@@ -66,26 +85,6 @@ To be more detailed:
 	decided to study two opposite density scenarios
 	(high: 1/$m^2$ and low 0.1/$m^2$).
 \end{itemize}
-The rationales behind the choices of the parameters were the following:
-\begin{itemize}
-    \item the transmission radius \texttt{R} clearly has a great impact on all
-    the performance metrics; the greater this radius, the faster the message
-    moves across the floorplan and the higher the number of users that can be
-    reached; on the other hand, a greater radius is likely to cause more
-    collisions than a smaller one;
-    \item the higher the transmission probability \texttt{p}, the faster a
-    message "moves away" from a user; at the same time, a high transmission
-    probability implies a high collision probability in a local area where two
-    or more nodes are transmitting;
-    \item a bigger floorplan area, all else being equal, will require a longer
-    time to be covered entirely by the broadcast message;
-    \item a very long and very narrow floorplan will probably cause less
-    collisions than a square one with the same area, as the average number of
-    users in the collision range of other users decreases; on the other hand,
-    the performance of this type of scenario will be highly influenced by the
-    position of the starting node;
-    \item in order to exploit different values for the population density
-    \texttt{d} parameter, we decided to fix the total number of users on the
-    floorplan \texttt{N} to the constant value $100$, then, two values for $L$
-    were considered: $10$ metres and $100$ metres.
-\end{itemize}
+
+For this study, the two main parameters were \colorbox{gray!30}{\large \texttt{R}} and \colorbox{gray!30}{\large \texttt{p}}. Full sweeps for different values of both were made. \\
+\colorbox{gray!30}{\large \texttt{a}} was kept constant and equal to 1 (i.e. the floorplan is always a square) and \colorbox{gray!30}{\large \texttt{L}} was either $10 m$ (``small" configuration) or $100 m$ (``big" configuration). \colorbox{gray!30}{\large \texttt{N}} was also kept constant and equal to 100.
