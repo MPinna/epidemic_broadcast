@@ -16,23 +16,24 @@ As previously described, two different scenarios were considered, each with a po
     radius ranging from $1$m to $19$m, with a step of $1$m, and a Bernoullian RV
     with success probability $p$ ranging from $0.1$ to $0.9$ with steps of $0.1$;
 \end{itemize}
+%TODO I think a verb is missing
 In what follows, for each of the scenarios, the floorplan coverage, the
 broadcast duration and the number of collisions.\\
 In order to achieve statistically significant results with a minimum accuracy of
-$90$\%, we decided to repeat the same scenario with the same parameters for
-$200$ times, and then computed mean and median values of the performance
-indexes, along with their confidence intervals.
+$90$\%, each scenario configuration -- with the same parameters -- was run 200 times; then, mean and median values of the performance
+indexes were computed, along with their confidence intervals.
 \section{Big}\label{big}
 \subsection{Coverage}
 Figure \ref{fig:floorplancoverage1} shows the floorplan coverage achieved as a
 function of the success probability $p$, for different values of
-the transmission radius $R$. As we can observe, the coverage is maximum
+the transmission radius $R$. \\
+As we can observe, the coverage is maximum
 for lower values of $p$; this is due to the fact that a low transmission
 probability minimizes the number of collisions, increasing the number of correct
 transmissions. For values of $R < 8$ we observe an almost linear behaviour:
-collisions are almost absent with such a small transmission radius, therefore,
-variations of the value of $p$ do not play a fundamental role as far as it
-concerns the final coverage. For $R \geq 8$ the achievable coverage
+collisions are almost absent with such a small transmission radius; therefore,
+variations of the value of $p$ do not play a fundamental role as far as total coverage is
+concerned. For $R \geq 8$ the achievable coverage
 decreases with the increase of $p$, but quite slowly and also it does not
 degenerate to $0$; instead it reaches a value between $10$\% and $40$\% of the
 maximum.
