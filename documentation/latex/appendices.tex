@@ -16,7 +16,7 @@ transmitting at the same time during slot $i$.\\
 By specification, the successful reception of the message by device $T$ occurs
 when \textbf{one} and only one of the transmitters sends the message during the
 time slot. Furthermore, the successful transmission of a device is
-"\textit{a Bernoullian RV with success probability \emph{p} on every slot, until
+``\textit{a Bernoullian RV with success probability \emph{p} on every slot, until
 it achieves success}". Therefore, we can model $P_{1}(j, N)$ as follows:
 \[
 \begin{drcases}
@@ -36,6 +36,7 @@ $t$ is the number of devices that have transmitted in the $(i - 1)$-th slot.\\
 
 \newpage
 \section{Appendix B}
+\label{app:b}
 An example of stochastic matrix for a system with $N = 5$ and $p = 0.4$:
 \begin{equation*}
 P = 
@@ -64,6 +65,7 @@ P =
 \end{equation*}
 \newpage
 \section{Appendix C}
+\label{app:c}
 Given a generic convex shape as floorplan, we can compute its area ($A$); if we
 imagine placing a point mass transmitter (\texttt{trx}) in a random point of
 such floorplan, it is easy to compute the probability for \texttt{trx} to be
@@ -105,10 +107,46 @@ $N > 1$, because of independence.
 \begin{equation*}
     C(N)= \left(\frac{1}{p}\right)^{\left( N-1 \right)}
 \end{equation*}
-This is a Bernullian distribution, and we can use this result only taking one
-\texttt{trx} at time; in other words we can't use this distribution for all the
+This is a Bernoullian distribution, and we can use this result only taking one
+\texttt{trx} at time; in other words we cannot use this distribution for all the
 \texttt{trx} in a random configured floorplan, because they are not independent. 
 The distribution for one \texttt{trx} will be influenced by the position of
 others. Anyway, we can apply this distribution to many transmitters, each one
 taken from a different floorplan; in this way we can validate the independence
 of different random configurations.
+
+\section{Appendix D}
+\label{app:d}
+Below is a demonstration of the upper bound for the number of collision in a scenario with N hosts.
+
+\hfill \break
+The necessary condition for a collision to happen is that at least two hosts transmit during the same slot. Each host placed in the intersection of the transmission circles of the two transmitting hosts detects one collision. \\
+Therefore, to maximize the number of collisions, it is necessary in every slot, both to a) maximize the number of hosts that detect the collision and b) minimize the number of transmitting hosts (while still assuring that a collision can happen) so that during the next slot the number of hosts available to detect a collision is the highest.
+
+\hfill \break
+Let us suppose to have a floorplan with 100 hosts.\\
+\begin{itemize}
+	\item
+	During slot n. 1, host 0 transmits and, being the only host transmitting, absence of collision is ensured. Let us suppose that the message is received by host 99 and host 98.
+	\item
+	During slot n. 2, host 99 and host 99 broadcast the message and, out of the 97 active hosts, only host 97 and host 96 receive the message correctly. The remaining 95 detect a collision.
+	\item
+	During slot n. 3, host 97 and host 96 broadcast the message and, out of the 95 active hosts, only host 95 and host 95 receive the message correctly. The remaining 93 detect a collision.
+	\item
+	And so on...
+
+\end{itemize}
+\hfill \break
+Following this line of reasoning, the number of listening hosts decreases by two every slot, and so does the number of collisions.\\
+When only 5 hosts are remaining on the floorplan, 2 of which are transmitting and the other 3 are receiving, 2 of the latter 3 receive the message correctly and the last one detects a collision.\\
+Finally, the last 2 out of 3 broadcast the message and the last one detects a collision again.
+\hfill \break
+The total number of collision is therefore $95+93+91...+3+1\textbf{+1} = 2305$.
+
+\hfill \break
+In general, for a configuration with N hosts, the upper bound for the number of collision is given by the following formula
+
+\begin{equation}
+\label{eq:collisionUpperBound}
+	C_{max}(N) = 1+\sum_{i=0}^{\frac{N}{2} - 3}2i + 1
+\end{equation}
