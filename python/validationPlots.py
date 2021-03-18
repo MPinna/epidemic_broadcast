@@ -1,6 +1,4 @@
 
-import stat_util as st
-import fetcher as fe
 import scipy.optimize as op
 import numpy as np
 import pandas as pd
