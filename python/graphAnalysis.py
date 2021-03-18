@@ -219,7 +219,7 @@ def replacefig(fig):
     plt.savefig(FIGPATH+fig)
 
 
-def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBars=True, xTick=10, asim=False, confidence=0.95):
+def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBars=True, xTick=10, shadowFill=False, asim=False, confidence=0.95):
     plt.figure(figIndex)
     plt.title(title + " (" + str(int(confidence*100)) + "% CI)")
     plt.xlabel("R (m)")
@@ -230,14 +230,20 @@ def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBar
 
     values = []
     errors = []
+    lowerValues = []
+    upperValues = []
     for tuple in data:
         values.append(tuple[0])
         errors.append(tuple[1])
+        lowerValues.append(tuple[0] - tuple[1])
+        upperValues.append(tuple[0] + tuple[1])
 
-    if(plotErrorBars == False):
+    if(plotErrorBars == False or shadowFill == True):
         errors = None
     plt.errorbar(x=range(1, Rmax + 1), y=values, yerr=errors, capsize=3, linestyle="solid", marker='s', ecolor="black", elinewidth=0.5, markersize=1, capthick=0.5, mfc="black", mec="black")
-    # plt.legend(title = "States", bbox_to_anchor=(1, 1), loc='upper left', borderaxespad=0.2)
+
+    if(shadowFill == True and plotErrorBars == True):
+        plt.fill_between(range(1, Rmax + 1), lowerValues, upperValues, alpha=0.4)
 
     replacefig("graphAnalysis" + title.replace(" ", "_") + "validation.pdf")
 
@@ -313,7 +319,7 @@ eccentricityMCI = eccentricityMCI[1:]
 
 print(len(eccentricityMCI))
 
-plot_graph_properties("Eccentricity", eccentricityMCI, "Eccentricity", R_MAX, figureIndex)
+plot_graph_properties("Eccentricity", eccentricityMCI, "Eccentricity", R_MAX, figureIndex, shadowFill=True)
 figureIndex += 1
 for col in safeNodesDF.columns:
     list = safeNodesDF[col].tolist()
@@ -325,7 +331,7 @@ safeNodesMCI = safeNodesMCI[1:]
 
 print(len(safeNodesMCI))
 
-plot_graph_properties("Safe nodes", safeNodesMCI, "Safe nodes", R_MAX, figureIndex)
+plot_graph_properties("Safe nodes", safeNodesMCI, "Safe nodes", R_MAX, figureIndex, shadowFill=True)
 
 
     # tupleMCI = su.mean_confidence_interval(list)
