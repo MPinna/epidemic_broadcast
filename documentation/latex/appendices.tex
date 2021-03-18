@@ -51,16 +51,30 @@ P_{0,0}	& P_{0,2}	& P_{0,3}  	& P_{0, 4}	& P_{0,S}	& P_{0,5} \\
 \label{exampleMatrix}
 \end{equation*}
 Here with numerical values (rounded to 4 decimal places):
+
+%P = 
+%\begin{bmatrix}
+%0.0778	& 0.3456	& 0.2304  	& 0.0768	& 0.2592	& 0.0102 \\
+%		& 0.216		& 0  		&0.288		& 0.432		& 0.064 \\
+%		& 			& 0.36		& 0			& 0.48		& 0.16 \\
+%		& 			& 			& 0.6		& 0.4		& 0\\
+%		& 			& 			& 			& 1			& 0\\
+%0		& 			& 		  	& 			& 			& 1\\
+%\end{bmatrix}
+
 \begin{equation*}
-P = 
-\begin{bmatrix}
-0.0778	& 0.3456	& 0.2304  	& 0.0768	& 0.2592	& 0.0102 \\
-		& 0.216		& 0  		&0.288		& 0.432		& 0.064 \\
-		& 			& 0.36		& 0			& 0.48		& 0.16 \\
-		& 			& 			& 0.6		& 0.4		& 0\\
-		& 			& 			& 			& 1			& 0\\
-0		& 			& 		  	& 			& 			& 1\\
-\end{bmatrix}
+P=
+\begin{blockarray}{ccccccc}
+ & 0 & 2 & 3 & 4 & S & 5 \\
+\begin{block}{c[cccccc]}
+0	&	0.0778	& 0.3456	& 0.2304  	& 0.0768	& 0.2592	& 0.0102 \\
+2	&			& 0.216		& 0  		&0.288		& 0.432		& 0.064 \\
+3	&			& 			& 0.36		& 0			& 0.48		& 0.16 \\
+4	&			& 			& 			& 0.6		& 0.4		& 0\\
+S	&			& 			& 			& 			& 1			& 0\\
+5	&	0		& 			& 		  	& 			& 			& 1\\
+\end{block}
+\end{blockarray}
 \label{exampleMatrixValues}
 \end{equation*}
 \newpage
@@ -70,14 +84,15 @@ Given a generic convex shape as floorplan, we can compute its area ($A$); if we
 imagine placing a point mass transmitter (\texttt{trx}) in a random point of
 such floorplan, it is easy to compute the probability for \texttt{trx} to be
 located in a given point \textit{x} as:
+%TODO fix, a probability cannot be a density, it should turn out to be an adimensional number. Furthermore, if we consider the coordinates to be real number, the probability is zero in every point.
 \begin{equation*}
     P(x) = 1/A
 \end{equation*}
 Given that the transmission radius in $r$, we can define a circle centered in x, 
 as the transmission range of the first \texttt{trx} ($R$). If the \texttt{trx}
-in far enough from the border of the floorplan, all it's transmission range fall
-into the floorplan; in this case, the probability for another (random
-positioned) \texttt{trx} to be placed inside this transmission range is equal to:
+in far enough from the border of the floorplan, its whole transmission circle lies
+onto the floorplan; in this case, the probability for another (random
+positioned) \texttt{trx} to be placed inside within its range is equal to:
 \begin{equation*}
     P(x') = \int_{R}^{} P(x)= \frac{2\pi r^2}{A} \ 
 \end{equation*}
@@ -90,7 +105,7 @@ Depending on the floorplan' shape, we can identify the partition of the shape
 where the transmission range will fall out of the shape itself, and we will do
 specific computation for this area.\\
 In general, by the middle value theorem for integrals, and the total probability
-theorem, the probailiy for $2$ transmitters (let $x$ and $y$ be their
+theorem, the probability for $2$ transmitters (let $x$ and $y$ be their
 coordinates) randomly placed to be close enough to be able to communicate is:
 \begin{equation*}
     \rho = P(|x-y|<r) = \frac{1}{A} \int_{A}^{} P(x')
@@ -144,14 +159,14 @@ Finally, the last 2 out of 3 broadcast the message and the last one detects a co
 The total number of collision is therefore $95+93+91...+3+1\textbf{+1} = 2305$.
 
 \hfill \break
-It is trivial to prove that that if $N \leq 3$, no collisions can happen.
+It is trivial to prove that if $N \leq 3$, no collisions can happen.
 \hfill \break
 In general, for a configuration with N hosts, $N \geq 4$, the upper bound for the number of collision is given by the following formula:
 
 \begin{equation}
 \label{eq:collisionUpperBound}
 	C_{max}(N) = \begin{cases}
-	1+(\frac{N}{2}-2)^2 &\text{if N is odd}\\
-	2+(\frac{N-1}{2} - 2)(\frac{N-1}{2}-1) &\text{if N is even}
+	1+(\frac{N}{2}-2)^2 &\text{if N is even}\\
+	2+(\frac{N-1}{2} - 2)(\frac{N-1}{2}-1) &\text{if N is odd}
 	\end{cases}
 \end{equation}
