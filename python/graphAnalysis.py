@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import math
 import networkx as nx
 from networkx.algorithms.distance_measures import eccentricity
 from collections import Counter
@@ -12,6 +13,7 @@ import copy
 import fetcher as fe
 import stat_util as su
 import os.path
+import sys
 
 NUM_OF_REPS = 200
 NUM_OF_NODES = 100
@@ -219,7 +221,11 @@ def replacefig(fig):
     plt.savefig(FIGPATH+fig)
 
 
-def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBars=True, xTick=10, shadowFill=False, asim=False, confidence=0.95):
+def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBars=True, xTick=10, shadowFill=False, asim=False, confidence=0.95, interpolate=False, interpolationData=None):
+
+    if(interpolate == True):
+        assert interpolationData != None
+
     plt.figure(figIndex)
     plt.title(title + " (" + str(int(confidence*100)) + "% CI)")
     plt.xlabel("R (m)")
@@ -240,12 +246,31 @@ def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBar
 
     if(plotErrorBars == False or shadowFill == True):
         errors = None
-    plt.errorbar(x=range(1, Rmax + 1), y=values, yerr=errors, capsize=3, linestyle="solid", marker='s', ecolor="black", elinewidth=0.5, markersize=1, capthick=0.5, mfc="black", mec="black")
+    plt.errorbar(x=range(1, Rmax + 1), y=values, yerr=errors, capsize=3, linestyle="solid", marker='s', markersize=1, mfc="black", mec="black")
 
     if(shadowFill == True and plotErrorBars == True):
         plt.fill_between(range(1, Rmax + 1), lowerValues, upperValues, alpha=0.4)
 
+    if(interpolate == True):
+        plt.errorbar(x=range(1, Rmax + 1), y=interpolationData, linestyle="--", color="black", linewidth=0.7)
+
     replacefig("graphAnalysis" + title.replace(" ", "_") + "validation.pdf")
+
+def sigmoid(x, a, b, N):
+    y = (1/N + ((N-1)/N)*(1/(1 + math.exp(b*(a - x)))))*100
+    return y
+
+def sigmoid2(x, a, b, N):
+    y = (1/N + ((N-1)/N)*(1 + math.tanh(b*(x - a)))/2)*100
+    return y
+
+def get_sigmoid_points(xValues, a, b, N):
+    points = []
+
+    for x in xValues:
+        y = sigmoid2(x, a, b, N)
+        points.append(y)
+    return points
 
 reachDF =  pd.DataFrame()
 eccentricityDF = pd.DataFrame()
@@ -297,15 +322,22 @@ for col in reachDF.columns:
 
 avgReachMCI = avgReachMCI[1:]
 
-print("LENGHTS:")
-print(len(avgReachMCI))
-
 figureIndex = 1
+print("Saving avg reach plot")
 plot_graph_properties("Reach", avgReachMCI, "Total reach", R_MAX, figureIndex, plotErrorBars=False)
 
 figureIndex += 1
 
-plot_graph_properties("Reach", avgReachMCI[0:40], "Total reach (up to R=40)", 40, figureIndex, xTick=5)
+sigmoid_a = 12
+sigmoid_b = 1/(math.e)
+
+if(len(sys.argv) > 1):
+    sigmoid_b = float(sys.argv[1])
+
+sigmoidPoints = get_sigmoid_points(R_VALUES[0:30], sigmoid_a, sigmoid_b, NUM_OF_NODES)
+
+print("Saving avgReach plot up to R = 30, with interpolation")
+plot_graph_properties("Reach", avgReachMCI[0:30], "Total reach (up to R=30)", 30, figureIndex, xTick=5, interpolate=True, interpolationData=sigmoidPoints)
 
 figureIndex += 1
 
@@ -317,8 +349,8 @@ for col in eccentricityDF.columns:
 
 eccentricityMCI = eccentricityMCI[1:]
 
-print(len(eccentricityMCI))
 
+print("Saving eccentricity plot")
 plot_graph_properties("Eccentricity", eccentricityMCI, "Eccentricity", R_MAX, figureIndex, shadowFill=True)
 figureIndex += 1
 for col in safeNodesDF.columns:
@@ -328,9 +360,7 @@ for col in safeNodesDF.columns:
 
 safeNodesMCI = safeNodesMCI[1:]
 
-
-print(len(safeNodesMCI))
-
+print("Saving safe nodes plot")
 plot_graph_properties("Safe nodes", safeNodesMCI, "Safe nodes", R_MAX, figureIndex, shadowFill=True)
 
 
