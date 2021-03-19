@@ -34,9 +34,9 @@ limited variance. We can ensure that because:
 \begin{itemize}
     \item the \textbf{broadcast time} is bounded from below (because it cannot be less than 1) and from above
         (see \texttt{single queue configuration})
-    \item the \textbf{percentage of covered users} is bounded from 0.01 (1\%) to 1 (100\%)
+    \item the \textbf{percentage of covered users} is bounded between 0.01 (1\%) to 1 (100\%)
     \item the \textbf{number of collisions} is bounded from below (because it cannot be less than 0) and
-        from above by the value 2305 for a floorplan with 100 hosts. Derivation of the formula for the upper bound can be found in appendix D.
+        from above by the value 2305 for a floorplan with 100 hosts. The formula for the upper bound can be found in appendix D, toghether with its derivation.
 \end{itemize} 
 
 %TODO I think a verb is missing
@@ -46,8 +46,8 @@ extrapolate insighs about the behaviour of the system.\\
 In order to achieve statistically significant results with a minimum accuracy of
 $95$\%, each scenario configuration -- with the same parameters -- was run 200 times; then, mean and median values of the performance
 indexes were computed, along with their confidence intervals.
-\section{Big}\label{big}
-\subsection{Coverage}
+\section{Big}\label{sec:big}
+\subsection{Coverage}\label{ssec:coverage}
 Figure \ref{fig:floorplancoverage1} shows the floorplan coverage achieved as a
 function of the success probability $p$, for different values of
 the transmission radius $R$. \\
@@ -241,3 +241,70 @@ This plot show the Number of collisions in function of P, for different values o
     \caption{Caption this}
     \label{fig:floorplancoverage6}
 \end{figure}
+
+\section{Comparison between KPIs and graph properties}
+
+Some of the results shown in the previous section can be better understood when compared with some properties of the graphs associated with the configurations of the hosts.\\
+In particular, three properties of the graphs have been studied:
+
+\begin{itemize}
+	\item the \texttt{reach}, defined as the number of nodes that can be reached from host (vertex) 0. More formally, let $H$ be the connected component containing host 0 of the initial graph $G$, i.e. the induced subgraph in which any vertex is connected to vertex 0. The reach is the order of $H$.
+	\item the \texttt{eccentricity}, already defined in \ref{sec:graphModelForWirelessSystems}
+	\item the number of \texttt{safe nodes}, which has been defined for simulations with $p=1$ as the number of nodes that correctly receive the message. Systems with $p=1$ are completely deterministic and therefore the number of \textit{safe nodes} only depends on the topology of the network.
+\end{itemize}
+
+\subsection{Coverage, reach and safe nodes}
+
+In \ref{ssec:coverage} results about the coverage were shown and it was hypothesized that this index, as function of $R$, might have a sigmoidal trend.\\
+Let us consider the limit case where $p \to 0$.\\
+As $p$ approaches 0, during each slot it becomes less and less likely for an active node to transmit the message. On the other hand, smaller values of $p$ lower the probability of collisions even more.\\
+For values of $p$ really close to 0, it is easy to imagine that there will be basically no collisions; at the same time, every node belonging to the connected component of node 0 will sooner or later receive the message with a probability of 1.\\
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{img/graphAnalysisTotal_reachR30.pdf}
+    \end{center}
+    \vspace*{-0.5cm}
+    \caption{Average reach of a graph as function of R}
+    \label{fig:reachR30}
+\end{figure}
+\hfill \break
+Figure \ref{fig:reachR30} shows the average reach from node 0, as function of $R$, in a graph with 100 nodes. Values for $R>30$ are not shown as the function plateaus at a value of 100. \\
+Various sigmoid functions have been tested to fit the experimental values for the \textit{reach}, and the most appropriate one was found to be
+\hfill \break
+\begin{equation}\label{eq:reachSigmoidParametric}
+	S(R) = \frac{1}{N} + \frac{N-1}{N}\cdot\frac{1+tanh(b(R-a))}{2}
+\end{equation}
+\hfill \break
+where $N$ is the number of nodes in the graph, $a$ controls to the abscissa of the inflection point and $b$ controls how steep the increase is.\\
+The correct value for $a$ can be found examining the data in fig. \ref{fig:reachR30} and observing that they show an inflection point for $R=12m$. With regard to parameter $b$, trial and error showed that its value lies between $0.36$ and $0.37$. In fact, a value equal to $e^{-1} \approx 0.36788$ fits the data very well.\\
+% and it makes sense in the presence of a hyperbolic tangent function
+A closed form for the \textit{reach}, and therefore for total coverage when $p \to 0$, would then be
+\hfill \break
+\begin{equation}\label{eq:reachSigmoid}
+	C_{0}(R) = \frac{1}{100} + \frac{99}{100}\cdot\frac{1+tanh(e^{-1}(R - 12))}{2}
+\end{equation}
+\hfill \break
+It is reasonable to think that $a$ depends both on the number of nodes and on the total area of the floorplan, while $b$ might be a constant that does not depend on any quantity of the system.\\
+\hfill \break
+Let us now consider the limit case where $p \to 1$.\\
+The closer $p$ gets to $1$, the more the system approaches a deterministic behaviour where each active host broadcasts the message as soon as it receives it.\\
+When $p=1$ the number of node that correctly receive the message during the broadcast can be computed by knowing only the topology of the network.\\
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{img/graphAnalysisSafe_nodes.pdf}
+    \end{center}
+    \vspace*{-0.5cm}
+    \caption{Average number of safe nodes of a graph as function of R}
+    \label{fig:safeNodes}
+\end{figure}
+\hfill \break
+Figure \ref{fig:safeNodes} shows the average number of safe nodes during a broadcast starting from node 0, as function of $R$, in a graph with 100 nodes.\\
+It is clear that this function does not have a sigmoidal trend, except for low values of $R$, up to about 25 metres, where the number of safe nodes reaches about 80. This is consistent with the trend of the curve for $p=0.9$ in Figure \ref{fig:floorplancoverage2} shown in the previous section.\\
+For $R > 25$ increasing the radius yields negative returns: the average number of safe nodes decreases until $R$ reaches about 55 metres. This is likely to be due to the fact that the increase in the number of collision takes over on the increase of reachable nodes. This is consistent with the hypothesis made in Chapter \ref{ch:overview} when analysing the impact of $R$ on the KPIs.\\
+For $R > 55$ the number of safe nodes starts increasing again, probably because host 0 starts having more and more neighbours when the broadcast begins (and none of them detects a collision as host 0 is the only one transmitting during the first slot).\\ The quantity asymptotes to the total number of nodes and for $R > \sqrt{2}{\cdot}L$ it is identically equal to it since, wherever the starting node would happen to be placed, it would cover the whole area during its first transmission slot.\\
+\hfill \break
+These considerations show that the coverage as function of $R$, although it might resemble a sigmoid for different values of $p$ (and could probably be approximated well enough by it for realistic value of the transmission range), is probably more complex than that; for a certain range of values for R, the increase in the number of collision starts having a heavier role.\\
+A closed formula for the number of safe nodes when $p=1$ has not been found yet but, assuming it is $C_{1}(R)$, then a reasonable form for the coverage function could be the following:
+\begin{equation}\label{eq:coverageClosedForm}
+C(R, p) = p \cdot C_{0}(R) + (1-p) \cdot C_{1}(R)
+\end{equation}
