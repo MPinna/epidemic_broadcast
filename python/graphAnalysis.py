@@ -246,10 +246,10 @@ def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBar
 
     if(plotErrorBars == False or shadowFill == True):
         errors = None
-    plt.errorbar(x=range(1, Rmax + 1), y=values, yerr=errors, capsize=3, linestyle="solid", marker='s', markersize=1, mfc="black", mec="black")
+    plt.errorbar(x=range(1, Rmax + 1), y=values, yerr=errors, capsize=3, linestyle="solid", marker='s', ecolor="black", elinewidth=0.8, capthick=0.8,markersize=1, mfc="black", mec="black")
 
     if(shadowFill == True and plotErrorBars == True):
-        plt.fill_between(range(1, Rmax + 1), lowerValues, upperValues, alpha=0.4)
+        plt.fill_between(range(1, Rmax + 1), lowerValues, upperValues, alpha=0.4, facecolor='#FF9848')
 
     if(interpolate == True):
         plt.errorbar(x=range(1, Rmax + 1), y=interpolationData, linestyle="--", color="black", linewidth=0.7)
@@ -351,17 +351,25 @@ eccentricityMCI = eccentricityMCI[1:]
 
 
 print("Saving eccentricity plot")
-plot_graph_properties("Eccentricity", eccentricityMCI, "Eccentricity", R_MAX, figureIndex, shadowFill=True)
+plot_graph_properties("Eccentricity", eccentricityMCI, "Eccentricity", R_MAX, figureIndex, shadowFill=False)
 figureIndex += 1
 for col in safeNodesDF.columns:
     list = safeNodesDF[col].tolist()
     tuple = su.mean_confidence_interval(list)
     safeNodesMCI.append(tuple)
 
+figureIndex += 1
+
+print("Saving eccentricity plot up to R = 19")
+plot_graph_properties("Eccentricity", eccentricityMCI[0:19], "Eccentricity (up to R=19)", 19, figureIndex, xTick=1)
+
+figureIndex += 1
+
 safeNodesMCI = safeNodesMCI[1:]
 
 print("Saving safe nodes plot")
-plot_graph_properties("Safe nodes", safeNodesMCI, "Safe nodes", R_MAX, figureIndex, shadowFill=True)
+plot_graph_properties("Safe nodes", safeNodesMCI, "Safe nodes", R_MAX, figureIndex, shadowFill=False)
+
 
 
     # tupleMCI = su.mean_confidence_interval(list)
