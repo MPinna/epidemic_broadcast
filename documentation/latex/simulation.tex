@@ -248,7 +248,7 @@ Some of the results shown in the previous section can be better understood when 
 In particular, three properties of the graphs have been studied:
 
 \begin{itemize}
-	\item the \texttt{reach}, defined as the number of nodes that can be reached from host (vertex) 0. More formally, let $H$ be the connected component containing host 0 of the initial graph $G$, i.e. the induced subgraph in which any vertex is connected to vertex 0. The reach is the order of $H$.
+	\item the \texttt{reach}, defined as the number of nodes that can be reached from host (vertex) 0. More formally, let $H$ be the connected component containing host 0 of the initial graph $G$, i.e. the induced subgraph in which any vertex is connected to vertex 0. The \texttt{reach} is the \textit{order} of $H$.
 	\item the \texttt{eccentricity}, already defined in \ref{sec:graphModelForWirelessSystems}
 	\item the number of \texttt{safe nodes}, which has been defined for simulations with $p=1$ as the number of nodes that correctly receive the message. Systems with $p=1$ are completely deterministic and therefore the number of \textit{safe nodes} only depends on the topology of the network.
 \end{itemize}
@@ -303,8 +303,45 @@ It is clear that this function does not have a sigmoidal trend, except for low v
 For $R > 25$ increasing the radius yields negative returns: the average number of safe nodes decreases until $R$ reaches about 55 metres. This is likely to be due to the fact that the increase in the number of collision takes over on the increase of reachable nodes. This is consistent with the hypothesis made in Chapter \ref{ch:overview} when analysing the impact of $R$ on the KPIs.\\
 For $R > 55$ the number of safe nodes starts increasing again, probably because host 0 starts having more and more neighbours when the broadcast begins (and none of them detects a collision as host 0 is the only one transmitting during the first slot).\\ The quantity asymptotes to the total number of nodes and for $R > \sqrt{2}{\cdot}L$ it is identically equal to it since, wherever the starting node would happen to be placed, it would cover the whole area during its first transmission slot.\\
 \hfill \break
-These considerations show that the coverage as function of $R$, although it might resemble a sigmoid for different values of $p$ (and could probably be approximated well enough by it for realistic value of the transmission range), is probably more complex than that; for a certain range of values for R, the increase in the number of collision starts having a heavier role.\\
+These considerations show that the coverage as function of $R$, although it might resemble a sigmoid for different values of $p$ (and could probably be approximated well enough by it for realistic value of the transmission range), is probably more complex than that; for a certain range of values for R, the increase in the number of collision starts having a heavier role in the number of reached hosts.\\
 A closed formula for the number of safe nodes when $p=1$ has not been found yet but, assuming it is $C_{1}(R)$, then a reasonable form for the coverage function could be the following:
 \begin{equation}\label{eq:coverageClosedForm}
 C(R, p) = p \cdot C_{0}(R) + (1-p) \cdot C_{1}(R)
 \end{equation}
+
+\subsection{Broadcast time and eccentricity}
+In \ref{sec:graphModelForWirelessSystems} the eccentricity $\epsilon$ of a graph was introduced, defined as the distance from node 0 to the furthest connected node, let it be $u$.\\
+If we imagine the message spreading from host 0 outwards along the various paths of the graph, it is easy to guess that, on average, the path that will take the longest to be covered will be the one that leads to node $u$ and this path will have, by definition, a number of edges equal to the eccentricity.\\
+\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+        \includegraphics[scale=.5]{img/graphAnalysisEccentricityR19.pdf}
+        \begin{center}
+            a) Eccentricity as function of R
+        \end{center}
+	\end{minipage}
+	\begin{minipage}{.5\textwidth} 
+		\includegraphics[scale=.5]{img/Big_DurRange_mean.pdf}
+		\begin{center}
+            b) Broadcast time as function R
+        \end{center}
+	\end{minipage}
+	\caption{}
+    \label{fig:eccentricityDuration}
+\end{figure}
+\hfill \break
+Fig. \ref{fig:eccentricityDuration} shows the average eccentricity of a graph with 100 nodes, with respect to node 0, as function of $R$ and once again the experimental data for the duration, for convenience of comparison.\\
+The curves on the right clearly resemble the one on the left, minus a scaling factor.\\
+The spacing between the duration curves might suggest that this scaling factor is the inverse of the corresponding $p$. This would make complete sense because the average time a message takes to travel along a path of $n$ hops is $n \cdot \frac{1}{p}$ (see \ref{ssec:singlequeue}).\\
+In fact, while the spacing does indeed suggest an inverse dependency on $p$, the actual values turn out to be about 20\% smaller. The existence of this additional $\sim 0.8$ scaling factor could be motivated as follows:\\
+the eccentricity of a graph gives information about the longest path from a node to the furthest node $u$, but does not say anything about the number of paths of that length. In the graph there might very well be different paths of length $\epsilon$ that connect node 0 to $u$, either completely disjunct or with some nodes in common and ``forks", ``branch-ins" and ``branch-outs". If these paths happens to be disjunct, node $u$ will receive the message as soon as it arrives from the ``fastest" one. 
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+\includegraphics[width=1\linewidth]{img/branchIn.png} 
+\caption{Example of graph with multiple shortest path of lenght $\epsilon$}
+\label{fig:branchIn}
+\end{wrapfigure}
+
+If the paths happen to have nodes in common, as it is the case in fig. \ref{fig:branchIn}, every time there is a ``branch-in" ($[1,2]{\to}3$ or $[4,5,6]{\to}7$ in the figure) there is a possibility that the message will have a speed ``boost" with respect to its average speed along a single queue and also a possibility that its progress will be interrupted by a collision.
+
+
+
