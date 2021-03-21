@@ -5,12 +5,12 @@
 % Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
-\chapter{Simulator}\label{simulator}
+\chapter{Simulator}\label{ch:simulator}
 In order to obtain experimental results for the presented scenarios, a simulator
-was built using OMNeT++ with the support of the INET framework. This allowed us
-to reproduce the different scenarios, presented in the previous chapters, with
+was built using OMNeT++ with the support of the INET framework. This allowed
+to reproduce the different scenarios presented in the previous chapters with
 different values for the identified parameters.\\
-\section{Omnet++ and INET framework}
+\section{Omnet++ and INET Framework}
 OMNeT++ is an extensible, modular, component-based C++ simulation library and
 framework, primarily for building network simulators\footnote{https://omnetpp.org/}.\\
 The INET Framework is an open-source model library for the OMNeT++ simulation
@@ -22,22 +22,16 @@ scenarios\footnote{https://omnetpp.org/download-items/INET.html}.\\
 OMNeT++ is a library and a framework, and can be used with the dedicated IDE.
 Not only it allows for development of the simulator itself, but also to export
 simulation results and to inspect simulation behaviour with a graphical user
-interface. By taking advantage of the C++ compiler optimizations, it can achieve the lowest
-%riformulare o spostare ?
-% inoltre 'the lowest possible' forse è un po' azzardato da scrivere
-% dato che non possiamo provare che non ci siano altri modi più veloci
-simulation duration possible.
+interface. By taking advantage of the C++ compiler optimizations, it can achieve significant speed-ups for the simulations times.
 
-Networks are composed by modules; there are two
-types of modules: simple module and compound module (which can contain other
-modules itself).
+Networks are composed by modules and there are two
+types of modules: simple modules and compound modules (which can contain other
+modules themselves).
 INET, on the other hand, is an extension of OMNeT++, dedicated to recreating 
 network simulation environments, with the capability of reproducing the activity
 of a wireless communication system across multiple nodes. It contains ready to
 use definitions and implementations of network related modules.\\
-The INET framework was chosen in order to avoid spending too
-much time on the coding side and therefore be able to focus more on other
-aspects such as the problem modelling and analysis.
+The INET framework was chosen as it provides, among many other things, ready-made modules for wireless networks, allowing to reduce the time required for the development of the simulator.
 \section{Network architecture}
 The network based architecture is composed by an array of \texttt{Host} modules, an
 \texttt{Integrated visualizer} (visualizer) and a \texttt{UnitDiskRadioMedium} (radioMedium);
@@ -56,12 +50,12 @@ The network based architecture is composed by an array of \texttt{Host} modules,
     \texttt{UnitDiskRadio} model. It can simulate the behaviour of the wireless
     communication channel with various levels of abstraction.
     \item \textbf{Integrated visualizer} is a compound module provided by INET.
-    It's resposible for the visual representation of modules properties and
+    It is responsible for the visual representation of modules properties and
     events in the graphic user interface.
     \item \textbf{Host} is the compound module developed to represent a node
     in the network environment.
 \end{itemize}
-The \texttt{Host} module extends the NodeBase module defined by INET. This
+The \texttt{Host} module extends the \texttt{NodeBase} module defined by INET. This
 module contains the most basic infrastructure for network nodes that is not
 strictly communication protocol related. The following diagram shows usage
 relationships between types:
@@ -82,8 +76,8 @@ relationships between types:
     \vspace*{-0.8cm}
 \end{figure}
 \begin{itemize}
-    \item the \texttt{mobility} module privided by INET manages the position of
-    the parent module \texttt{Host}; it allows various types of movements, but
+    \item the \texttt{mobility} module provided by INET manages the position of
+    the parent module \texttt{Host}; it allows for various types of movements, but
     in this study was only used for the initial random placement of the
     nodes. After being placed, all nodes are stationary for the whole duration of the simulation.
     \item the \texttt{interfaceTable} module is provided by INET and is required
@@ -102,58 +96,56 @@ relationships between types:
     behaviours.
 \end{itemize}
 The \texttt{wlan} module is in charge of checking each and every message for
-collisions, and drop broken packets instead of forwarding them to the processing
-unit. The processing unit \texttt{ProcUnit} implements the behaviours of the
+collisions and dropping broken packets instead of forwarding them to the processing
+unit. The processing unit \texttt{ProcUnit} implements the behaviour of the
 nodes; it handles the broadcast message when received, and then its
 retransmission when the random variable extraction results in a success. Finally
 it shuts down the network interface, preventing it from receiving any messages
-or provoking collisions. The network interface is turned off also for the entire
+or detecting unwanted collisions. The network interface is turned off for the entire
 duration of the RV extractions.
 \section{Parameters and statistics}
-During the simulation, signals are used to collect the statistics. They are all
+During the simulation, signals are used to collect statistics. They are all
 collected by the \texttt{Floorplan} module:
 \begin{itemize}
-    \item The \texttt{wlan} module emits a signal every time a collision is
+    \item the \texttt{wlan} module emits a signal every time a collision is
     detected; this signal is collected by the
     \texttt{packetDropIncorrectlyReceived} statistic of the same module; we are
     interested in the total number of collisions detected by each node.
-    \item The \texttt{ProcUnit} module emits $2$ signals when initialized,
-    \texttt{hostX} and \texttt{hostY}, collected, respectively, by the
-    \texttt{hostXstat} and \texttt{hostYstat} statistics; those are the
-    coordinates of the parent node in the floorplan.
-    \item The \texttt{ProcUnit} module emits the \texttt{timeCoverage} singal as
+    \item the \texttt{ProcUnit} module emits two signals when initialized:
+    \texttt{hostX} and \texttt{hostY}. These are the coordinates of the parent node in the floorplan and they are collected, respectively, by the
+    \texttt{hostXstat} and \texttt{hostYstat} statistics.
+    \item the \texttt{ProcUnit} module emits the \texttt{timeCoverage} signal as
     well, collected in the \texttt{timeCoverageStat} statistic; this is a
     vector containing, for each node that received the broadcast message, the
-    number of the time slot when the broadcast message was actually received; at
+    number of the time slot where the broadcast message was received; at
     the end of the simulation, its size represents the number of covered nodes.
 \end{itemize}
-Most significant parameters set up in the initialization file
-(\texttt{floorplan.ini}) are reported below:
+The most significant parameters set up in the initialization file
+	(\texttt{floorplan.ini}) are reported below:
 %TODO remove? p=1 is just a place-holder which gets replaced
 % during initialize of every procUnit, it's not really significant
 \begin{itemize}
-    \item \texttt{Floorplan.host[*].procUnit.slotLength = 1}
-    \item \texttt{Floorplan.host[*].procUnit.p = 1}
+    \item \texttt{Floorplan.host[*].procUnit.p = \$\{p = 0.1..1 step 0.1\}}
+    \item \texttt{Floorplan.host[*].}[...]\texttt{.communicationRange = \$\{R = 1..20 step 1\}m}
 \end{itemize}
+
+Moreover, the X and Y coordinates for each host are set to a uniformly distributed random value by the INET Framework, by default.
 %snapshot del file ini con gli sweep per p ed r, e altri parametri più significativi 
 \section{Design Choices and Optimizations}
 Using the INET framework for the development of the simulator allowed for the use of pre-built modules for modelling wireless communications; for example,
 collision detection and statistics collection are already implemented by INET
-modules. During the development we choose for every aspect the optimal level of
-abstraction for our purposes, but it is possible to model other aspects just 
-changing the types of INET modules used, or by adding new ones. We voluntarily
-avoided taking into account phenomena like path loss and node movement, and we 
-restricted our considerations to a discrete time scenario. However, modelling
-continuous time scenarios can be done easily by changing few INET modules types
+modules. During the development, a level of abstraction suitable for the purposes was chosen, but it is possible to model other aspects by just 
+changing the types of the INET modules used, or by adding new ones. Phenomena such as path loss, node movement etc. were intentionally not taken into account and considerations were restricted to a discrete time scenario. However, modelling
+continuous time scenarios can be easily done by changing few INET modules types
 and attributes.\\
 INET modules also have pre-built optimization structures, that become
 indispensable when the number of hosts becomes larger; in order to make the
-simulator ready for high complex scenarios we used the \texttt{neighborCache}
-structure offered by the \texttt{radioMedium} module. This module is in charge
-of storing proximity information of each and every node, in order to speed up
-message delivery. By setting the type of this module to \texttt{GridNeighborCache},
+simulator ready for highly complex scenarios, the \texttt{neighborCache}
+structure offered by the \texttt{radioMedium} module was used. This module is in charge
+of storing proximity information of each and every node, in order to speed up the simulation of a single 
+transmission. By setting the type of this module to \texttt{GridNeighborCache},
 it is possible to reduce the time needed for a simulation with more than
-$2000$ devices dropped on the floorplan, by a factor of $10$; we also found that
+$2000$ devices dropped on the floorplan, by a factor of $10$; it was observed that
 this type of cache (with the right value for the \texttt{cellSize} parameter) is
 the best trade-off between speed and memory occupancy, for this type of
 workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighbor\\
@@ -228,28 +220,25 @@ The probability of the system to be in the $i$-th state during the $j$-th slot i
 
 Validation was performed with 4 different configurations, one for each value of $p$ ranging from $0.2$ to $0.8$ with steps of $0.2$, with 1000 repetitions each.\\
 For each configuration, data about the state of the system was recorded and statistics were computed, yielding experimental probabilities. These probabilities were then compared with theoretical predictions, obtained by taking powers of the appropriate stochastic matrix.\\
-All the experimental results proved to be consistent with theoretical computations.
+All the experimental results (solid coloured lines in figs. \ref{fig:5to1validPlot1} and \ref{fig:5to1validPlot2} proved to be consistent with theoretical computations (black dashed lines).
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.73]{img/star5to1p=0.4validation.pdf}
+        \includegraphics[scale=0.7]{img/star5to1p=0.4validation.pdf}
         \caption{Validation data for p = 0.4}
         \label{fig:5to1validPlot1}
     \end{center}
     \vspace*{-0.8cm}
 \end{figure}
 
-%TODO boh c'è spazio, ne ho messo due ma volendo se ne può lasciare solo una
 %TODO there's room for two images, we can keep just one if we want
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.73]{img/star5to1p=0.6validation.pdf}
+        \includegraphics[scale=0.7]{img/star5to1p=0.6validation.pdf}
         \caption{Validation data for p = 0.6}
         \label{fig:5to1validPlot2}
     \end{center}
     \vspace*{-0.8cm}
 \end{figure}
-
-Figures \ref{fig:5to1validPlot1} and \ref{fig:5to1validPlot2} show graphs of the experimental data (coloured solid lines) along with predictions (black dashed lines).
 %TODO remove empty blank page betwee chapter 4 and 5

@@ -6,27 +6,23 @@
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
 \chapter{System modelling}
-\label{modelling}
+\label{ch:modelling}
 Wireless communication networks have been extensively studied in scientific
 literature and one of the most used mathematical tools to model them and their
 behaviour is \textit{graph theory}. In this work the same approach was used.\\
-If we think of the users involved in the broadcasting of the message as the
-nodes of a graph, as the broadcast propagation goes on and the message is
-transmitted among the nodes, the system goes through different states where each
-node could be either listening, transmitting or sleeping.
-We can therefore think of the state of the entire system as a combination of
-the states of each node. The different nodes behaviours were modelled by means
+As the broadcast progresses and the message is transmitted among the nodes, the system evolves through different states where each node could be listening for an incoming message, transmitting it, or could have already sent the message and stopped.\\
+The different nodes behaviours were modelled by means
 of three different states:
 \begin{itemize}
 	\item \texttt{listening}: the node has not received the broadcast message
 	yet and therefore it is still listening for incoming messages from other nodes;
 	\item \texttt{transmitting}: the node has received the message and during
 	each time slot it is trying to transmit it to adjacent nodes; in what
-	follows, \texttt{transmitting} nodes will also be referred to as the
+	follows, \texttt{transmitting} nodes will also be referred to as
 	\textit{active} nodes;
 	\item \texttt{sleeping}: the node has already received and retransmitted
-	the broadcast message; once a node is in the \texttt{sleeping} state, it
-	will remain in such state and will therefore have no effect on the system
+	the broadcast message; once a node enters the \texttt{sleeping} state, it
+	remains in such state and will therefore have no effect on the system
 	any more.
 \end{itemize}
 \section{Graph model for wireless systems}\label{sec:graphModelForWirelessSystems}
@@ -56,21 +52,19 @@ other vertices. The resulting graph is shown in figure \ref{fig:graph1} (b).
 \noindent
 In general, the existence of an edge from vertex $i$ to vertex $j$ means that
 nodes $i$ and $j$ are within reach of each other. Two vertices connected by an
-edge are said to be \textit{adjacent}. The neighbourhood of a vertex $v$ in a
-graph $G$ is the subgraph of $G$ induced by all vertices adjacent to $v$, i.e.,
-the graph composed of the vertices adjacent to $v$ and all edges connecting
-vertices adjacent to $v$. During the broadcast process, a node can only receive
+edge are said to be \textit{adjacent}. The set composed by all the vertices adjacent to a vertex $v$ is called the
+\textit{neighbourhood of v}.\\
+During the broadcast process, a node can only receive
 from and transmit to its neighbourhood.\\
-\\
 Once a node has transmitted the message and has gone into the \texttt{sleeping}
 state, from the point of view of the graph model, it disappears, along with all
 the edges connected to it. Therefore, the set of vertices $V$ changes with time.
 This is what in literature is called a \textit{dynamic graph} or, more
 %TODO fix citation
 specifically, a \textit{node-dynamic graph}\cite{hararygraph}.\\
-\\
-Modelling the system with graphs also allows for a simple computation of the
-lower bound for the broadcast time \texttt{T}, which can be useful for validating the simulator or for gaining further insight about the results. Given a graph $G(V, E)$ which represents the users
+
+Modelling the system with graphs also allows for the simple computation of some of their properties, such as the \textit{eccentricity}; in this way, it is possible to find theoretical lower bounds for some of the metrics and can also be useful for validating the simulator or for gaining further insight about the results.\\
+Given a graph $G(V, E)$ which represents the users
 in the floorplan, let node $v^{*}$ be the starting point for the broadcast, i.e.
 the first node with the message. In the best case scenario, the system evolves
 with no collisions at all and the message moves along the paths of the graph,
@@ -90,8 +84,8 @@ reasoning that led us to obtain the final complete model.
 \subsection{Single queue configuration}\label{ssec:singlequeue}
 Let us consider a configuration where users are arranged in a line, as shown in
 figure \ref{fig:single_queue_graph}. Each user only has two neighbours, except for
-the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ the
-starting user with the broadcast message, this is the only node in
+the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ is the
+starting user with the broadcast message, it is the only node in
 \texttt{transmitting} state while all the other nodes are initially in
 \texttt{listening} state. 
 \begin{figure}[H]
@@ -132,7 +126,7 @@ are non-adjacent to each other. Let us suppose $A$ to be the broadcast starter.
 The absence of collisions is ensured in this scenario as well, for the
 same reason as the previous configuration.
 At each time slot, $A$ extracts a Bernoulli RV. When the extraction is
-successful, $A$ broadcasts the message to all of its neighbourhood and total
+successful, $A$ broadcasts the message its entire neighbourhood and total
 coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case
 too, as the probability of $A$ not transmitting for $k$ consecutive slots is
 given by Eq. \ref{geometricDistribution} and goes to $0$ as $k$ goes to
@@ -147,7 +141,7 @@ infinity.
 \noindent
 In this case, the average total broadcast time $E[T]$ is simply equal to the
 mean value of the geometric distribution, $\frac{1}{p}$, since the central
-node is placed at one hop from all the remaining nodes.\\
+node is placed at one hop of distance from all the remaining nodes.\\
 \\
 If the broadcast starter node was not the one placed in the center of the star,
 there would not be much difference: absence of collisions and total coverage
@@ -166,10 +160,10 @@ remaining ones.
         \label{fig:star5to1}
     \end{center}
 \end{figure}
-This configuration can be seen as the complement of the previous one: each node
-on the rays of the star is active and trying to transmit the message to the
-center node. This is actually the first scenario where collisions might happen
-with the possibility that total coverage might never be reached. To simplify the
+This configuration can be seen as the complement of the previous one: all the nodes
+on the rays of the star are active and trying to transmit the message to the
+center node. This is the first scenario where collisions might occur and with a non-zero probability that
+total coverage might never be reached. To simplify the
 analysis of this system and obtain some insights, it is useful to model it by
 means of a discrete-time Markov chain.
 \subsubsection{Discrete-time Markov chain model for N nodes transmitting to a target}
@@ -200,7 +194,7 @@ Both state $S$ and state $N$ are \textit{absorbing states}, i.e. states that,
 once entered, cannot be left (as can be seen in Figure \ref{fig:dtmc}, where the
 only outgoing arrow from these states goes back to the state itself).\\
 If the system transitions to state $N$, it stays in it indefinitely since all
-the devices would be \texttt{sleeping} and they cannot become active again. This
+the devices are \texttt{sleeping} and they cannot become active again. This
 implies that there will never be total coverage since the target device will
 forever stay in the \texttt{listening} state without ever receiving the message.
 On the other hand, state $S$, despite being an absorbing state as well, should
@@ -251,7 +245,8 @@ Since S and N are absorbing states, $P_{S,j}=0$ for j $\neq$ S and $P_{N,j} = 0$
 for $j \neq N$.\\
 Moreover, all the possible transitions can only generate a non-decreasing
 sequence of states and there are no transitions between states that differ by
-one, hence $P_{i, j} = 0 \forall i > j$ and $\forall j = i + 1$.\\
+one, hence\\
+$P_{i, j} = 0$ $\forall$ $i > j$ and $\forall$ $j = i + 1$.\\
 All the other elements of the matrix can be computed using the following formula:
 \begin{equation}
     P_{i,j} = {N-i\choose j - i} p^{j - i} (1-p)^{N - j}

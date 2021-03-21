@@ -15,7 +15,7 @@ users as possible in a 2D floorplan, the following hypotheses were made:
 	floorplan;
 	\item the transmission of a message is instantaneous and it happens at the
 	beginning of every time slot; the whole apparatus can therefore be
-	considered a \textit{Discrete Time System}.
+	considered a \textit{discrete-time system}.
 \end{itemize}
 Depending on the performance metrics to be analysed, different choices can be
 made about the parameters to be adjusted. According to the specifications, the
@@ -23,21 +23,18 @@ main three metrics for this study are:
 \begin{itemize}
 	\item the broadcast time \colorbox{gray!30}{\large \texttt{T}} for a message
 	to cover as many user as possible in the entire floorplan; the effective
-	duration of the transmissions slots obviously has an effect
+	duration of the single transmission slot obviously has an effect
 	on the total broadcast time, but it is only a scaling factor on the total
 	number of slots; \texttt{T} can therefore be measured in terms of slots and
 	converted to units of time accordingly.
 	\item the percentage of covered users \colorbox{gray!30}{\large \texttt{U}};
 	\item the number of collisions \colorbox{gray!30}{\large \texttt{C}}:
-	collisions are detected by nodes, they happen when a node receives more than
-	one message in the same time slot; in order to measure the number of
-	collisions;
+	a collision is detected by a node whenever it receives a message from two or more transmitting nodes during the same slot;
 \end{itemize}
 The following parameters have been identified: the transmission range of the
-users, the \textit{per-slot} transmission probability, the floorplan size and
-its shape, and the density of users in the floorplan per square metre.\\
+users, the \textit{per-slot} transmission probability, the floorplan size and shape and the density of users in the floorplan per square metre.\\
 \\
-To be more detailed:
+More specifically:
 \begin{itemize}
 	\item the radius of transmission \colorbox{gray!30}{\large \texttt{R}}: it
 	represents the maximum distance between two users such that the message
@@ -64,27 +61,18 @@ probability in a local area where two or more nodes are transmitting;
     time to be covered entirely by the broadcast;
 	\item the \textit{aspect ratio} of the floorplan rectangle
 	\colorbox{gray!30}{\large \texttt{a}}, defined as the ratio between the
-	longer side $L$ and the shorter side $W$; because of the radial symmetry of
-	the transmission phenomenon, there is no actual need to consider values for
-	\texttt{a} lower than 1.\\
+	longer side $L$ and the shorter side $W$.\\
 	A very long and very narrow floorplan will probably cause less collisions than a
-square one with the same area, as the average number of users in the collision
+square one with the same area and the same number of hosts, as the average number of users in the transmission
 range of a random user decreases; on the other hand, the performance of this type of
-scenario will be highly influenced by the position of the starting node;
-
-%TODO remove? Reprhase? We are already specifying that we only tweaked p and R
-%	this parameter is fixed at 1 in our simulation model, 
-%	so we are considering only square floorplans; this will allow the analysis
-%	to be focused on more important parameters, but still in a quite common
-%	scenario;
-%TODO number of users is defined as number of users? Redundant? Remove definition? Rephrase?
-	\item number of users \colorbox{gray!30}{\large \texttt{N}}, defined
-	as the number of users dropped on the floorplan;
-	\item users population density \colorbox{gray!30}{\large \texttt{d}},
-	defined as the number of users per square meter; for this parameters, we
-	decided to study two opposite density scenarios
-	(high: 1/$m^2$ and low 0.1/$m^2$).
+scenario will be highly influenced by the position of the starting node.\\
+	Because of the radial symmetry of
+	the transmission phenomenon, there is no actual need to consider values for
+	\texttt{a} lower than 1.
+	\item number \colorbox{gray!30}{\large \texttt{N}} of users dropped on the floorplan;
+	\item user population density \colorbox{gray!30}{\large \texttt{d}},
+	defined as the number of users per square meter;
 \end{itemize}
-
+\hfill \break
 For this study, the two main parameters were \colorbox{gray!30}{\large \texttt{R}} and \colorbox{gray!30}{\large \texttt{p}}. Full sweeps for different values of both were made. \\
-\colorbox{gray!30}{\large \texttt{a}} was kept constant and equal to 1 (i.e. the floorplan is always a square) and \colorbox{gray!30}{\large \texttt{L}} was either $10 m$ (``small" configuration) or $100 m$ (``big" configuration). \colorbox{gray!30}{\large \texttt{N}} was also kept constant and equal to 100.
+\colorbox{gray!30}{\large \texttt{a}} and \colorbox{gray!30}{\large \texttt{L}} were kept constant and equal to 1 and $100 m$ respectively (i.e. the floorplan is always a square with a side of 100 metres). \colorbox{gray!30}{\large \texttt{N}} was also kept constant and equal to 100. The resulting user density is thus 1/$m^{2}$.

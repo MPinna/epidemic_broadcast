@@ -5,7 +5,7 @@
 % Author: Marco Pinna, Rambod Rahmani, Yuri Mazzuoli
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
-\chapter{Simulation}\label{simulation}
+\chapter{Simulation}\label{ch:simulation}
 As previously described, two different scenarios were considered, each with a population of $100$ users:
 \begin{itemize}
     \item \textbf{Small}: a $10$m x $10$m floorplan, with the transmission
@@ -59,8 +59,7 @@ collisions are almost absent with such a small transmission radius; therefore,
 variations of the value of $p$ do not play a fundamental role as far as total coverage is
 concerned. For $R \geq 8$ the achievable coverage
 decreases with the increase of $p$, but quite slowly and also it does not
-degenerate to $0$; instead it reaches a value between $10$\% and $40$\% of the
-maximum.
+degenerate to $0$; instead it reaches a value between $10$\% and $40$\%.
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=.42]{img/Big_CovP_median.pdf}
@@ -306,7 +305,7 @@ For $R > 55$ the number of safe nodes starts increasing again, probably because 
 These considerations show that the coverage as function of $R$, although it might resemble a sigmoid for different values of $p$ (and could probably be approximated well enough by it for realistic value of the transmission range), is probably more complex than that; for a certain range of values for R, the increase in the number of collision starts having a heavier role in the number of reached hosts.\\
 A closed formula for the number of safe nodes when $p=1$ has not been found yet but, assuming it is $C_{1}(R)$, then a reasonable form for the coverage function could be the following:
 \begin{equation}\label{eq:coverageClosedForm}
-C(R, p) = p \cdot C_{0}(R) + (1-p) \cdot C_{1}(R)
+C(R, p) = (1-p)\cdot C_{0}(R) + p\cdot C_{1}(R)
 \end{equation}
 
 \subsection{Broadcast time and eccentricity}
