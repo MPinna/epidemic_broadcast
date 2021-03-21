@@ -323,12 +323,13 @@ for col in reachDF.columns:
 avgReachMCI = avgReachMCI[1:]
 
 figureIndex = 1
-print("Saving avg reach plot")
-plot_graph_properties("Reach", avgReachMCI, "Total reach", R_MAX, figureIndex, plotErrorBars=False)
+# print("Saving avg reach plot")
+# plot_graph_properties("Reach", avgReachMCI, "Total reach", R_MAX, figureIndex, plotErrorBars=False)
 
 figureIndex += 1
 
 sigmoid_a = 12
+# sigmoid_b = 0.335
 sigmoid_b = 1/(math.e)
 
 if(len(sys.argv) > 1):
@@ -336,8 +337,32 @@ if(len(sys.argv) > 1):
 
 sigmoidPoints = get_sigmoid_points(R_VALUES[0:30], sigmoid_a, sigmoid_b, NUM_OF_NODES)
 
+
+# min_err = 1
+# min_b = None
+# for b in np.arange(0.330, 0.340, 0.0001):
+
+#     sigmoidPointsFull = get_sigmoid_points(R_VALUES, sigmoid_a, b, NUM_OF_NODES)
+
+
+#     sumOfSqErrs = 0
+#     # print("Mean squared error:")
+#     for i in range(len(avgReachMCI)):
+#         sumOfSqErrs += ((avgReachMCI[i][0] - sigmoidPointsFull[i])/sigmoidPointsFull[i])**2
+#     MSE = sumOfSqErrs/(len(avgReachMCI))
+#     if(MSE < min_err):
+#         min_err = MSE
+#         min_b = b
+# print("Best approximation: b, MSE")
+# print(str(min_b) + ", " + str(min_err))
+
+
+
+
 print("Saving avgReach plot up to R = 30, with interpolation")
 plot_graph_properties("Reach", avgReachMCI[0:30], "Total reach (up to R=30)", 30, figureIndex, xTick=5, interpolate=True, interpolationData=sigmoidPoints)
+
+
 
 figureIndex += 1
 
@@ -353,6 +378,8 @@ eccentricityMCI = eccentricityMCI[1:]
 print("Saving eccentricity plot")
 plot_graph_properties("Eccentricity", eccentricityMCI, "Eccentricity", R_MAX, figureIndex, shadowFill=False)
 figureIndex += 1
+
+
 for col in safeNodesDF.columns:
     list = safeNodesDF[col].tolist()
     tuple = su.mean_confidence_interval(list)
@@ -370,11 +397,3 @@ safeNodesMCI = safeNodesMCI[1:]
 print("Saving safe nodes plot")
 plot_graph_properties("Safe nodes", safeNodesMCI, "Safe nodes", R_MAX, figureIndex, shadowFill=False)
 
-
-
-    # tupleMCI = su.mean_confidence_interval(list)
-    # safeNodesDF.append(tupleMCI)
-
-# for index, tuple in enumerate(safeNodesMCI):
-#     print("R: " + str(index + 1))
-#     print(tuple)
