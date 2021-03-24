@@ -6,6 +6,34 @@
 %         Created on 05/12/2020
 %-------------------------------------------------------------------------------
 \chapter{Appendices}
+%\section*{Appendix A}
+%\label{app:a}
+%Given a scenario with $N$ transmitter devices and one target device $T$ in reach
+%by all of the transmitter devices, let us define the probabilities $P_{1}(j, N)$
+%as the probability of $j$ devices out of $N$ transmitting at the same time
+%during the time slot $1$ and $P_{i}(j)$ as the probability of $j$ devices
+%transmitting at the same time during slot $i$.\\
+%By specification, the successful reception of the message by device $T$ occurs
+%when \textbf{one} and only one of the transmitters sends the message during the
+%time slot. Furthermore, the successful transmission of a device is
+%``\textit{a Bernoullian RV with success probability \emph{p} on every slot, until
+%it achieves success}". Therefore, we can model $P_{1}(j, N)$ as follows:
+%\[
+%\begin{drcases}
+%    &P_{1}(0, N) = (1-p)^{N} \\
+%    &P_{1}(1, N) = N p(1-p)^{N-1}\\
+%    &P_{1}(2, N) = {N\choose2}p^{2}(1-p)^{N-2}\\
+%    &P_{1}(3, N) = {N\choose3}p^{3}(1-p)^{N-3}\\
+%    &...\\
+%    &P_{1}(N-1, N) = {N\choose N-1}p^{N-1}(1-p)\\
+%    &P_{1}(N, N) = {N\choose N}p^{N}\\
+%\end{drcases}
+%P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
+%\]
+%As for $P_{i}(j)$ we can model the system as if it was in the first time slot,
+%with the total number of active devices now being equal to $N - t$, where
+%$t$ is the number of devices that have transmitted in the $(i - 1)$-th slot.\\
+
 \section*{Appendix A}
 \label{app:a}
 Given a scenario with $N$ transmitter devices and one target device $T$ in reach
