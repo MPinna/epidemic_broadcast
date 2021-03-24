@@ -18,14 +18,17 @@ import sys
 NUM_OF_REPS = 200
 NUM_OF_NODES = 100
 
+X_MAX = 100
+Y_MAX = 100
+
 R_MAX = 141
 R_VALUES = range(1, R_MAX + 1)
 
 RAWDATAFILENAME = "./big_csv/big-p0.1R1.csv"
 
-REACH_DF_FILENAME = "DF_reach.csv"
-ECCENTRICITY_DF_FILENAME = "DF_eccentricity.csv"
-SAFENODES_DF_FILENAME = "DF_safeNodes.csv"
+REACH_DF_FILENAME = "DF_reach_py.csv"
+ECCENTRICITY_DF_FILENAME = "DF_eccentricity_py.csv"
+SAFENODES_DF_FILENAME = "DF_safeNodes_py.csv"
 FIGPATH="fig/"
 
 def read_host_coords_from_file(file):
@@ -39,12 +42,32 @@ def read_host_coords_from_file(file):
     YcoordDF = df[df['name'] == 'hostYstat:last']
     
     XcoordDF = XcoordDF[["run", "module", "value"]]
-    XcoordDF = XcoordDF.groupby(["run"])["value"].apply(list)
+    Xcoords = XcoordDF.groupby(["run"])["value"].apply(list)
 
     YcoordDF = YcoordDF[["run", "module", "value"]]
-    YcoordDF = YcoordDF.groupby(["run"])["value"].apply(list)
+    Ycoords = YcoordDF.groupby(["run"])["value"].apply(list)
 
-    return XcoordDF, YcoordDF
+    return Xcoords, Ycoords
+
+def get_random_coordinates(seed, xMax = X_MAX, yMax = Y_MAX, numOfNodes = NUM_OF_NODES, numOfReps = NUM_OF_REPS):
+    xCoords = []
+    yCoords = []
+
+    rng = np.random.RandomState(seed)
+
+    for i in range(NUM_OF_REPS):
+        repXCoords = []
+        repYCoords = []
+
+        repXCoords = xMax*rng.random(numOfNodes)
+        repYCoords = yMax*rng.random(numOfNodes)
+
+        xCoords.append(repXCoords)
+        yCoords.append(repYCoords)
+
+    return xCoords, yCoords
+
+    
 
 def get_eccentricity(G: nx.Graph):
     connectComp = nx.node_connected_component(G, 0)
@@ -230,8 +253,8 @@ def plot_graph_properties(yLabel, data, title: str, Rmax, figIndex, plotErrorBar
     plt.title(title + " (" + str(int(confidence*100)) + "% CI)")
     plt.xlabel("R (m)")
     plt.ylabel(yLabel)
-    plt.xticks(range(Rmax)[0::xTick])
-
+    plt.xticks(range(Rmax+1)[0::xTick])
+    
     # insert experimental data
 
     values = []
@@ -276,6 +299,7 @@ reachDF =  pd.DataFrame()
 eccentricityDF = pd.DataFrame()
 safeNodesDF= pd.DataFrame()
 
+Xdata2, Ydata2 = get_random_coordinates(42, 100, 100, 100, 200)
 
 # if files already exist, no need to recompute everything
 if(os.path.isfile(REACH_DF_FILENAME) and os.path.isfile(ECCENTRICITY_DF_FILENAME) and os.path.isfile(SAFENODES_DF_FILENAME)):
@@ -287,9 +311,9 @@ else:
     #otherwise compute everthing and save into files for the next time
     print("Files not found. Reading simulation data from files and computing graph properties...")
     
-    Xdata, Ydata = read_host_coords_from_file(RAWDATAFILENAME)
+    # Xdata, Ydata = read_host_coords_from_file(RAWDATAFILENAME)
 
-    reachMatrix, eccentricityMatrix, safeNodesMatrix = get_graph_properties_from_reps(Xdata, Ydata)
+    reachMatrix, eccentricityMatrix, safeNodesMatrix = get_graph_properties_from_reps(Xdata2, Ydata2)
     reachDF = pd.DataFrame(reachMatrix, columns=R_VALUES)
     reachDF.to_csv(REACH_DF_FILENAME)
 
@@ -328,14 +352,14 @@ figureIndex = 1
 
 figureIndex += 1
 
-sigmoid_a = 12
-# sigmoid_b = 0.335
-sigmoid_b = 1/(math.e)
+sigmoid_a = 12.12
+sigmoid_b = 0.365
+# sigmoid_b = 1/(math.e)
 
 if(len(sys.argv) > 1):
     sigmoid_b = float(sys.argv[1])
 
-sigmoidPoints = get_sigmoid_points(R_VALUES[0:30], sigmoid_a, sigmoid_b, NUM_OF_NODES)
+sigmoidPoints = get_sigmoid_points(R_VALUES[0:19], sigmoid_a, sigmoid_b, NUM_OF_NODES)
 
 
 # min_err = 1
@@ -359,8 +383,8 @@ sigmoidPoints = get_sigmoid_points(R_VALUES[0:30], sigmoid_a, sigmoid_b, NUM_OF_
 
 
 
-print("Saving avgReach plot up to R = 30, with interpolation")
-plot_graph_properties("Reach", avgReachMCI[0:30], "Total reach (up to R=30)", 30, figureIndex, xTick=5, interpolate=True, interpolationData=sigmoidPoints)
+print("Saving avgReach plot up to R = 19, with interpolation")
+plot_graph_properties("Reach (%)", avgReachMCI[0:19], "Total reach (up to R=19)", 19, figureIndex, xTick=1, interpolate=True, interpolationData=sigmoidPoints)
 
 
 
