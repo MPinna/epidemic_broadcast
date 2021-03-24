@@ -61,7 +61,7 @@ state, from the point of view of the graph model, it disappears, along with all
 the edges connected to it. Therefore, the set of vertices $V$ changes with time.
 This is what in literature is called a \textit{dynamic graph} or, more
 %TODO fix citation
-specifically, a \textit{node-dynamic graph}\cite{hararygraph}.\\
+specifically, a \textit{node-dynamic graph} [\cite{hararygraph}].\\
 
 Modelling the system with graphs also allows for the simple computation of some of their properties, such as the \textit{eccentricity}; in this way, it is possible to find theoretical lower bounds for some of the metrics and can also be useful for validating the simulator or for gaining further insight about the results.\\
 Given a graph $G(V, E)$ which represents the users
@@ -78,6 +78,7 @@ $v^{*}$ is defined as follows:
 \begin{equation}
 \epsilon(v^{*}) = \max_{u{\in}V} d(v^{*}, u)
 \end{equation}
+Another observation to be made is that the existence of an edge between two nodes only depends on the ratio between their radius and their distance. This implies that 100 nodes with a radius of 15 m dropped in a 100 m x 100 m floorplan will produce the exact same graph as 100 nodes having a radius of 1,5 m dropped in a 10 m x 10 m floorplan, if all their coordinates are just scaled by a factor of 10.\\ 
 \section{Simplified models}
 In what follows, incrementally more complex scenarios are presented showing the
 reasoning that led us to obtain the final complete model.
@@ -115,7 +116,7 @@ value of the geometric distribution, $\frac{1}{p}$, times the number of hops
 needed to reach the last node:
 \begin{equation}
 	E[T] = \frac{1}{p} \cdot (N - 1).
-	\label{singleQueueMeanT}
+	\label{eq:singleQueueMeanT}
 \end{equation}
 
 \subsection{Star configuration with one active node (star 1-to-5)}
@@ -133,7 +134,7 @@ given by Eq. \ref{geometricDistribution} and goes to $0$ as $k$ goes to
 infinity.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.6]{img/star_graph.png}
+        \includegraphics[scale=0.4]{img/star_graph.png}
         \caption{Graph of the star configuration with one active node}
         \label{fig:star1to5}
     \end{center}
@@ -155,7 +156,7 @@ remaining ones.
 \label{ssec:star2}
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.5]{img/star_graph2.png}
+        \includegraphics[scale=0.4]{img/star_graph2.png}
         \caption{Graph of the star configuration with all nodes active but one}
         \label{fig:star5to1}
     \end{center}
@@ -213,7 +214,7 @@ the message is given by:
     P_{1}(j, N) = {N \choose j} p^{j} (1 - p)^{N - j}
     \label{eq:firstSlotTransProb}
 \end{equation}
-Derivation of ($3.4$) can be found in Appendix A.\\
+which is a binomial distribution given by the sum of the N Bernoulli distributions.\\
 \\
 As for the probability of $j$ devices transmitting at the same time during slot
 $k$, be it $P_{k}(j)$, we can model the system as if it was in the first slot,
