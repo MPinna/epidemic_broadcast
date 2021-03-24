@@ -14,7 +14,7 @@
 % equal left and right margins
 \usepackage[hmarginratio=1:1]{geometry}
 
-% configuration to typeset documents in italian
+% configuration to typeset documents in english
 \usepackage[english]{babel}
 \usepackage{import}
 % include graphics in the file
@@ -36,7 +36,10 @@
 \usepackage{csquotes}
 
 %used to handle bibliography
-\usepackage{biblatex}
+\usepackage[backend=bibtex,
+style=alphabetic,
+citestyle=authoryear
+]{biblatex}
 \addbibresource{references.bib}
 
 %used to change color and background color of single words
