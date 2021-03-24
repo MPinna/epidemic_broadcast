@@ -157,9 +157,9 @@ The distribution for one \texttt{trx} will be influenced by the position of
 others. Anyway, we can apply this distribution to many transmitters, each one
 taken from a different floorplan; in this way we can validate the independence
 of different random configurations.
-
-\section*{Appendix D}
-\label{app:d}
+\newpage
+\section*{Appendix C}
+\label{app:c}
 Below is a demonstration of the upper bound for the number of collision in a scenario with N hosts.
 
 \hfill \break
@@ -168,17 +168,17 @@ Therefore, to maximize the number of collisions, it is necessary in every slot, 
 
 \hfill \break
 Let us suppose to have a floorplan with 100 hosts.\\
-\begin{itemize}
+\begin{enumerate}
 	\item
-	During slot n. 1, host 0 transmits and, being the only host transmitting, absence of collision is ensured. Let us suppose that the message is received by host 99 and host 98.
+	host 0 transmits and, being the only host transmitting, absence of collision is ensured. Let us suppose that the message is received by host 99 and host 98.
 	\item
-	During slot n. 2, host 99 and host 98 broadcast the message and, out of the 97 active hosts, only host 97 and host 96 receive the message correctly. The remaining 95 detect a collision.
+	host 99 and host 98 broadcast the message and, out of the 97 active hosts, only host 97 and host 96 receive the message correctly. The remaining 95 detect a collision.
 	\item
-	During slot n. 3, host 97 and host 96 broadcast the message and, out of the 95 active hosts, only host 95 and host 94 receive the message correctly. The remaining 93 detect a collision.
+	host 97 and host 96 broadcast the message and, out of the 95 active hosts, only host 95 and host 94 receive the message correctly. The remaining 93 detect a collision.
 	\item
 	And so on...
 
-\end{itemize}
+\end{enumerate}
 \hfill \break
 Following this line of reasoning, the number of listening hosts decreases by two every slot, and so does the number of collisions.\\
 When only 5 hosts are remaining on the floorplan, 2 of which are transmitting and the other 3 are receiving, 2 of the latter 3 receive the message correctly and the last one detects a collision.\\
