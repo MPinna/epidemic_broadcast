@@ -36,35 +36,6 @@
 
 \section*{Appendix A}
 \label{app:a}
-Given a scenario with $N$ transmitter devices and one target device $T$ in reach
-by all of the transmitter devices, let us define the probabilities $P_{1}(j, N)$
-as the probability of $j$ devices out of $N$ transmitting at the same time
-during the time slot $1$ and $P_{i}(j)$ as the probability of $j$ devices
-transmitting at the same time during slot $i$.\\
-By specification, the successful reception of the message by device $T$ occurs
-when \textbf{one} and only one of the transmitters sends the message during the
-time slot. Furthermore, the successful transmission of a device is
-``\textit{a Bernoullian RV with success probability \emph{p} on every slot, until
-it achieves success}". Therefore, we can model $P_{1}(j, N)$ as follows:
-\[
-\begin{drcases}
-    &P_{1}(0, N) = (1-p)^{N} \\
-    &P_{1}(1, N) = N p(1-p)^{N-1}\\
-    &P_{1}(2, N) = {N\choose2}p^{2}(1-p)^{N-2}\\
-    &P_{1}(3, N) = {N\choose3}p^{3}(1-p)^{N-3}\\
-    &...\\
-    &P_{1}(N-1, N) = {N\choose N-1}p^{N-1}(1-p)\\
-    &P_{1}(N, N) = {N\choose N}p^{N}\\
-\end{drcases}
-P_{1}(j, N) = {N\choose j} p^{j} (1-p)^{N-j}
-\]
-As for $P_{i}(j)$ we can model the system as if it was in the first time slot,
-with the total number of active devices now being equal to $N - t$, where
-$t$ is the number of devices that have transmitted in the $(i - 1)$-th slot.\\
-
-\newpage
-\section*{Appendix B}
-\label{app:b}
 An example of stochastic matrix for a system with $N = 5$ and $p = 0.4$:
 \begin{equation*}
 P = 
@@ -105,33 +76,25 @@ S	&			& 			& 			& 			& 1			& 0\\
 \end{blockarray}
 \label{exampleMatrixValues}
 \end{equation*}
-%TODO insert \newpage ?
-\section*{Appendix C}
-\label{app:c}
-Given a generic convex shape as floorplan, we can compute its area ($A$); if we
-imagine placing a point mass transmitter (\texttt{trx}) in a random point of
-such floorplan, it is easy to compute the probability for \texttt{trx} to be
-located in a given point \textit{x} as:
-%TODO fix, a probability cannot be a density, it should turn out to be an adimensional number. Furthermore, if we consider the coordinates to be real number, the probability is zero in every point.
-\begin{equation*}
-    P(x) = 1/A
-\end{equation*}
-Given that the transmission radius in $r$, we can define a circle centered in x, 
-as the transmission range of the first \texttt{trx} ($R$). If the \texttt{trx}
+\newpage
+\section*{Appendix B}
+\label{app:b}
+%TODO
+Given a generic convex shape as floorplan, we can compute its area ($A$). If we
+imagine randomly placing a point mass transmitter (\texttt{trx}) in the floorplan we can define its transmission circle as the circle centered in \texttt{trx} with a radius $R$ equal to the transmission range of the first. If the \texttt{trx}
 in far enough from the border of the floorplan, its whole transmission circle lies
-onto the floorplan; in this case, the probability for another (random
-positioned) \texttt{trx} to be placed inside within its range is equal to:
+onto the floorplan. In this case, the probability for another (random
+positioned) \texttt{trx} to be placed within the circle is equal to:
 \begin{equation*}
-    P(x') = \int_{R}^{} P(x)= \frac{2\pi r^2}{A} \ 
+    \frac{2\pi R^2}{A} \ 
 \end{equation*}
-If the first \texttt{trx} device is placed at a distance less than $r$ from one
-or more borders of the floorplan, the probability of randomly placing another
+If the first \texttt{trx} device is placed at a distance less than $R$ from one
+or more borders of the floorplan, the probability of randomly placing a
 \texttt{trx} device in its range is less than in the previous case; this is
 because part of the area of the transmission range will fall out of the
-floorplan and, by construction, \texttt{trx} devices can't be placed there. 
-Depending on the floorplan' shape, we can identify the partition of the shape
-where the transmission range will fall out of the shape itself, and we will do
-specific computation for this area.\\
+floorplan and, by construction, \texttt{trx} devices cannot be placed there. 
+Depending on the shape of the floorplan, we can identify the partition of the shape
+where the transmission range will fall out of the shape itself and compute the area of this partition.\\
 In general, by the middle value theorem for integrals, and the total probability
 theorem, the probability for $2$ transmitters (let $x$ and $y$ be their
 coordinates) randomly placed to be close enough to be able to communicate is:
@@ -140,7 +103,7 @@ coordinates) randomly placed to be close enough to be able to communicate is:
 \end{equation*}
 Since we know that $P(x')$ is not constant for all the area of the shape, this
 integral might be difficult to compute, even for a square floorplan; in any case
-its value, it's constant for a given floorplan and a given $r$. Taking into
+its value, it is constant for a given floorplan and a given $r$. Taking into
 consideration only one \texttt{trx}, we can compute the probability density
 function for the number of \texttt{trx} in its transmission range, in function
 of the number of \texttt{trx} in the entire floorplan $C(N)$. Every time we put
