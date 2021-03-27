@@ -77,51 +77,51 @@ S	&			& 			& 			& 			& 1			& 0\\
 \label{exampleMatrixValues}
 \end{equation*}
 \newpage
+% \section*{Appendix B}
+% \label{app:b}
+% %TODO
+% Given a generic convex shape as floorplan, we can compute its area ($A$). If we
+% imagine randomly placing a point mass transmitter (\texttt{trx}) in the floorplan we can define its transmission circle as the circle centered in \texttt{trx} with a radius $R$ equal to the transmission range of the first. If the \texttt{trx}
+% in far enough from the border of the floorplan, its whole transmission circle lies
+% onto the floorplan. In this case, the probability for another (random
+% positioned) \texttt{trx} to be placed within the circle is equal to:
+% \begin{equation*}
+%     \frac{2\pi R^2}{A} \ 
+% \end{equation*}
+% If the first \texttt{trx} device is placed at a distance less than $R$ from one
+% or more borders of the floorplan, the probability of randomly placing a
+% \texttt{trx} device in its range is less than in the previous case; this is
+% because part of the area of the transmission range will fall out of the
+% floorplan and, by construction, \texttt{trx} devices cannot be placed there. 
+% Depending on the shape of the floorplan, we can identify the partition of the shape
+% where the transmission range will fall out of the shape itself and compute the area of this partition.\\
+% In general, by the middle value theorem for integrals, and the total probability
+% theorem, the probability for $2$ transmitters (let $x$ and $y$ be their
+% coordinates) randomly placed to be close enough to be able to communicate is:
+% \begin{equation*}
+%     \rho = P(|x-y|<r) = \frac{1}{A} \int_{A}^{} P(x')
+% \end{equation*}
+% Since we know that $P(x')$ is not constant for all the area of the shape, this
+% integral might be difficult to compute, even for a square floorplan; in any case
+% its value, it is constant for a given floorplan and a given $r$. Taking into
+% consideration only one \texttt{trx}, we can compute the probability density
+% function for the number of \texttt{trx} in its transmission range, in function
+% of the number of \texttt{trx} in the entire floorplan $C(N)$. Every time we put
+% a \texttt{trx} in the floorplan, the probability that it falls in the
+% transmission range of the highlighted one is $\rho$. This is true for every
+% $N > 1$, because of independence.
+% \begin{equation*}
+%     C(N)= \left(\frac{1}{p}\right)^{\left( N-1 \right)}
+% \end{equation*}
+% This is a Bernoullian distribution, and we can use this result only taking one
+% \texttt{trx} at time; in other words we cannot use this distribution for all the
+% \texttt{trx} in a random configured floorplan, because they are not independent. 
+% The distribution for one \texttt{trx} will be influenced by the position of
+% others. Anyway, we can apply this distribution to many transmitters, each one
+% taken from a different floorplan; in this way we can validate the independence
+% of different random configurations.
+% \newpage
 \section*{Appendix B}
-\label{app:b}
-%TODO
-Given a generic convex shape as floorplan, we can compute its area ($A$). If we
-imagine randomly placing a point mass transmitter (\texttt{trx}) in the floorplan we can define its transmission circle as the circle centered in \texttt{trx} with a radius $R$ equal to the transmission range of the first. If the \texttt{trx}
-in far enough from the border of the floorplan, its whole transmission circle lies
-onto the floorplan. In this case, the probability for another (random
-positioned) \texttt{trx} to be placed within the circle is equal to:
-\begin{equation*}
-    \frac{2\pi R^2}{A} \ 
-\end{equation*}
-If the first \texttt{trx} device is placed at a distance less than $R$ from one
-or more borders of the floorplan, the probability of randomly placing a
-\texttt{trx} device in its range is less than in the previous case; this is
-because part of the area of the transmission range will fall out of the
-floorplan and, by construction, \texttt{trx} devices cannot be placed there. 
-Depending on the shape of the floorplan, we can identify the partition of the shape
-where the transmission range will fall out of the shape itself and compute the area of this partition.\\
-In general, by the middle value theorem for integrals, and the total probability
-theorem, the probability for $2$ transmitters (let $x$ and $y$ be their
-coordinates) randomly placed to be close enough to be able to communicate is:
-\begin{equation*}
-    \rho = P(|x-y|<r) = \frac{1}{A} \int_{A}^{} P(x')
-\end{equation*}
-Since we know that $P(x')$ is not constant for all the area of the shape, this
-integral might be difficult to compute, even for a square floorplan; in any case
-its value, it is constant for a given floorplan and a given $r$. Taking into
-consideration only one \texttt{trx}, we can compute the probability density
-function for the number of \texttt{trx} in its transmission range, in function
-of the number of \texttt{trx} in the entire floorplan $C(N)$. Every time we put
-a \texttt{trx} in the floorplan, the probability that it falls in the
-transmission range of the highlighted one is $\rho$. This is true for every
-$N > 1$, because of independence.
-\begin{equation*}
-    C(N)= \left(\frac{1}{p}\right)^{\left( N-1 \right)}
-\end{equation*}
-This is a Bernoullian distribution, and we can use this result only taking one
-\texttt{trx} at time; in other words we cannot use this distribution for all the
-\texttt{trx} in a random configured floorplan, because they are not independent. 
-The distribution for one \texttt{trx} will be influenced by the position of
-others. Anyway, we can apply this distribution to many transmitters, each one
-taken from a different floorplan; in this way we can validate the independence
-of different random configurations.
-\newpage
-\section*{Appendix C}
 \label{app:c}
 Below is a demonstration of the upper bound for the number of collision in a scenario with N hosts.
 

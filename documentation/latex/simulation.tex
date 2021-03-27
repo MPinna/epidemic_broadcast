@@ -23,7 +23,7 @@ Nevertheless, some \textit{a priori} considerations could be made about their bo
 \begin{itemize}
     \item \textbf{broadcast time} is bounded from below as the broadcast cannot take less than one slot. Moreover, the worst case scenario is given by a single queue configuration with 100 hosts (see \ref{ssec:singlequeue}); the probability distribution for the broadcast time in this type of scenario is the same geometric distribution as the one for a single transmission, scaled up by a factor equal to the number of hops required. This distribution bounds the broadcast time from above and guarantees a finite variance for it.
     \item the \textbf{percentage of covered users} is bounded from above by 1 (100\%).
-    \item the \textbf{number of collisions}, in the case of a floorplan with 100 hosts, is bounded from above by the value 2305. The formula for the upper bound can be found in Appendix C, together with its derivation.
+    \item the \textbf{number of collisions}, in the case of a floorplan with 100 hosts, is bounded from above by the value 2305. The formula for the upper bound can be found in Appendix B, together with its derivation.
 \end{itemize} 
 This knowledge allowed for the computation of confidence intervals by means of algorithms that do not require to know the distribution of the
 samples but only the finiteness of the variance.
