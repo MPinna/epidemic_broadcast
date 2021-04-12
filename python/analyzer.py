@@ -1,11 +1,9 @@
-import os
-import threading as th
-import sys
+import subprocess
 
 #print all pki plots, multithread run
-os.system("python3.8 python/plots.py 'duration (s)' mean &")
-os.system("python3.8 python/plots.py 'duration (s)' median &")
-os.system("python3.8 python/plots.py 'collisions' mean &")
-os.system("python3.8 python/plots.py 'collisions' median &")
-os.system("python3.8 python/plots.py 'coverage (%)' mean &")
-os.system("python3.8 python/plots.py 'coverage (%)' median")
+subprocess.Popen(["python", "plots.py", 'duration (s)' ,"median" ,"0.95"])
+subprocess.Popen(["python", "plots.py", 'duration (s)' ,"mean" ,"0.95"])
+subprocess.Popen(["python", "plots.py", 'collisions' ,"median" ,"0.95"])
+subprocess.Popen(["python", "plots.py", 'collisions' ,"mean" ,"0.95"])
+subprocess.Popen(["python", "plots.py", 'coverage (%)' ,"median" ,"0.95"])
+subprocess.Popen(["python", "plots.py", 'coverage (%)' ,"mean" ,"0.95"])

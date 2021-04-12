@@ -11,9 +11,10 @@ import itertools
 import math
 import sys
 import io
+import os
 
-path="results/big_csv/"
-figpath="fig/"
+path="../results/big_csv/"
+figpath="../fig/"
 title="big"
 cmap=cm.get_cmap("rainbow")
 P_VALUES=np.arange(0.1, 1., 0.1)
@@ -42,7 +43,7 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95,
               title="", p_log=False, p_values=P_VALUES, r_values=R_VALUES):
     plt.figure(1)
     plt.title(title+" confidence= "+str(confidence*100)+"%")
-    plt.legend(title="Values of P")
+    
     plt.xlabel("Transmission Range (m)")
     plt.xticks(np.arange(1,20))
     plt.ylabel(ylabel)
@@ -52,11 +53,10 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95,
                marker='s', markersize=3, mfc="black", mec="black", label=str(round(p_values[j],1)), color=p_colors[j])
     if "%" in ylabel:
         plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
-
+    plt.legend(title="Values of P")
 
     plt.figure(2)
     plt.title(title+" confidence= "+str(confidence*100)+"%")
-    plt.legend(title="Values of R (m)", loc='center left', bbox_to_anchor=(1,0.5))
     plt.subplots_adjust(right=0.8)
     plt.xlabel("Retransmission probability(P)")
     plt.xticks(p_values)
@@ -77,7 +77,7 @@ def x_y_plots(ylabel, serie, errors, asim=False, confidence=0.95,
             err=errors[:,i]
         plt.errorbar(x=p_values, y=np.array(serie[:,i]), yerr=err, capsize=3, linestyle="solid",
               marker='s', markersize=3, mfc="black", mec="black", label=str(r_values[i]),color=r_colors[i])
-
+    plt.legend(title="Values of R (m)", loc='center left', bbox_to_anchor=(1,0.5))
 # print pki plots for a given confidence, with a given index of central tendencies (pki), with a given number of samples n<=200
 def print_PKI_plots(pki, ict="mean", confidence=0.9, n=200):
     if not pki in ["collisions", "duration (s)", "coverage (%)"] :
