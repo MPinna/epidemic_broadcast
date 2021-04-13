@@ -1121,45 +1121,45 @@ INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/simulation.tex
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/simulation.tex
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/simulation.tex
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/simulation.tex
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollRange_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollRange_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollRange_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollRange_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CollRange_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurP_median.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_collisions_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_p_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisTotal_reachR19.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisTotal_reachR19.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisTotal_reachR19.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisTotal_reachR19.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisTotal_reachR19.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_CovRange_mean.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_coverage_r_mean_95.0.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisSafe_nodes.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisSafe_nodes.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisSafe_nodes.pdf
@@ -1175,10 +1175,10 @@ INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysis
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisEccentricityR19.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisEccentricityR19.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/graphAnalysisEccentricityR19.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
-INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/Big_DurRange_mean.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
+INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/big_duration (s)_r_mean_95.0.pdf
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/branchIn.png
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/branchIn.png
 INPUT /home/yuri/gitHub/epidemic_broadcast/documentation/latex/img/branchIn.png

@@ -33,8 +33,8 @@ broadcast duration and the number of collisions are measured and plotted in grap
 better understand and interpret the behaviour of the system.\\
 In order to achieve statistically significant results with a minimum accuracy of
 $95$\%, each scenario configuration -- with the same parameters -- was run 200 times; then, mean and median values of the performance
-indexes were computed, along with their confidence intervals.
-
+indexes were computed, along with their confidence intervals. \\
+Analysing results we find out that mean ad median values tends to converge for all the indexes we want to compute.
 \section{Coverage}\label{ssec:coverage}
 Figure \ref{fig:coveragePR} shows the floorplan coverage achieved as a
 function of the success probability $p$, for different values of
@@ -50,7 +50,7 @@ decreases with the increase of $p$, but quite slowly and also it does not
 degenerate to $0$; instead it reaches a value between $10$\% and $40$\%.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.42]{img/Big_CovP_median.pdf}
+        \includegraphics[scale=.7]{img/big_coverage_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Floorplan coverage as a function of $p$ for different values of $R$}
@@ -67,7 +67,7 @@ function of the transmission radius $R$, for different values of the success pro
 final coverage of the flooplan is deeply influenced by the transmission range $R$.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.75]{img/Big_CovRange_mean.pdf}
+        \includegraphics[scale=.75]{img/big_coverage_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Floorplan coverage as a function of $R$ for different values of $p$}
@@ -117,7 +117,7 @@ Figure \ref{fig:collisionsPR} shows the median number of collisions as function 
 The values seem to have a linear behaviour for low values of $p$ and then start stabilizing as $p$ approaches one.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.45]{img/Big_CollP_median.pdf}
+        \includegraphics[scale=.7]{img/big_collisions_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Median value of the number of collisions as function of $R$ for different values of p}
@@ -130,7 +130,7 @@ The lines tend to coincide for higher values of $p$, as it also shows the flatne
 It would incorrect to assert a general positive correlation between the radius and the total number of collisions: as a matter of fact, the number of collisions has to tend to 0 for $R \to \sqrt{2}L$. This is because the more hosts receive the message from host 0, the more of them will be transmitting during the second slot and the less of them will be listening and able to detect a collision.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.6]{img/Big_CollRange_median.pdf}
+        \includegraphics[scale=.7]{img/big_collisions_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Median value of the number of collisions as function of $R$ for different values of $p$}
@@ -141,7 +141,7 @@ The following figure shows the plot of the duration of the simulation (in
 slots) as a function of $p$, for different values of $R$.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.45]{img/Big_DurP_median.pdf}
+        \includegraphics[scale=.7]{img/big_duration (s)_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Simulation duration as a function of $p$ for different values of $R$}
@@ -159,7 +159,7 @@ explained as a consequence of two main factors:
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.6]{img/Big_DurRange_mean.pdf}
+        \includegraphics[scale=.7]{img/big_duration (s)_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Simulation duration as a function of $R$ for different values of $p$}
@@ -264,7 +264,7 @@ For values of $p$ really close to 0, it is easy to imagine that there will be ba
         \end{center}
 	\end{minipage}
 	\begin{minipage}{.5\textwidth} 
-		\includegraphics[scale=.5]{img/Big_CovRange_mean.pdf}
+		\includegraphics[scale=.5]{img/big_coverage_r_mean_95.0.pdf}
 		\begin{center}
             b)
         \end{center}
@@ -352,7 +352,7 @@ Fig. \ref{fig:eccentricityDuration} shows the previous function up to $R=19$ m o
         \end{center}
 	\end{minipage}
 	\begin{minipage}{.5\textwidth} 
-		\includegraphics[scale=.5]{img/Big_DurRange_mean.pdf}
+		\includegraphics[scale=.5]{img/big_duration (s)_r_mean_95.0.pdf}
 		\begin{center}
             b) Broadcast time as function R
         \end{center}
