@@ -27,14 +27,14 @@ Nevertheless, some \textit{a priori} considerations could be made about their bo
 \end{itemize} 
 This knowledge allowed for the computation of confidence intervals by means of algorithms that do not require to know the distribution of the
 samples but only the finiteness of the variance.
-
+\hfill \break
 For each of the scenarios, the floorplan coverage, the
 broadcast duration and the number of collisions are measured and plotted in graphs in order to 
 better understand and interpret the behaviour of the system.\\
 In order to achieve statistically significant results with a minimum accuracy of
 $95$\%, each scenario configuration -- with the same parameters -- was run 200 times; then, mean and median values of the performance
 indexes were computed, along with their confidence intervals. \\
-Analysing results we find out that mean ad median values tends to converge for all the indexes we want to compute.
+The analysis of the results showed that mean and median values tend to converge for all the KPIs.
 \section{Coverage}\label{ssec:coverage}
 Figure \ref{fig:coveragePR} shows the floorplan coverage achieved as a
 function of the success probability $p$, for different values of
@@ -50,7 +50,7 @@ decreases with the increase of $p$, but quite slowly and also it does not
 degenerate to $0$; instead it reaches a value between $10$\% and $40$\%.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.7]{img/big_coverage_p_mean_95.0.pdf}
+        \includegraphics[scale=.62,trim={0 0 0 0.8cm},clip]{img/big_coverage_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Floorplan coverage as a function of $p$ for different values of $R$}
@@ -67,7 +67,7 @@ function of the transmission radius $R$, for different values of the success pro
 final coverage of the flooplan is deeply influenced by the transmission range $R$.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.75]{img/big_coverage_r_mean_95.0.pdf}
+        \includegraphics[scale=.75,trim={0 0 0 0.8cm},clip]{img/big_coverage_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Floorplan coverage as a function of $R$ for different values of $p$}
@@ -117,7 +117,7 @@ Figure \ref{fig:collisionsPR} shows the median number of collisions as function 
 The values seem to have a linear behaviour for low values of $p$ and then start stabilizing as $p$ approaches one.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.7]{img/big_collisions_p_mean_95.0.pdf}
+        \includegraphics[scale=.7,trim={0 0 0 0.8cm},clip]{img/big_collisions_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Median value of the number of collisions as function of $R$ for different values of p}
@@ -130,7 +130,7 @@ The lines tend to coincide for higher values of $p$, as it also shows the flatne
 It would incorrect to assert a general positive correlation between the radius and the total number of collisions: as a matter of fact, the number of collisions has to tend to 0 for $R \to \sqrt{2}L$. This is because the more hosts receive the message from host 0, the more of them will be transmitting during the second slot and the less of them will be listening and able to detect a collision.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.7]{img/big_collisions_r_mean_95.0.pdf}
+        \includegraphics[scale=.65,trim={0 0 0 0.8cm},clip]{img/big_collisions_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Median value of the number of collisions as function of $R$ for different values of $p$}
@@ -141,7 +141,7 @@ The following figure shows the plot of the duration of the simulation (in
 slots) as a function of $p$, for different values of $R$.
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.7]{img/big_duration (s)_p_mean_95.0.pdf}
+        \includegraphics[scale=.67,trim={0 0 0 0.8cm},clip]{img/big_duration (s)_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Simulation duration as a function of $p$ for different values of $R$}
@@ -155,11 +155,9 @@ explained as a consequence of two main factors:
     time slots waiting, without actually transmitting;
     \item with a smaller number of collisions, fewer paths are ``cut off" while the message is travelling along them; this causes the message to stay around for a longer time.
 \end{itemize}
-
-
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.7]{img/big_duration (s)_r_mean_95.0.pdf}
+        \includegraphics[scale=.7,trim={0 0 0 0.8cm},clip]{img/big_duration (s)_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
     \caption{Simulation duration as a function of $R$ for different values of $p$}
@@ -175,20 +173,21 @@ retransmission ($p$) and the distance between the peaks would suggest this depen
 The bottom ones are much flatter, since very low values of $R$ often do not even allow the starting node to be connected to any others.
 This supposedly inverse proportionality with respect to $p$ is an interesting result and can be explained by observing that the same inverse proportionality is found in formula \ref{eq:singleQueueMeanT}.\\
 Further observation about this and relationship with some graph properties are discussed in \ref{ssec:durationVsEccentricity}.\\
-Not all the curves in \ref{fig:durationPR} exhibit a hyperbolic trend: very low values of $R$ cause them to have a degenerate trend, while for high values of $R$ the deviation from the hyperbola is probably due to the increasing influence of the collision.
-
-We tried to interpolate the curves shown in Figure \ref{fig:durationPR}
-with an hyperbolic function, because it fits well the parameters we want to
-model; first of all, the hyperbole tends to infinity as $p$ tends to $0$, and
-this is coherent with the reality, because if the probability of retransmission
-becomes low, then the duration keeps increasing. If instead $p$ gets close to
-$1$, the duration time tends to its minimum. We fit those shapes using:
-\begin{equation*}  
-    D = \frac{a}{P}+b 
-\end{equation*}
-where $D$ is the duration of the simulation, $p$ the probability of
-retransmission, and $a$ and $b$ depend on $R$ as specified in the following
-table:
+\newpage
+Not all the curves in \ref{fig:durationPR} exhibit a hyperbolic trend: very low values of $R$ cause them to have a degenerate trend, while for high values of $R$ the deviation from the hyperbola is likely to be due to the increasing influence of the collisions.
+%
+%We tried to interpolate the curves shown in Figure \ref{fig:durationPR}
+%with an hyperbolic function, because it fits well the parameters we want to
+%model; first of all, the hyperbole tends to infinity as $p$ tends to $0$, and
+%this is coherent with the reality, because if the probability of retransmission
+%becomes low, then the duration keeps increasing. If instead $p$ gets close to
+%$1$, the duration time tends to its minimum. We fit those shapes using:
+%\begin{equation*}  
+%    D = \frac{a}{P}+b 
+%\end{equation*}
+%where $D$ is the duration of the simulation, $p$ the probability of
+%retransmission, and $a$ and $b$ depend on $R$ as specified in the following
+%table:
 %TODO too many digits. Better to reformat as the wall of text is not exactly pretty
 %\begin{center}
 %\begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
@@ -235,9 +234,9 @@ table:
 %\hline
 %\end{tabular}
 %\end{center}
-as a matter of fact, if the transmission range is
-too short nodes can not communicate: they are not in reach by each others.\\
-\\
+%as a matter of fact, if the transmission range is
+%too short nodes can not communicate: they are not in reach by each others.\\
+%\\
 
 \section{Comparison between KPIs and graph properties}
 
@@ -287,14 +286,14 @@ The correct value for $a$ can be found examining the data in fig. \ref{fig:reach
 A closed form for the \textit{reach}, and therefore for total coverage when $p \to 0$, in a square floorplan with $L=100$ would then be
 \hfill \break
 \begin{equation}\label{eq:reachSigmoidNoL}
-	C_{0}(R) = \frac{1}{100} + \frac{99}{100}\cdot\frac{1+tanh(e^{-1}(R - 12))}{2}
+	U_{0}(R) = \frac{1}{100} + \frac{99}{100}\cdot\frac{1+tanh(e^{-1}(R - 12))}{2}
 \end{equation}
 \hfill \break
 This formula, however, models the coverage for a fixed values of \texttt{L} and $N$, as mentioned above.\\
-A more complete closed form, that also takes in account the length of the side of the floorplan and the number of hosts, could be the following:
+A more complete closed form, that also takes in account the length of the side of the floorplan and the number of hosts, might be the following:
 \hfill \break
 \begin{equation}\label{eq:reachSigmoidL}
-	C_{0}(R, L, N) = \frac{1}{N} + \frac{N-1}{N}\cdot\frac{1+tanh(e^{-1}(10\sqrt{N}\frac{R}{L} - 12))}{2}
+	U_{0}(R, L, N) = \frac{1}{N} + \frac{N-1}{N}\cdot\frac{1+tanh(e^{-1}(10\sqrt{N}\frac{R}{L} - 12))}{2}
 \end{equation}
 \hfill \break
 The presence of the quantity $\frac{R}{L}$ follows from the observation that the overall connectivity of a graph should only depend on the ratio between the transmission radius and the coordinates of the hosts (see section \ref{sec:graphModelForWirelessSystems}).\\
@@ -325,7 +324,7 @@ A closed formula for the number of safe nodes when $p=1$ has not been found yet 
 \begin{equation}\label{eq:coverageClosedForm}
 C(R, p) = (1-p)\cdot C_{0}(R) + p\cdot C_{1}(R)
 \end{equation}
-\newpage
+
 \subsection{Broadcast time and eccentricity}\label{ssec:durationVsEccentricity}
 In \ref{sec:graphModelForWirelessSystems} the eccentricity $\epsilon$ of a graph was introduced, defined as the distance from node 0 to the furthest connected node, let it be $u$.\\
 If we imagine the message spreading from host 0 outwards along the various paths of the graph, it is easy to guess that, on average, the path that will take the longest to be covered will be the one that leads to node $u$ and this path will have, by definition, a number of edges equal to the eccentricity.\\
