@@ -286,14 +286,14 @@ The correct value for $a$ can be found examining the data in fig. \ref{fig:reach
 A closed form for the \textit{reach}, and therefore for total coverage when $p \to 0$, in a square floorplan with $L=100$ would then be
 \hfill \break
 \begin{equation}\label{eq:reachSigmoidNoL}
-	U_{0}(R) = \frac{1}{100} + \frac{99}{100}\cdot\frac{1+tanh(e^{-1}(R - 12))}{2}
+	C_{0}(R) = \frac{1}{100} + \frac{99}{100}\cdot\frac{1+tanh(e^{-1}(R - 12))}{2}
 \end{equation}
 \hfill \break
 This formula, however, models the coverage for a fixed values of \texttt{L} and $N$, as mentioned above.\\
 A more complete closed form, that also takes in account the length of the side of the floorplan and the number of hosts, might be the following:
 \hfill \break
 \begin{equation}\label{eq:reachSigmoidL}
-	U_{0}(R, L, N) = \frac{1}{N} + \frac{N-1}{N}\cdot\frac{1+tanh(e^{-1}(10\sqrt{N}\frac{R}{L} - 12))}{2}
+	C_{0}(R, L, N) = \frac{1}{N} + \frac{N-1}{N}\cdot\frac{1+tanh(e^{-1}(10\sqrt{N}\frac{R}{L} - 12))}{2}
 \end{equation}
 \hfill \break
 The presence of the quantity $\frac{R}{L}$ follows from the observation that the overall connectivity of a graph should only depend on the ratio between the transmission radius and the coordinates of the hosts (see section \ref{sec:graphModelForWirelessSystems}).\\
