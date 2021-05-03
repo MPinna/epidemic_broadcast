@@ -113,14 +113,14 @@ A more in-depth analysis is carried out in \ref{ssec:coverageReachSafenodes}.
 %\end{center}
 \newpage
 \section{Collisions}
-Figure \ref{fig:collisionsPR} shows the median number of collisions as function of $p$, for different values of $R$.\\
+Figure \ref{fig:collisionsPR} shows the mean number of collisions as function of $p$, for different values of $R$.\\
 The values seem to have a linear behaviour for low values of $p$ and then start stabilizing as $p$ approaches one.
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=.7,trim={0 0 0 0.8cm},clip]{img/big_collisions_p_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
-    \caption{Median value of the number of collisions as function of $R$ for different values of p}
+    \caption{Mean value of the number of collisions as function of $R$ for different values of p}
     \label{fig:collisionsPR}
 \end{figure}
 
@@ -133,7 +133,7 @@ It would incorrect to assert a general positive correlation between the radius a
         \includegraphics[scale=.65,trim={0 0 0 0.8cm},clip]{img/big_collisions_r_mean_95.0.pdf}
     \end{center}
     \vspace*{-0.5cm}
-    \caption{Median value of the number of collisions as function of $R$ for different values of $p$}
+    \caption{Mean value of the number of collisions as function of $R$ for different values of $p$}
     \label{fig:collisionsRP}
 \end{figure}
 \section{Duration}\label{sec:duration}
@@ -320,11 +320,11 @@ For $R > 25$, increasing the radius yields negative returns: the average number 
 For $R > 55$ the number of safe nodes starts increasing again, probably because host 0 starts having more and more neighbours when the broadcast begins (and none of them detects a collision as host 0 is the only one transmitting during the first slot).\\ The quantity asymptotes to the total number of nodes and for $R > \sqrt{2}{\cdot}L$ it is identically equal to it since, wherever the starting node would happen to be placed, it would cover the whole area during its first transmission slot.\\
 \hfill \break
 These considerations show that the coverage as function of $R$, although it might resemble a sigmoid for different values of $p$ (and could probably be approximated well enough by it for realistic value of the transmission range), is probably more complex than that; for a certain range of values for R, the increase in the number of collision starts having a heavier role in the number of reached hosts.\\
-A closed formula for the number of safe nodes when $p=1$ has not been found yet but, assuming it is $C_{1}(R)$, then a reasonable form for the coverage function could be the following:
+A closed formula for the number of safe nodes when $p=1$ has not been found yet but, assuming it is $C_{1}(R, L, N)$, then a reasonable form for the coverage function could be the following:
 \begin{equation}\label{eq:coverageClosedForm}
-C(R, p) = (1-p)\cdot C_{0}(R) + p\cdot C_{1}(R)
+C(R, L, N, p) = (1-p)\cdot C_{0}(R, L, N) + p\cdot C_{1}(R, L, N)
 \end{equation}
-
+\pagebreak
 \subsection{Broadcast time and eccentricity}\label{ssec:durationVsEccentricity}
 In \ref{sec:graphModelForWirelessSystems} the eccentricity $\epsilon$ of a graph was introduced, defined as the distance from node 0 to the furthest connected node, let it be $u$.\\
 If we imagine the message spreading from host 0 outwards along the various paths of the graph, it is easy to guess that, on average, the path that will take the longest to be covered will be the one that leads to node $u$ and this path will have, by definition, a number of edges equal to the eccentricity.\\
@@ -340,7 +340,7 @@ If we imagine the message spreading from host 0 outwards along the various paths
 \hfill \break
 Figure \ref{fig:eccentricityFull} shows the average eccentricity of a graph with 100 nodes, as function of R.
 The function has a maximum around $R = 13$ m and then starts slowly decaying until it reaches 1 as R gets closer to $\sqrt{2}L$; this makes complete sense since, for high values of R, node 0 is quite likely to be connected to all nodes in the floorplan.\\
-The peak at $R=13 m$ has the following physical interpretation: for values of R between 0 m and 13 m, increasing the radius increases the order of the connected component of the graph containing node 0; by further increasing the radius, more edges start to appear in the graph creating shorter paths between nodes that were already connected.\\
+The peak at $R=13$ m has the following physical interpretation: for values of R between 0 m and 13 m, increasing the radius increases the order of the connected component of the graph containing node 0; by further increasing the radius, more edges start to appear in the graph creating shorter paths between nodes that were already connected.\\
 Another interesting observation concerns the behaviour of the function around $R = 70$ m: the eccentricity seems to stabilize at a value of 2, with very narrow confidence intervals, for values  of $R$ close to $\frac{1}{2}\sqrt{2}L$.\\
 Fig. \ref{fig:eccentricityDuration} shows the previous function up to $R=19$ m one one side, and again the experimental data for the duration, for convenience of comparison.\\
 \begin{figure}[H]
