@@ -55,8 +55,8 @@ other vertices. The resulting graph is shown in figure \ref{fig:graph1} (b).
 \noindent
 In general, the existence of an edge from vertex $i$ to vertex $j$ means that
 nodes $i$ and $j$ are within reach of each other. Two vertices connected by an
-edge are said to be \textit{adjacent}. The set composed by all the vertices adjacent to a vertex $v$ is called the
-\textit{neighbourhood of v}.\\
+edge are said to be \textit{adjacent}. The set composed by all the vertices
+adjacent to a vertex $v$ is called the \textit{neighbourhood of v}.\\
 During the broadcast process, a node can only receive
 from and transmit to its neighbourhood.\\
 Once a node has transmitted the message and has gone into the \texttt{sleeping}
@@ -65,31 +65,39 @@ the edges connected to it. Therefore, the set of vertices $V$ changes with time.
 This is what in literature is called a \textit{dynamic graph} or, more
 %TODO fix citation
 specifically, a \textit{node-dynamic graph} [\cite{hararygraph}].\\
-
-Modelling the system with graphs also allows for the simple computation of some of their properties, such as the \textit{eccentricity}; in this way, it is possible to find theoretical lower bounds for some of the metrics and can also be useful for validating the simulator or for gaining further insight about the results.\\
-Given a graph $G(V, E)$ which represents the users
-in the floorplan, let node $v^{*}$ be the starting point for the broadcast, i.e.
-the first node with the message. In the best case scenario, the system evolves
-with no collisions at all and the message moves along the paths of the graph,
-reaching all nodes. Let $d(u, v)$ be the \textit{distance} between two vertices
-$u$ and $v$, i.e. the length of the shortest directed path from $u$ to $v$
-consisting of arcs, provided at least one such path exists. Then, the lower
-bound for the broadcast time is given by the highest distance between $v^{*}$
-and any other vertex. This quantity, in graph theory, is called
-\textit{eccentricity} of the vertex $v^{*}$. More formally, the eccentricity of
-$v^{*}$ is defined as follows:
+Modelling the system with graphs also allows for the simple computation of some
+of their properties, such as the \textit{eccentricity}; in this way, it is
+possible to find theoretical lower bounds for some of the metrics and can also
+be useful for validating the simulator or for gaining further insight about the
+results.\\
+\\
+Given a graph $G(V, E)$ which represents the users in the floorplan, let node
+$v^{*}$ be the starting point for the broadcast, i.e. the first node with the
+message. In the best case scenario, the system evolves with no collisions at all
+and the message moves along the paths of the graph, reaching all nodes. Let
+$d(u, v)$ be the \textit{distance} between two vertices $u$ and $v$, i.e. the
+length of the shortest directed path from $u$ to $v$ consisting of arcs,
+provided at least one such path exists. Then, the lower bound for the broadcast
+time is given by the highest distance between $v^{*}$ and any other vertex.
+This quantity, in graph theory, is called \textit{eccentricity} of the vertex
+$v^{*}$. More formally, the eccentricity of $v^{*}$ is defined as follows:
 \begin{equation}
 \epsilon(v^{*}) = \max_{u{\in}V} d(v^{*}, u)
 \end{equation}
-Another observation to be made is that the existence of an edge between two nodes only depends on the ratio between their radius and their distance. This implies that 100 nodes with a radius of 15 m dropped in a 100 m x 100 m floorplan will produce the exact same graph as 100 nodes having a radius of 1,5 m dropped in a 10 m x 10 m floorplan, if all their coordinates are just scaled by a factor of 10.\\ 
+Another observation to be made is that the existence of an edge between two
+nodes only depends on the ratio between their radius and their distance. This
+implies that $100$ nodes with a radius of $15$m dropped in a $100$m x $100$m
+floorplan will produce the exact same graph as $100$ nodes having a radius of
+$1.5$m dropped in a $10$m x $10$m floorplan, if all their coordinates are just
+scaled by a factor of 10.\\ 
 \section{Simplified models}
 In what follows, incrementally more complex scenarios are presented showing the
 reasoning that led us to obtain the final complete model.
 \subsection{Single queue configuration}\label{ssec:singlequeue}
 Let us consider a configuration where users are arranged in a line, as shown in
-figure \ref{fig:single_queue_graph}. Each user only has two neighbours, except for
-the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ is the
-starting user with the broadcast message, it is the only node in
+figure \ref{fig:single_queue_graph}. Each user only has two neighbours, except
+for the outer ones (nodes $A$ and $E$) that only have one. Assuming node $A$ is
+the starting user with the broadcast message, it is the only node in
 \texttt{transmitting} state while all the other nodes are initially in
 \texttt{listening} state. 
 \begin{figure}[H]
@@ -101,13 +109,13 @@ starting user with the broadcast message, it is the only node in
     \vspace*{-0.4cm}
 \end{figure}
 \noindent It is clear that, with this configuration, each listening node has a
-maximum of one active node in its neighbourhood at any time and thus cannot possibly receive
-the message from two different sources at the same time. This guarantees the
-absence of collisions.\\
+maximum of one active node in its neighbourhood at any time and thus cannot possibly
+receive the message from two different sources at the same time. This guarantees
+the absence of collisions.\\
 In such a scenario, $100\%$ asymptotic coverage is
 ensured: during each slot, the active node extracts a Bernoullian RV with
-success probability $p$. The probability of the active node transmitting after exactly
-$k$ slots is a geometric distribution:
+success probability $p$. The probability of the active node transmitting after
+exactly $k$ slots is a geometric distribution:
 \begin{equation}
 	P(X = k) = (1 - p)^{k-1} \cdot p
 	\label{geometricDistribution}
@@ -166,8 +174,8 @@ remaining ones.
 \end{figure}
 This configuration can be seen as the complement of the previous one: all the nodes
 on the rays of the star are active and trying to transmit the message to the
-center node. This is the first scenario where collisions might occur and with a non-zero probability that
-total coverage might never be reached. To simplify the
+center node. This is the first scenario where collisions might occur and with a
+non-zero probability that total coverage might never be reached. To simplify the
 analysis of this system and obtain some insights, it is useful to model it by
 means of a discrete-time Markov chain.
 \subsubsection{Discrete-time Markov chain model for N nodes transmitting to a target}
