@@ -63,7 +63,6 @@ Once a node has transmitted the message and has gone into the \texttt{sleeping}
 state, from the point of view of the graph model, it disappears, along with all
 the edges connected to it. Therefore, the set of vertices $V$ changes with time.
 This is what in literature is called a \textit{dynamic graph} or, more
-%TODO fix citation
 specifically, a \textit{node-dynamic graph} [\cite{hararygraph}].\\
 Modelling the system with graphs also allows for the simple computation of some
 of their properties, such as the \textit{eccentricity}; in this way, it is
@@ -129,18 +128,17 @@ needed to reach the last node:
 	E[T] = \frac{1}{p} \cdot (N - 1).
 	\label{eq:singleQueueMeanT}
 \end{equation}
-
 \subsection{Star configuration with one active node (star 1-to-5)}
 \label{ssec:star1}
 Another useful simple configuration worth analysing is the star-shaped one. In
 this setup, there is a central node $A$ connected to $N - 1$ nodes, all of which
 are non-adjacent to each other. Let us suppose $A$ to be the broadcast starter.
 The absence of collisions is ensured in this scenario as well, for the
-same reason as the previous configuration.
+same reason as in the previous configuration.
 At each time slot, $A$ extracts a Bernoulli RV. When the extraction is
-successful, $A$ broadcasts the message its entire neighbourhood and total
+successful, $A$ broadcasts the message to its entire neighbourhood and total
 coverage is reached. Hence, 100\% asymptotic coverage is ensured in this case
-too, as the probability of $A$ not transmitting for $k$ consecutive slots is
+too: the probability of $A$ not transmitting for $k$ consecutive slots is
 given by Eq. \ref{geometricDistribution} and goes to $0$ as $k$ goes to
 infinity.
 \begin{figure}[H]
@@ -160,9 +158,8 @@ there would not be much difference: absence of collisions and total coverage
 would be ensured as well. As far as it concerns the total broadcast time
 \texttt{T}, its expected value would just be $\frac{2}{p}$, since
 the are now \textbf{two} hops involved in the broadcast: one from the starter
-node to the center node and the another from the center node to all the $N - 2$
-remaining ones.
-
+node to the center node and one from the center node to all of the $N - 2$
+remaining nodes.
 \subsection{Star configuration with all nodes active but one (star 5-to-1)}
 \label{ssec:star2}
 \begin{figure}[H]
@@ -175,7 +172,7 @@ remaining ones.
 This configuration can be seen as the complement of the previous one: all the nodes
 on the rays of the star are active and trying to transmit the message to the
 center node. This is the first scenario where collisions might occur and with a
-non-zero probability that total coverage might never be reached. To simplify the
+non-zero probability for total coverage being ever reached. To simplify the
 analysis of this system and obtain some insights, it is useful to model it by
 means of a discrete-time Markov chain.
 \subsubsection{Discrete-time Markov chain model for N nodes transmitting to a target}
@@ -226,7 +223,8 @@ the message is given by:
     \label{eq:firstSlotTransProb}
 \end{equation}
 \hfill \break
-which is a binomial distribution given by the sum of the N Bernoulli distributions.\\
+which is a binomial distribution given by the sum of the $N$ Bernoulli
+distributions.\\
 \\
 As for the probability of $j$ devices transmitting at the same time during slot
 $k$, be it $P_{k}(j)$, we can model the system as if it was in the first slot,
