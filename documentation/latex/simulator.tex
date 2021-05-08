@@ -22,16 +22,18 @@ scenarios\footnote{https://omnetpp.org/download-items/INET.html}.\\
 OMNeT++ is a library and a framework, and can be used with the dedicated IDE.
 Not only it allows for development of the simulator itself, but also to export
 simulation results and to inspect simulation behaviour with a graphical user
-interface. By taking advantage of the C++ compiler optimizations, it can achieve significant speed-ups for the simulations times.
-
-Networks are composed by modules and there are two
-types of modules: simple modules and compound modules (which can contain other
-modules themselves).
+interface. By taking advantage of the C++ compiler optimizations, it can achieve
+significant speed-ups for the simulations times.\\
+\\
+Networks are composed by modules and there are two types of modules: simple
+modules and compound modules (which can contain other modules themselves).
 INET, on the other hand, is an extension of OMNeT++, dedicated to recreating 
 network simulation environments, with the capability of reproducing the activity
 of a wireless communication system across multiple nodes. It contains ready to
 use definitions and implementations of network related modules.\\
-The INET framework was chosen as it provides, among many other things, ready-made modules for wireless networks, allowing to reduce the time required for the development of the simulator.
+The INET framework was chosen as it provides, among many other things,
+ready-made modules for wireless networks, allowing to reduce the time required
+for the development of the simulator.
 \section{Network architecture}
 The network based architecture is composed by an array of \texttt{Host} modules, an
 \texttt{Integrated visualizer} (visualizer) and a \texttt{UnitDiskRadioMedium} (radioMedium);
@@ -79,7 +81,8 @@ relationships between types:
     \item the \texttt{mobility} module provided by INET manages the position of
     the parent module \texttt{Host}; it allows for various types of movements, but
     in this study was only used for the initial random placement of the
-    nodes. After being placed, all nodes are stationary for the whole duration of the simulation.
+    nodes. After being placed, all nodes are stationary for the whole duration
+	of the simulation.
     \item the \texttt{interfaceTable} module is provided by INET and is required
     for correct operation of the radioMedium module.
     \item the \texttt{wlan} module is the wireless interface that allows nodes
@@ -112,7 +115,8 @@ collected by the \texttt{Floorplan} module:
     \texttt{packetDropIncorrectlyReceived} statistic of the same module; we are
     interested in the total number of collisions detected by each node.
     \item the \texttt{ProcUnit} module emits two signals when initialized:
-    \texttt{hostX} and \texttt{hostY}. These are the coordinates of the parent node in the floorplan and they are collected, respectively, by the
+    \texttt{hostX} and \texttt{hostY}. These are the coordinates of the parent
+	node in the floorplan and they are collected, respectively, by the
     \texttt{hostXstat} and \texttt{hostYstat} statistics.
     \item the \texttt{ProcUnit} module emits the \texttt{timeCoverage} signal as
     well, collected in the \texttt{timeCoverageStat} statistic; this is a
@@ -121,41 +125,43 @@ collected by the \texttt{Floorplan} module:
     the end of the simulation, its size represents the number of covered nodes.
 \end{itemize}
 The most significant parameters set up in the initialization file
-	(\texttt{floorplan.ini}) are reported below:
-%TODO remove? p=1 is just a place-holder which gets replaced
-% during initialize of every procUnit, it's not really significant
+(\texttt{floorplan.ini}) are reported below:
 \begin{itemize}
     \item \texttt{Floorplan.host[*].procUnit.p = \$\{p = 0.1..1 step 0.1\}}
     \item \texttt{Floorplan.host[*].}[...]\texttt{.communicationRange = \$\{R = 1..20 step 1\}m}
 \end{itemize}
-
-Moreover, the X and Y coordinates for each host are set to a uniformly distributed random value by the INET Framework, by default.
-%snapshot del file ini con gli sweep per p ed r, e altri parametri più significativi 
+Moreover, by default, the $x$ and $y$ coordinates for each host are set to a
+uniformly distributed random value by the INET Framework.
 \section{Design Choices and Optimizations}
-Using the INET framework for the development of the simulator allowed for the use of pre-built modules for modelling wireless communications; for example,
+Using the INET framework for the development of the simulator allowed for the
+use of pre-built modules for modelling wireless communications; for example,
 collision detection and statistics collection are already implemented by INET
-modules. During the development, a level of abstraction suitable for the purposes was chosen, but it is possible to model other aspects by just 
-changing the types of the INET modules used, or by adding new ones. Phenomena such as path loss, node movement etc. were intentionally not taken into account and considerations were restricted to a discrete time scenario. However, modelling
-continuous time scenarios can be easily done by changing few INET modules types
-and attributes.\\
+modules. During the development, a level of abstraction suitable for the
+purposes was chosen, but it is possible to model other aspects by just 
+changing the types of the INET modules used, or by adding new ones. Phenomena
+such as path loss, node movement etc. were intentionally not taken into account
+and considerations were restricted to a discrete time scenario. However,
+modelling continuous time scenarios can be easily done by changing few INET
+modules types and attributes.\\
 INET modules also have pre-built optimization structures, that become
 indispensable when the number of hosts becomes larger; in order to make the
 simulator ready for highly complex scenarios, the \texttt{neighborCache}
-structure offered by the \texttt{radioMedium} module was used. This module is in charge
-of storing proximity information of each and every node, in order to speed up the simulation of a single 
-transmission. By setting the type of this module to \texttt{GridNeighborCache},
-it is possible to reduce the time needed for a simulation with more than
-$2000$ devices dropped on the floorplan, by a factor of $10$; it was observed that
-this type of cache (with the right value for the \texttt{cellSize} parameter) is
-the best trade-off between speed and memory occupancy, for this type of
+structure offered by the \texttt{radioMedium} module was used. This module is
+in charge of storing proximity information of each and every node, in order to
+speed up the simulation of a single transmission. By setting the type of this
+module to \texttt{GridNeighborCache}, it is possible to reduce the time needed
+for a simulation with more than $2000$ devices dropped on the floorplan, by a
+factor of $10$; it was observed that this type of cache (with the right value
+for the \texttt{cellSize} parameter) is the best trade-off between speed and
+memory occupancy, for this type of
 workload\footnote{https://doc.omnetpp.org/inet/api-current/neddoc/inet.physicallayer.contract.packetlevel.INeighbor\\
 Cache.html}.  
-
 \section{Validation}
-To ensure the correctness of the simulator and the meaningfulness of the results, the simulator has been validated by means of two simplified scenarios, namely the single queue configuration and the star configuration, which are discussed in \ref{ssec:singlequeue} and \ref{ssec:star2} respectively.
-
+To ensure the correctness of the simulator and the meaningfulness of the
+results, the simulator has been validated by means of two simplified scenarios,
+namely the single queue configuration and the star configuration, which are
+discussed in \ref{ssec:singlequeue} and \ref{ssec:star2} respectively.
 \subsection{Single queue validation}
-
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.75]{img/singleQueueGUI.png}
@@ -164,64 +170,69 @@ To ensure the correctness of the simulator and the meaningfulness of the results
     \end{center}
     \vspace*{-0.8cm}
 \end{figure}
-
-In this configuration, host[0] always broadcasts during the first slot and then the message travels along the queue, with a total of 10 hops. On every hop, the per-slot probability of successful transmission is $p$, which implies an average number of attempts equal to $\frac{1}{p}$. Therefore, the expected coverage time is
-
+In this configuration, host[0] always broadcasts during the first slot and then
+the message travels along the queue, with a total of $11$ hops. On every hop,
+the per-slot probability of successful transmission is $p$, which implies an
+average number of attempts is equal to $\frac{1}{p}$. Therefore, the expected
+coverage time is
 \begin{equation}
     E[T] = 1 + 10 \cdot \frac{1}{p}
     \label{eq:singleQueueValidationAvgT}
 \end{equation}
-
-Validation was performed with 9 different configurations, one for  each value of $p$ ranging from $0.1$ to $0.9$, with 200 repetitions each.
-The following results were obtained:
-%TODO replace with plot? Better than table?
-
+Validation was performed with 9 different configurations, one for  each value
+of $p$ ranging from $0.1$ to $0.9$, with 200 repetitions each. The following
+results were obtained:
 \begin{center}
-\begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
-\hline
-$p$& Expected value & Experimental value (mean, interval for 95\% confidence)\\
-\hline
-$0.1$&$101.0$&$\textbf{99.68}, 95.55, 103.81$\\
-\hline
-$0.2$&$51.0$&$\textbf{49.9}, 47.93, 51.86$\\
-\hline
-$0.3$&$34.33$&$\textbf{34.17}, 32.88, 35.46$\\
-\hline
-$0.4$&$26.0$&$\textbf{25.79}, 24.93, 26.65$\\
-\hline
-$0.5$&$21.0$&$\textbf{20.84}, 20.24, 21.44$\\
-\hline
-$0.6$&$17.67$&$\textbf{17.42}, 17.0, 17.84$\\
-\hline
-$0.7$&$15.29$&$\textbf{15.2}, 14.87, 15.52$\\
-\hline
-$0.8$&$13.5$&$\textbf{13.48}, 13.25, 13.72$\\
-\hline
-$0.9$&$12.11$&$\textbf{12.14}, 11.97, 12.3$\\
-\hline
-\end{tabular}
+	\begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
+		\hline
+		$p$& Expected value & Experimental value (mean, interval for 95\% confidence)\\
+		\hline
+			$0.1$&$101.0$&$\textbf{99.68}$, [$95.55$, $103.81$]\\
+		\hline
+			$0.2$&$51.0$&$\textbf{49.9}$, [$47.93$, $51.86$]\\
+		\hline
+			$0.3$&$34.33$&$\textbf{34.17}$, [$32.88$, $35.46$]\\
+		\hline
+			$0.4$&$26.0$&$\textbf{25.79}$, [$24.93$, $26.65$]\\
+		\hline
+			$0.5$&$21.0$&$\textbf{20.84}$, [$20.24$, $21.44$]\\
+		\hline
+			$0.6$&$17.67$&$\textbf{17.42}$, [$17.0$, $17.84$]\\
+		\hline
+			$0.7$&$15.29$&$\textbf{15.2}$, [$14.87$, $15.52$]\\
+		\hline
+			$0.8$&$13.5$&$\textbf{13.48}$, [$13.25$, $13.72$]\\
+		\hline
+			$0.9$&$12.11$&$\textbf{12.14}$, [$11.97$, $12.3$]\\
+		\hline
+	\end{tabular}
 \end{center}
-
-As can be seen in the table above, %add label to table and reference it?
-the experimental results are consistent with the theoretical expected value, with a 95\% confidence level. %rephrase?
+As can be seen in the table above, the experimental results are consistent with
+the theoretical expected value, with a 95\% confidence level.
 \subsection{Star 5-to-1 validation}
-
-
 \begin{wrapfigure}{r}{0.45\textwidth}
-\includegraphics[width=1\linewidth]{img/omnetStar5to1.png} 
-\caption{Validation configuration with 5 hosts placed on a star and a target in the middle}
-\label{fig:star5to1GUI}
+	\includegraphics[width=1\linewidth]{img/omnetStar5to1.png} 
+	\caption{Validation configuration with 5 hosts placed on a star and a target in the middle}
+	\label{fig:star5to1GUI}
 \end{wrapfigure}
-
-In this configuration, host[0] is the target to be reached by the broadcast while all the others already have the message and try to broadcast at every slot with probability $p$.
-
-This system can be modelled by a discrete-time Markov chain, as explained in \ref{ssec:star2}.
-The probability of the system to be in the $i$-th state during the $j$-th slot is given by taking the $j$-th power of the stochastic matrix and taking the $i$-th element of the first row.
-
-Validation was performed with 4 different configurations, one for each value of $p$ ranging from $0.2$ to $0.8$ with steps of $0.2$, with 1000 repetitions each.\\
-For each configuration, data about the state of the system was recorded and statistics were computed, yielding experimental probabilities. These probabilities were then compared with theoretical predictions, obtained by taking powers of the appropriate stochastic matrix.\\
-All the experimental results (solid coloured lines in figs. \ref{fig:5to1validPlot1} and \ref{fig:5to1validPlot2}) proved to be consistent with theoretical computations (black dashed lines).
-
+In this configuration, host[0] is the target to be reached by the broadcast
+while all the others already have the message and try to broadcast at every
+slot with probability $p$.\\
+This system can be modelled by a discrete-time Markov chain, as explained in
+\ref{ssec:star2}.\\
+The probability of the system to be in the $i$-th state during the $j$-th slot
+is given by taking the $j$-th power of the stochastic matrix and taking the
+$i$-th element of the first row.\\
+Validation was performed with 4 different configurations, one for each value of
+$p$ ranging from $0.2$ to $0.8$ with steps of $0.2$, with 1000 repetitions
+each.\\
+For each configuration, data about the state of the system was recorded and
+statistics were computed, yielding experimental probabilities. These
+probabilities were then compared with theoretical predictions, obtained by
+taking powers of the appropriate stochastic matrix.\\
+All the experimental results (solid coloured lines in figs.
+\ref{fig:5to1validPlot1} and \ref{fig:5to1validPlot2}) proved to be consistent
+with theoretical computations (black dashed lines).
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.7]{img/star5to1p=0.4validation.pdf}
@@ -230,9 +241,6 @@ All the experimental results (solid coloured lines in figs. \ref{fig:5to1validPl
     \end{center}
     \vspace*{-0.8cm}
 \end{figure}
-
-%TODO there's room for two images, we can keep just one if we want
-
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.7]{img/star5to1p=0.6validation.pdf}
@@ -241,4 +249,3 @@ All the experimental results (solid coloured lines in figs. \ref{fig:5to1validPl
     \end{center}
     \vspace*{-0.8cm}
 \end{figure}
-%TODO remove empty blank page betwee chapter 4 and 5
