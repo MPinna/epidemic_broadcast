@@ -3,8 +3,8 @@
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
-% This file may safely be deleted. It will be recreated as
-% required.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
 %
 \begingroup
 \makeatletter
@@ -16,30 +16,34 @@
   {}
 \endgroup
 
-\datalist[entry]{anyt/global//global/global}
-  \entry{hararygraph}{book}{}
-    \name{author}{1}{}{%
-      {{hash=HF}{%
-         family={Harary},
-         familyi={H\bibinitperiod},
-         given={Frank},
-         giveni={F\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Addison Wesley}%
-    }
-    \strng{namehash}{HF1}
-    \strng{fullhash}{HF1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{labelalpha}{Har69}
-    \field{labelyear}{1969}
-    \field{labeldatesource}{}
-    \field{sortinit}{H}
-    \field{sortinithash}{H}
-    \field{title}{Graph theory}
-    \field{year}{1969}
-  \endentry
-\enddatalist
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{hararygraph}{book}{}
+      \name{author}{1}{}{%
+        {{hash=e3160b3da4830dc2704b52726168a61f}{%
+           family={Harary},
+           familyi={H\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Addison Wesley}%
+      }
+      \strng{namehash}{e3160b3da4830dc2704b52726168a61f}
+      \strng{fullhash}{e3160b3da4830dc2704b52726168a61f}
+      \strng{bibnamehash}{e3160b3da4830dc2704b52726168a61f}
+      \strng{authorbibnamehash}{e3160b3da4830dc2704b52726168a61f}
+      \strng{authornamehash}{e3160b3da4830dc2704b52726168a61f}
+      \strng{authorfullhash}{e3160b3da4830dc2704b52726168a61f}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Graph theory}
+      \field{year}{1969}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
+

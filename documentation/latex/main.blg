@@ -1,72 +1,17 @@
-This is BibTeX, Version 0.99d (TeX Live 2020/Arch Linux)
-Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
-The top-level auxiliary file: main.aux
-The style file: biblatex.bst
-A level-1 auxiliary file: introduction.aux
-A level-1 auxiliary file: overview.aux
-A level-1 auxiliary file: modelling.aux
-A level-1 auxiliary file: simulator.aux
-A level-1 auxiliary file: simulation.aux
-A level-1 auxiliary file: conclusions.aux
-A level-1 auxiliary file: appendices.aux
-Reallocated glb_str_ptr (elt_size=8) to 20 items from 10.
-Reallocated global_strs (elt_size=20001) to 20 items from 10.
-Reallocated glb_str_end (elt_size=8) to 20 items from 10.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated wiz_functions (elt_size=8) to 6000 items from 3000.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-Database file #1: main-blx.bib
-Database file #2: references.bib
-Biblatex version: 3.15
-Reallocated wiz_functions (elt_size=8) to 9000 items from 6000.
-Reallocated singl_function (elt_size=8) to 100 items from 50.
-You've used 2 entries,
-            6393 wiz_defined-function locations,
-            1213 strings with 9102 characters,
-and the built_in function-call counts, 6008 in all, are:
-= -- 334
-> -- 170
-< -- 48
-+ -- 125
-- -- 56
-* -- 320
-:= -- 724
-add.period$ -- 0
-call.type$ -- 2
-change.case$ -- 28
-chr.to.int$ -- 44
-cite$ -- 2
-duplicate$ -- 525
-empty$ -- 551
-format.name$ -- 52
-if$ -- 1313
-int.to.chr$ -- 0
-int.to.str$ -- 3
-missing$ -- 0
-newline$ -- 45
-num.names$ -- 62
-pop$ -- 388
-preamble$ -- 1
-purify$ -- 30
-quote$ -- 0
-skip$ -- 285
-stack$ -- 0
-substring$ -- 482
-swap$ -- 149
-text.length$ -- 51
-text.prefix$ -- 2
-top$ -- 1
-type$ -- 56
-warning$ -- 0
-while$ -- 115
-width$ -- 0
-write$ -- 44
+[0] Config.pm:304> INFO - This is Biber 2.14 (beta)
+[0] Config.pm:307> INFO - Logfile is 'main.blg'
+[47] biber:322> INFO - === Sat May  8, 2021, 10:34:16
+[57] Biber.pm:415> INFO - Reading 'main.bcf'
+[100] Biber.pm:943> INFO - Found 1 citekeys in bib section 0
+[108] Biber.pm:4256> INFO - Processing section 0
+[109] Utils.pm:75> INFO - Globbing data source 'references.bib'
+[109] Utils.pm:91> INFO - Globbed data source 'references.bib' to references.bib
+[115] Biber.pm:4455> INFO - Looking for bibtex format file 'references.bib' for section 0
+[116] bibtex.pm:1653> INFO - LaTeX decoding ...
+[117] bibtex.pm:1471> INFO - Found BibTeX data source 'references.bib'
+[134] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[135] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[135] Biber.pm:4084> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[135] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[135] bbl.pm:652> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[136] bbl.pm:755> INFO - Output to main.bbl

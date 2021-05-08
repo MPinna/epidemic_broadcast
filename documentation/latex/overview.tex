@@ -29,10 +29,12 @@ main three metrics for this study are:
 	converted to units of time accordingly.
 	\item the percentage of covered users \colorbox{gray!30}{\large \texttt{C}};
 	\item the number of collisions \colorbox{gray!30}{\large \texttt{X}}:
-	a collision is detected by a node whenever it receives a message from two or more transmitting nodes during the same slot;
+	a collision is detected by a node whenever it receives a message from two or
+	more transmitting nodes during the same slot;
 \end{itemize}
 The following parameters have been identified: the transmission range of the
-users, the \textit{per-slot} transmission probability, the floorplan size and shape and the density of users in the floorplan per square metre.\\
+users, the \textit{per-slot} transmission probability, the floorplan size and
+shape and the density of users in the floorplan per square metre.\\
 \\
 More specifically:
 \begin{itemize}
@@ -52,13 +54,14 @@ More specifically:
 	\colorbox{gray!30}{\large \texttt{p}}: it is the success probability for the
 	Bernoullian random variable associated to the transmission. As a
 	probability, it can assume values between 0 and 1.\\
-	The higher the transmission probability $p$, the faster a message ”moves away” from
-a user; at the same time, a high transmission probability implies a high collision
-probability in a local area where two or more nodes are transmitting;
-    \item the length of the side of the floorplan rectangle
-    \colorbox{gray!30}{\large \texttt{L}}; \\
-    A bigger floorplan area, all else being equal, will require a longer
-    time to be covered entirely by the broadcast;
+	The higher the transmission probability $p$, the faster a message ”moves away”
+	from a user; at the same time, a high transmission probability implies a
+	high collision probability in a local area where two or more nodes are
+	transmitting;
+    \item the length of the longer side of the floorplan rectangle
+    \colorbox{gray!30}{\large \texttt{L}}: a bigger floorplan area, all else
+    being equal, will require a longer time to be covered entirely by the
+    broadcast;
 	\item the \textit{aspect ratio} of the floorplan rectangle
 	\colorbox{gray!30}{\large \texttt{a}}, defined as the ratio between the
 	longer side $L$ and the shorter side $W$.\\
