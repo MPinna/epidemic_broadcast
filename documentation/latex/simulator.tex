@@ -162,7 +162,7 @@ structure offered by the \texttt{radioMedium} module was used. This module is
 in charge of storing proximity information of each and every node, in order to
 speed up the simulation of a single transmission. By setting the type of this
 module to \texttt{GridNeighborCache}, it is possible to reduce the time needed
-for a simulation with more than $2000$ devices dropped on the floorplan, by a
+for a simulation, with more than $2000$ devices dropped on the floorplan, by a
 factor of $10$; it was observed that this type of cache (with the right value
 for the \texttt{cellSize} parameter) is the best trade-off between speed and
 memory occupancy, for this type of
@@ -171,7 +171,7 @@ Cache.html}.
 \section{Validation}
 To ensure the correctness of the simulator and the meaningfulness of the
 results, the simulator has been validated by means of two simplified scenarios,
-namely the single queue configuration and the star configuration, which are
+namely the single queue configuration and the star configuration, which were
 discussed in \ref{ssec:singlequeue} and \ref{ssec:star2} respectively.
 \subsection{Single queue validation}
 \begin{figure}[H]
@@ -197,7 +197,9 @@ results were obtained:
 \begin{center}
 	\begin{tabular}{ | m{1cm} | m{5cm}| m{5cm} | }
 		\hline
-		$p$& Expected value & Experimental value (mean, interval for 95\% confidence)\\
+			&\multicolumn{2}{c}{Total Broadcast Time}\\
+		\hline
+			$p$& Expected value & Observed value (mean, interval for 95\% confidence)\\
 		\hline
 			$0.1$&$101.0$&$\textbf{99.68}$, [$95.55$, $103.81$]\\
 		\hline
@@ -219,10 +221,11 @@ results were obtained:
 		\hline
 	\end{tabular}
 \end{center}
-As can be seen in the table above, the experimental results are consistent with
+As we can see in the table above, the experimental results are consistent with
 the theoretical expected value, with a 95\% confidence level.
 \subsection{Star 5-to-1 validation}
 \begin{wrapfigure}{r}{0.45\textwidth}
+	\vspace*{-1.0cm}
 	\includegraphics[width=1\linewidth]{img/omnetStar5to1.png} 
 	\caption{Validation configuration with 5 hosts placed on a star and a target in the middle}
 	\label{fig:star5to1GUI}
