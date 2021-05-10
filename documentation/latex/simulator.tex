@@ -35,8 +35,10 @@ The INET framework was chosen as it provides, among many other things,
 ready-made modules for wireless networks, allowing to reduce the time required
 for the development of the simulator.
 \section{Network architecture}
-The network based architecture is composed by an array of \texttt{Host} modules, an
-\texttt{Integrated visualizer} (visualizer) and a \texttt{UnitDiskRadioMedium} (radioMedium);
+The network based architecture is composed by an array of \texttt{Host} modules,
+an \texttt{Integrated visualizer} (visualizer) and a \texttt{UnitDiskRadioMedium}
+(radioMedium); this is all that is needed to represent the 2D floorplan and
+is defined in the \texttt{Floorplan.ned} NED file.
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.35]{img/floorplan.png}
@@ -50,10 +52,18 @@ The network based architecture is composed by an array of \texttt{Host} modules,
     This radio medium model provides a very simple but fast and predictable
     physical layer behaviour. It must be used in conjunction with the
     \texttt{UnitDiskRadio} model. It can simulate the behaviour of the wireless
-    communication channel with various levels of abstraction.
+    communication channel with various levels of abstraction. The idea behind
+	this radio model is to describe transmissions with a few distance based
+	parameters: communication range, interference range, and detection range.
+	Whether the reception is successful or not, depends on the distance between
+	the transmitter and the receiver.
     \item \textbf{Integrated visualizer} is a compound module provided by INET.
     It is responsible for the visual representation of modules properties and
-    events in the graphic user interface.
+    events in the graphic user interface. The INET Framework is able to visualize
+	a wide range of events and conditions in the network: packet drops, data
+	link connectivity, wireless signal path loss, transport connections, routing
+	table routes, and many more. Visualization is implemented as a collection
+	of configurable INET modules that can be added to simulations at will.
     \item \textbf{Host} is the compound module developed to represent a node
     in the network environment.
 \end{itemize}
@@ -79,12 +89,14 @@ relationships between types:
 \end{figure}
 \begin{itemize}
     \item the \texttt{mobility} module provided by INET manages the position of
-    the parent module \texttt{Host}; it allows for various types of movements, but
-    in this study was only used for the initial random placement of the
+    the parent module \texttt{Host}; it allows for various types of movements,
+	but in this study it was only used for the initial random placement of the
     nodes. After being placed, all nodes are stationary for the whole duration
 	of the simulation.
     \item the \texttt{interfaceTable} module is provided by INET and is required
-    for correct operation of the radioMedium module.
+    for correct operation of the radioMedium module: it keeps the table of
+	network interfaces. In addition to registered interfaces, a loopback
+	interface will also be created.
     \item the \texttt{wlan} module is the wireless interface that allows nodes
     to communicate with each other. It is an \texttt{AckingWirelessInterface}
     compound module, which is the simplest wireless interface provided by INET.

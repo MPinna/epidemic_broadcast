@@ -61,7 +61,7 @@ module Host extends NodeBase like INetworkNode
                 @display("p=500.84998,66.15;is=s");
         }
     connections:
-        // the procesing units actually communicate with each other using the wlan interface
+        // the procesing units communicate with each other using the wlan interface
         procUnit.in <-- wlan.upperLayerOut;
         procUnit.out --> wlan.upperLayerIn;
         radioIn --> wlan.radioIn;

@@ -19,7 +19,7 @@ import inet.physicallayer.unitdisk.UnitDiskRadioMedium;
 import inet.visualizer.integrated.IntegratedVisualizer;
 
 //
-// Represents the2D floorplan with N users randomly dropped in it.
+// Represents the 2D floorplan with N users randomly dropped in it.
 //
 network Floorplan
 {

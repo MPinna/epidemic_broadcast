@@ -66,7 +66,8 @@ component of the graph is quite low; therefore, variations of the value of $p$
 do not play a fundamental role as far as total coverage is concerned. For
 $R \geq 8$ the graph starts getting more and more connected and the achievable
 coverage decreases with the increase of $p$, but quite slowly and also it does
-not degenerate to $0$; instead it reaches a value between $100$\% and $40$\%.
+not degenerate to $0$; instead it reaches a value between $10$\% and $40$\% of
+the maximum.
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=.62,trim={0 0 0 0.8cm},clip]{img/big_coverage_p_mean_95.0.pdf}
@@ -93,10 +94,12 @@ final coverage of the flooplan is deeply influenced by the transmission range $R
     \label{fig:coverageRP}
 \end{figure}
 \noindent
-
-In this second plot we can observe that the coverage increases rapidly
-with the transmission range, up to about $R=13$ m. When the transmission range becomes large
-($> 16$m) there are diminishing returns, as can be seen by the decreasing steepness of the curves, and the coverage tends to a value of 80-100\%, depending on the value of $p$. The coverage function would appear to be a sigmoid, at least for low values of $R$.\\
+In this second plot we can observe that the coverage increases rapidly with the
+transmission range, up to about $R=13$m. When the transmission range becomes
+larger ($> 16$m) there are diminishing returns, as can be seen by the decreasing
+steepness of the curves, and the coverage tends to a value of 80-100\%,
+depending on the value of $p$. The coverage function would appear to be a
+sigmoid, at least for low values of $R$.\\
 A more in-depth analysis is carried out in \ref{ssec:coverageReachSafenodes}.
 %increasing and can be manipulated to remain between $0$ and $1$ (like the
 %parameter we want to fit). A good fit for this curve is given by:

@@ -37,7 +37,7 @@ using namespace physicallayer;
  */
 ProcUnit::ProcUnit()
 {
-    slotBeep_ = broadcast_= nullptr;
+    slotBeep_ = broadcast_ = nullptr;
 }
 
 /**
