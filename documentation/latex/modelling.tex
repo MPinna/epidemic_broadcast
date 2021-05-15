@@ -283,7 +283,7 @@ P_{0,0}	& P_{0,S}	& P_{0,2}	& \dots  	& P_{0,j}	& \dots		& P_{0,N} \\
 \end{bmatrix}
 \label{stochasticMatrix2}
 \end{equation*}
-Let $x_{0}$ be the \textit{initial state vector}, i.e. an $N \times 1$ vector
+Let $x_{0}$ be the \textit{initial state vector}, i.e. an $1 \times N$ vector
 that describes the probability distribution of starting at each of the $N$
 possible states.\\
 To compute the probability of transitioning to state $j$ in \textbf{k} steps, it
@@ -301,7 +301,7 @@ x_{0} =
 0 \\
 \vdots \\
 0
-\end{bmatrix}
+\end{bmatrix}^{T}
 \label{initialStateVector}
 \end{equation*}
 which yields
@@ -313,7 +313,7 @@ P_{k}(j) =
 0 \\
 \vdots \\
 0
-\end{bmatrix}
+\end{bmatrix}^{T}
 \cdot P^{k} = (P^{k})_{0,j}
 \label{eq:PkOfJ}
 \end{equation}
